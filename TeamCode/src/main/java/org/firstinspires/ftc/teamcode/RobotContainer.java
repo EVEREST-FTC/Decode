@@ -33,7 +33,7 @@ public class RobotContainer {
                 gamepad1,
                 telemetry,
                 subsystem::getTx,
-                subsystem.getIdtag(),
+                team.getIncrement(),
                 subsystem::getfrontal,
                 team
         );
@@ -54,7 +54,9 @@ public class RobotContainer {
                 hardwareMap,
                 telemetry,
                 gamepad1,
-                subsystemOuttake::atSetpoint
+                subsystemOuttake::atSetpoint,
+                subsystemOuttake::hasArtifact
+
         );
         new com.example.sarcofogo.RobotContainer(
                 hardwareMap,

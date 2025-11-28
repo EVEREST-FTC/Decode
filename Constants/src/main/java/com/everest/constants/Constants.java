@@ -9,11 +9,11 @@ public class Constants {
     public static final double KP = 0.02;
     public static final double KI = 0.06;
 
-    public static final double KD = 0;
+    public static final double KD = 0.00001;
     //TODO: calibrar
     public static final double POWER_LAUNCHER_CONVERSION = 810;
-    public static final double PID_INCREMENT_BLUE = -6;
-    public static final double PID_INCREMENT_RED = -3;
+    public static final double PID_INCREMENT_BLUE = 0.6;
+    public static final double PID_INCREMENT_RED = -5;
     public static final double TARGET_HEIGHT = 0.75;
     public static final double CAMERA_HEIGHT = 0.38;
     public static final double DELTA_HEIGHT = TARGET_HEIGHT - CAMERA_HEIGHT + 0.45;
@@ -24,6 +24,9 @@ public class Constants {
 
 
     public static final double MAX_RPM = 6000;
+    public static final int Eleveitor_Reduction = 5;
+    public static final int Eleveitor_tickConversion = 28 * Eleveitor_Reduction * Eleveitor_Reduction * Eleveitor_Reduction;
+
     private static final double tickConversion = 28;
     public static double FORWARD_TICK_CONVERSION = 60/tickConversion;
     public static double REVERSE_TICK_CONVERSION = tickConversion/60;

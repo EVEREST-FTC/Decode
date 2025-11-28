@@ -24,12 +24,10 @@ public class AutoLime3A extends Command {
 
         double distance = distanceSupplier.get();
 
-        double artifactIn;
-
-        if (subsystem.hasArtifact() && distance != 0)
-            artifactIn = 1;
-        else
-            artifactIn = 0;
+        if (!(subsystem.hasArtifact() && distance != 0)) {
+            subsystem.setVelocity(0);
+            return;
+        }
 
 
         double Vy = Math.sqrt(2 * Constants.G * Constants.MAX_HEIGHT);
@@ -45,7 +43,7 @@ public class AutoLime3A extends Command {
 
         double velocity = Math.sqrt(Vy*Vy + vx*vx);
 
-        subsystem.setVelocity(velocity*Constants.POWER_LAUNCHER_CONVERSION*artifactIn);
+        subsystem.setVelocity(velocity*Constants.POWER_LAUNCHER_CONVERSION);
         subsystem.brake();
 
 

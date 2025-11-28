@@ -1,6 +1,9 @@
 package com.example.chassi;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.everest.CommandBased.definition.Command;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -25,6 +28,7 @@ public class AlignToAngle extends Command {
         this.pid = pid;
         this.alvo = alvo;
 
+
         addRequirements(chassi);
     }
 
@@ -43,5 +47,8 @@ public class AlignToAngle extends Command {
         double y = this.y.getAsDouble();
 
         chassi.drive(y, -x, angle);
+
+        Telemetry telemetry = FtcDashboard.getInstance().getTelemetry();
+        telemetry.addData("Error: ", pid.getError());
     }
 }

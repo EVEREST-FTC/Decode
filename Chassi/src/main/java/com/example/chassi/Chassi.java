@@ -2,10 +2,13 @@ package com.example.chassi;
 
 import android.media.Ringtone;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.definition.Subsystem;
 import com.everest.CommandBased.essentials.SubsystemBase;
+import com.everest.constants.Constants;
 import com.everest.constants.EnumTeam;
+import com.example.chassi.roadrunner.MecanumDrive;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -18,9 +21,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-public class Chassi  extends SubsystemBase {
+public final class Chassi extends SubsystemBase{
 
-    DcMotorEx MFR,MFL,MBR,MBL;
+    DcMotorEx MFR,MFL,MBR,MBL,MLeve;
     IMU imu;
 
     Telemetry telemetry;
@@ -38,6 +41,17 @@ public class Chassi  extends SubsystemBase {
         MBL.setMode(DcMotor.RunMode.RESET_ENCODERS);
         MFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         MBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+        /// estrutura de elevação
+        MLeve = hardwareMap.get(DcMotorEx.class,"MLeve");
+        MLeve.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MLeve.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
+
+
 
 
         this.telemetry = telemetry;
@@ -83,6 +97,13 @@ public class Chassi  extends SubsystemBase {
         MFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
+    public void setPositionEleveitor(int alvo){
+        int position = alvo*Constants.Eleveitor_tickConversion/360;
+        MLeve.setTargetPosition(position);
+        MLeve.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        MLeve.setVelocity(1000);
+    }
+
 
     public void brake(){
         MFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -100,6 +121,8 @@ public class Chassi  extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData("angle", getYaw());
+        telemetry.addData("MotorElevaçãoPosição",MLeve.getCurrentPosition());
+        telemetry.addData("erro",MLeve.getTargetPosition()-MLeve.getCurrentPosition());
     }
 
     public void stop(){

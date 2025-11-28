@@ -32,4 +32,7 @@ public class PID {
         lastErro = error;
         return error*KP+sum*KI+derivativo*KD;
     }
+    public double getError(){
+        return lastErro;
+    }
 }

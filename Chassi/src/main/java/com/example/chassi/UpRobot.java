@@ -4,37 +4,23 @@ import com.everest.CommandBased.definition.Command;
 
 import java.util.function.DoubleSupplier;
 
-public class Drive extends Command {
+public class UpRobot extends Command {
 
 
         final Chassi chassi;
 
-        private final DoubleSupplier z;
-        private final DoubleSupplier y;
-        private final DoubleSupplier x;
-
-    public Drive(Chassi chassi, DoubleSupplier z, DoubleSupplier x, DoubleSupplier y) {
+    public UpRobot(Chassi chassi) {
         this.chassi = chassi;
-        this.z = z;
-        this.y = y;
-        this.x = x;
-
         addRequirements(chassi);
     }
 
 
         @Override
-        public void execute() {
-        double z = this.z.getAsDouble();
-        double y = this.y.getAsDouble();
-        double x = this.x.getAsDouble();
-            chassi.brake();
-            chassi.driveFieldRelative(y,-x,-z);
-    }
+        public void execute() {chassi.setPositionEleveitor(90);}
 
         @Override
         public void end(boolean interrupted) {
-            chassi.brake();
+            chassi.setPositionEleveitor(0);
     }
 
 }

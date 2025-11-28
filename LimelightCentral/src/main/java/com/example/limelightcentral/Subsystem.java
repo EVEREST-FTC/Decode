@@ -64,5 +64,10 @@ public class Subsystem extends SubsystemBase {
             return 0;
     }
 
-
+    @Override
+    public void periodic() {
+        List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
+        telemetry.addData("tagresult",Tags.isEmpty());
+        telemetry.addData("getIdtag",getIdtag());
+    }
 }

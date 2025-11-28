@@ -46,11 +46,14 @@ public class RobotContainer {
     }
 
     private void robottest(){
-        new Trigger(()->gamepad1.b).toggleOnTrue(
+        new Trigger(()->gamepad1.left_bumper).toggleOnTrue(
                 new AlignToAngle(target,chassi,()-> gamepad1.left_stick_x,()-> gamepad1.left_stick_y,distancia,pid,alvo)
         );
         new Trigger(()->gamepad1.right_bumper).toggleOnTrue(
                 new InstantCommand(chassi::resetIMU)
+        );
+        new Trigger(()->gamepad1.y).toggleOnTrue(
+                new UpRobot(chassi)
         );
         chassi.setDefaultCommand(new Drive(
                 chassi,
@@ -61,16 +64,4 @@ public class RobotContainer {
 
         }
     }
-
-   /* private void triggerSelection(){
-
-        chassi.setDefaultCommand(new Drive(
-                chassi,
-                ()->gamepad1.right_stick_x*Constants.CHASSI_LIMIT_POWER_TURN,
-                ()->gamepad1.left_stick_x*Constants.CHASSI_LIMIT_POWER,
-                ()->gamepad1.left_stick_y*Constants.CHASSI_LIMIT_POWER));
-
-
-    }*/
-
 

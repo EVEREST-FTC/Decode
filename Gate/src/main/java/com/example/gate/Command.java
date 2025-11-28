@@ -20,10 +20,4 @@ public class Command extends com.everest.CommandBased.definition.Command {
 
     }
 
-    @Override
-    public void end(boolean interrupted) {
-       subsystemGate.resetPosiiton();
-
-    }
-
 }

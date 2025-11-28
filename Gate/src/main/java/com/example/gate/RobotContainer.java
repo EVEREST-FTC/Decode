@@ -1,6 +1,7 @@
 package com.example.gate;
 
 import com.everest.CommandBased.essentials.Trigger;
+import com.everest.CommandBased.util.WaitCommand;
 import com.everest.constants.Constants;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -29,6 +30,8 @@ public class RobotContainer {
         subsystemGate.setDefaultCommand(
                 new Command(subsystemGate,0)
         );
-        new Trigger(hasArtifact).toggleOnTrue( new Command(subsystemGate,Constants.GateInitialPosition));
+        new Trigger(hasArtifact).whileTrue( new Command(subsystemGate,Constants.GateInitialPosition).antesDe(
+                new WaitCommand(0.9,Constants.clockSeconds)
+        ));
     }
 }

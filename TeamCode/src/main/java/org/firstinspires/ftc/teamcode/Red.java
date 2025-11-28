@@ -17,6 +17,7 @@ public class Red extends LinearOpMode {
                 EnumTeam.RED
 
         );
+
         //delay p construção dos subsistemas
         waitForStart();
 

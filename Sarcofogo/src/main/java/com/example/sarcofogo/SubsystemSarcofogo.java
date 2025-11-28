@@ -3,6 +3,7 @@ package com.example.sarcofogo;
 import static com.everest.constants.Constants.GATE_MAX_ANGLE;
 import static com.everest.constants.Constants.GATE_MAX_SERVO_ANGLE;
 import static com.everest.constants.Constants.GATE_MIN_ANGLE;
+import static com.everest.constants.Constants.SARCOFOGO_MAX_SERVO_ANGLE;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
@@ -28,7 +29,7 @@ public class SubsystemSarcofogo extends SubsystemBase {
 
 
     public void setPositionGate(double alvo){
-        position = limiter(alvo)/GATE_MAX_SERVO_ANGLE;
+        position = limiter(alvo)/SARCOFOGO_MAX_SERVO_ANGLE;
         ServoSarcofogo.setPosition(position);
     }
 

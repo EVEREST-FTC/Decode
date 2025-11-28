@@ -1,6 +1,12 @@
 plugins {
     id 'com.android.library'
 }
+repositories {
+    mavenCentral()
+    google() // Needed for androidx
+    maven{ url = 'https://www.jitpack.io'}
+    maven{ url = 'https://maven.brott.dev/'}
+}
 
 android {
     namespace 'com.example.chassi'
@@ -31,6 +37,12 @@ android {
 apply from: '../build.dependencies.gradle'
 
 dependencies {
+
+    implementation 'com.acmerobotics.roadrunner:ftc:0.1.25'
+    implementation 'com.acmerobotics.roadrunner:core:1.0.1'
+    implementation 'com.acmerobotics.roadrunner:actions:1.0.1'
+    implementation 'com.acmerobotics.dashboard:dashboard:0.5.1'
+
     // Opcional: se você quiser usar classes do FtcRobotController
     implementation project(':FtcRobotController')
     implementation project(':Constants')
