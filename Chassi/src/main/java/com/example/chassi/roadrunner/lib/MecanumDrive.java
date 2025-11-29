@@ -1,4 +1,4 @@
-package com.example.chassi.roadrunner;
+package com.example.chassi.roadrunner.lib;
 
 import androidx.annotation.NonNull;
 
@@ -42,10 +42,10 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import com.example.chassi.roadrunner.messages.DriveCommandMessage;
-import com.example.chassi.roadrunner.messages.MecanumCommandMessage;
-import com.example.chassi.roadrunner.messages.MecanumLocalizerInputsMessage;
-import com.example.chassi.roadrunner.messages.PoseMessage;
+import com.example.chassi.roadrunner.lib.messages.DriveCommandMessage;
+import com.example.chassi.roadrunner.lib.messages.MecanumCommandMessage;
+import com.example.chassi.roadrunner.lib.messages.MecanumLocalizerInputsMessage;
+import com.example.chassi.roadrunner.lib.messages.PoseMessage;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -218,11 +218,6 @@ public class MecanumDrive extends SubsystemBase{
     }
 
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
-        LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
-
-        for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
-            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        }
 
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html

@@ -1,4 +1,4 @@
-package com.example.chassi.roadrunner.tuning;
+package com.example.chassi.roadrunner.lib.tuning;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -8,9 +8,9 @@ import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import com.example.chassi.roadrunner.Drawing;
-import com.example.chassi.roadrunner.MecanumDrive;
-import com.example.chassi.roadrunner.TankDrive;
+import com.example.chassi.roadrunner.lib.Drawing;
+import com.example.chassi.roadrunner.lib.MecanumDrive;
+import com.example.chassi.roadrunner.lib.TankDrive;
 
 public class LocalizationTest extends LinearOpMode {
     @Override

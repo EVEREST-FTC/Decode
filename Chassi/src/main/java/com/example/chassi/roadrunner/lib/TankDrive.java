@@ -1,4 +1,4 @@
-package com.example.chassi.roadrunner;
+package com.example.chassi.roadrunner.lib;
 
 import androidx.annotation.NonNull;
 
@@ -43,15 +43,14 @@ import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import com.example.chassi.roadrunner.messages.DriveCommandMessage;
-import com.example.chassi.roadrunner.messages.PoseMessage;
-import com.example.chassi.roadrunner.messages.TankCommandMessage;
-import com.example.chassi.roadrunner.messages.TankLocalizerInputsMessage;
+import com.example.chassi.roadrunner.lib.messages.DriveCommandMessage;
+import com.example.chassi.roadrunner.lib.messages.PoseMessage;
+import com.example.chassi.roadrunner.lib.messages.TankCommandMessage;
+import com.example.chassi.roadrunner.lib.messages.TankLocalizerInputsMessage;
 
 import java.util.ArrayList;
 import java.util.Arrays;

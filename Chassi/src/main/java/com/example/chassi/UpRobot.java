@@ -7,9 +7,9 @@ import java.util.function.DoubleSupplier;
 public class UpRobot extends Command {
 
 
-        final Chassi chassi;
+        final MecanumDrive chassi;
 
-    public UpRobot(Chassi chassi) {
+    public UpRobot(MecanumDrive chassi) {
         this.chassi = chassi;
         addRequirements(chassi);
     }

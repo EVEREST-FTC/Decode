@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 public class AlignToAngle extends Command {
     private final DoubleSupplier target;
-    private final Chassi chassi;
+    private final MecanumDrive chassi;
     private final DoubleSupplier y;
     private final DoubleSupplier x;
 
@@ -19,7 +19,7 @@ public class AlignToAngle extends Command {
 
     private double alvo;
 
-    public AlignToAngle(DoubleSupplier target, Chassi chassi, DoubleSupplier x, DoubleSupplier y, Supplier<Double> distanceSupplier, PID pid, double alvo) {
+    public AlignToAngle(DoubleSupplier target, MecanumDrive chassi, DoubleSupplier x, DoubleSupplier y, Supplier<Double> distanceSupplier, PID pid, double alvo) {
         this.target = target;
         this.chassi = chassi;
         this.y = y;
@@ -50,5 +50,10 @@ public class AlignToAngle extends Command {
 
         Telemetry telemetry = FtcDashboard.getInstance().getTelemetry();
         telemetry.addData("Error: ", pid.getError());
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        chassi.drive(0, 0, 0);
     }
 }

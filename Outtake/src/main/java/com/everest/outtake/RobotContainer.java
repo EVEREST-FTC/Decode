@@ -37,7 +37,7 @@ public class RobotContainer {
     }
 
     private void robottest(){
-        new Trigger(()->gamepad1.b).toggleOnTrue(
+        new Trigger(()->gamepad1.left_bumper).toggleOnTrue(
                new AutoLime3A(distancia,subsystem)
         );
     }

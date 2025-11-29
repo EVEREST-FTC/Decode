@@ -9,21 +9,25 @@ import static com.everest.constants.Constants.PLATFORM_MAX_ANGLE;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
 import com.everest.constants.Constants;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class SubsystemGate extends SubsystemBase {
 
 
     Servo ServoDor ;
+    RevColorSensorV3 sensorGate;
     Telemetry telemetry;
     double position;
     public SubsystemGate(HardwareMap hardwareMap, Telemetry telemetry){
         ServoDor = hardwareMap.get(Servo.class,"ServoDor");
         /*setPositionGate(1-GateInitialPosition/GATE_MAX_SERVO_ANGLE);*/
         resetPosiiton();
+        sensorGate = hardwareMap.get(RevColorSensorV3.class,"SensorGate");
 
 
         this.telemetry = telemetry;
@@ -34,6 +38,9 @@ public class SubsystemGate extends SubsystemBase {
     public void setPositionGate(double alvo){
         position = 1 - limiter(alvo)/GATE_MAX_SERVO_ANGLE;
         ServoDor.setPosition(position);
+    }
+    public double getDistanceGate(){
+        return sensorGate.getDistance(DistanceUnit.MM);
     }
 
 

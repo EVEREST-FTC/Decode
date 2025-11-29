@@ -1,12 +1,12 @@
-package com.example.chassi.roadrunner.tuning;
+package com.example.chassi.roadrunner.lib.tuning;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import com.example.chassi.roadrunner.MecanumDrive;
-import com.example.chassi.roadrunner.TankDrive;
+import com.example.chassi.roadrunner.lib.MecanumDrive;
+import com.example.chassi.roadrunner.lib.TankDrive;
 
 public final class SplineTest extends LinearOpMode {
     @Override

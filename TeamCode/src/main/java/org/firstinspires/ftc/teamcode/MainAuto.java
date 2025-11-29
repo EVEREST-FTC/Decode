@@ -1,15 +1,15 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.constants.EnumTeam;
-import com.example.chassi.Auto.RobotContainer;
+import com.example.chassi.AutonomousRoutine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-@Autonomous
+@Autonomous(name = "Auto")
 public class MainAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        new RobotContainer(
+        new AutonomousRoutine(
                 hardwareMap,
                 telemetry,
                 EnumTeam.BLUE

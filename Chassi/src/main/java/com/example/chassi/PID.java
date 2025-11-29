@@ -20,6 +20,7 @@ public class PID {
     }
     public void reset(){
         sum = 0;
+        lastErro = 0;
         timer.reset();
     }
     public double calculate(double target, double measurement){

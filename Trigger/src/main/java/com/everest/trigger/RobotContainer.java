@@ -39,7 +39,7 @@ public class RobotContainer {
                         triggerSubsystem,
                         Constants.targetLeftPosition,
                         Constants.targetRightPosition
-                ).espere(0.4, Constants.clockSeconds).
+                ).ateQUe(()->!hasartifact.getAsBoolean()).
                         antesDe(new ConditionalCommand(
                                 ()->(velocityVerifier.getAsBoolean())&&(hasartifact.getAsBoolean()))
                         ))

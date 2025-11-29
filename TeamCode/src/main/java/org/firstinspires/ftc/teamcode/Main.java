@@ -15,7 +15,6 @@ public class Main extends LinearOpMode {
                 gamepad1,
                 gamepad2,
                 EnumTeam.BLUE
-
         );
         //delay p construção dos subsistemas
         waitForStart();

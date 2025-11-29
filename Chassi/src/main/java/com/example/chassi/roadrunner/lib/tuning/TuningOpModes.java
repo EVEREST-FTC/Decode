@@ -1,4 +1,4 @@
-package com.example.chassi.roadrunner.tuning;
+package com.example.chassi.roadrunner.lib.tuning;
 
 import androidx.annotation.NonNull;
 
@@ -7,27 +7,20 @@ import com.acmerobotics.dashboard.config.reflection.ReflectionConfig;
 import com.acmerobotics.roadrunner.MotorFeedforward;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.AngularRampLogger;
-import com.acmerobotics.roadrunner.ftc.DeadWheelDirectionDebugger;
 import com.acmerobotics.roadrunner.ftc.DriveType;
 import com.acmerobotics.roadrunner.ftc.DriveView;
 import com.acmerobotics.roadrunner.ftc.DriveViewFactory;
 import com.acmerobotics.roadrunner.ftc.Encoder;
 import com.acmerobotics.roadrunner.ftc.EncoderGroup;
 import com.acmerobotics.roadrunner.ftc.EncoderRef;
-import com.acmerobotics.roadrunner.ftc.ForwardPushTest;
 import com.acmerobotics.roadrunner.ftc.ForwardRampLogger;
-import com.acmerobotics.roadrunner.ftc.LateralPushTest;
 import com.acmerobotics.roadrunner.ftc.LateralRampLogger;
 import com.acmerobotics.roadrunner.ftc.LazyImu;
 import com.acmerobotics.roadrunner.ftc.LynxQuadratureEncoderGroup;
 import com.acmerobotics.roadrunner.ftc.ManualFeedforwardTuner;
 import com.acmerobotics.roadrunner.ftc.MecanumMotorDirectionDebugger;
-import com.acmerobotics.roadrunner.ftc.OTOSAngularScalarTuner;
 import com.acmerobotics.roadrunner.ftc.OTOSEncoderGroup;
-import com.acmerobotics.roadrunner.ftc.OTOSHeadingOffsetTuner;
 import com.acmerobotics.roadrunner.ftc.OTOSIMU;
-import com.acmerobotics.roadrunner.ftc.OTOSLinearScalarTuner;
-import com.acmerobotics.roadrunner.ftc.OTOSPositionOffsetTuner;
 import com.acmerobotics.roadrunner.ftc.PinpointEncoderGroup;
 import com.acmerobotics.roadrunner.ftc.PinpointIMU;
 import com.acmerobotics.roadrunner.ftc.PinpointView;
@@ -40,12 +33,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
-import com.example.chassi.roadrunner.MecanumDrive;
-import com.example.chassi.roadrunner.OTOSLocalizer;
-import com.example.chassi.roadrunner.PinpointLocalizer;
-import com.example.chassi.roadrunner.TankDrive;
-import com.example.chassi.roadrunner.ThreeDeadWheelLocalizer;
-import com.example.chassi.roadrunner.TwoDeadWheelLocalizer;
+import com.example.chassi.roadrunner.lib.MecanumDrive;
+import com.example.chassi.roadrunner.lib.OTOSLocalizer;
+import com.example.chassi.roadrunner.lib.PinpointLocalizer;
+import com.example.chassi.roadrunner.lib.TankDrive;
+import com.example.chassi.roadrunner.lib.ThreeDeadWheelLocalizer;
+import com.example.chassi.roadrunner.lib.TwoDeadWheelLocalizer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -289,6 +282,7 @@ public final class TuningOpModes {
 
 
 
+        manager.register("Localization", LocalizationTest.class);
         FtcDashboard.getInstance().withConfigRoot(configRoot -> {
             for (Class<?> c : Arrays.asList(
                     AngularRampLogger.class,

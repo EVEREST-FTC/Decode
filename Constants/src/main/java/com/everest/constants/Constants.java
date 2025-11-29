@@ -55,7 +55,7 @@ public class Constants {
 
     public static final double leftInitialPosition = 0.99;
     public static final double rightInitialPosition = 0.01;
-    public static final double GateInitialPosition = 45;
+    public static final double GateInitialPosition = 30;
 
     public static final double SarcofogoInitialPosition = 0;
 

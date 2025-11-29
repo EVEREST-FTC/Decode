@@ -7,13 +7,13 @@ import java.util.function.DoubleSupplier;
 public class Drive extends Command {
 
 
-        final Chassi chassi;
+        final MecanumDrive chassi;
 
         private final DoubleSupplier z;
         private final DoubleSupplier y;
         private final DoubleSupplier x;
 
-    public Drive(Chassi chassi, DoubleSupplier z, DoubleSupplier x, DoubleSupplier y) {
+    public Drive(MecanumDrive chassi, DoubleSupplier z, DoubleSupplier x, DoubleSupplier y) {
         this.chassi = chassi;
         this.z = z;
         this.y = y;

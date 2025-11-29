@@ -1,4 +1,4 @@
-package com.example.chassi.roadrunner.messages;
+package com.example.chassi.roadrunner.lib.messages;
 
 public final class MecanumCommandMessage {
     public long timestamp;

@@ -30,8 +30,6 @@ public class RobotContainer {
         subsystemGate.setDefaultCommand(
                 new Command(subsystemGate,0)
         );
-        new Trigger(hasArtifact).whileTrue( new Command(subsystemGate,Constants.GateInitialPosition).antesDe(
-                new WaitCommand(0.9,Constants.clockSeconds)
-        ));
+        new Trigger(hasArtifact).whileTrue( new Command(subsystemGate,Constants.GateInitialPosition));
     }
 }

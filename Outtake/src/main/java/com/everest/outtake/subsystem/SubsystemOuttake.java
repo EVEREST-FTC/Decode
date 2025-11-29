@@ -34,10 +34,10 @@ public class SubsystemOuttake extends SubsystemBase {
         MOUTR.setVelocity(-velocity);
         MOUTL.setVelocity(-velocity);
     }
-    public double DistanceSensorL(){
+    public double distanceSensorL(){
         return (ColorSensorL.getDistance(DistanceUnit.MM));
     }
-    public double DistanceSensorR(){
+    public double distanceSensorR(){
         return (ColorSensorR.getDistance(DistanceUnit.MM));
     }
 
@@ -57,7 +57,7 @@ public class SubsystemOuttake extends SubsystemBase {
     }
 
     public boolean hasArtifact(){
-        return DistanceSensorR() < 70 || DistanceSensorL() < 70;
+        return distanceSensorR() < 70 || distanceSensorL() < 70;
     }
 
 

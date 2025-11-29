@@ -1,4 +1,4 @@
-package com.example.chassi.roadrunner.messages;
+package com.example.chassi.roadrunner.lib.messages;
 
 import com.acmerobotics.roadrunner.PoseVelocity2dDual;
 import com.acmerobotics.roadrunner.Time;

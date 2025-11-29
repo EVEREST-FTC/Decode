@@ -43,12 +43,16 @@ public class Subsystem extends SubsystemBase {
 
     public double getTy(){
         LLResult latestResult = limelight3A.getLatestResult();
-        if(!latestResult.isValid()) return 0.0;
+        if(!isValid()) return 0.0;
         return -latestResult.getTx();
+    }
+    public boolean isValid(){
+        LLResult latestResult = limelight3A.getLatestResult();
+        return latestResult.isValid();
     }
     public double getTx(){
         LLResult latestResult = limelight3A.getLatestResult();
-        if(!latestResult.isValid()) return 0.0;
+        if(!isValid()) return 0.0;
         return latestResult.getTy();
     }
     public double getIdtag(){
