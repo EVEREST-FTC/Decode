@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.everest.constants.EnumTeam;
 import com.everest.outtake.subsystem.SubsystemOuttake;
+import com.example.chassi.MecanumDrive;
 import com.example.gate.SubsystemGate;
 import com.example.limelightcentral.Subsystem;
 import com.example.sarcofogo.SubsystemSarcofogo;
@@ -22,6 +23,7 @@ public class RobotContainer {
         SubsystemOuttake subsystemOuttake = new SubsystemOuttake(hardwareMap, telemetry);
         SubsystemGate subsystemGate = new SubsystemGate(hardwareMap,telemetry);
         SubsystemSarcofogo subsystemSarcofogo = new SubsystemSarcofogo(hardwareMap,telemetry);
+        MecanumDrive mecanumDrive = new MecanumDrive(hardwareMap, telemetry, team);
         new com.everest.plataform.RobotContainer(
                 hardwareMap,
                 gamepad1,
@@ -29,14 +31,11 @@ public class RobotContainer {
                 subsystem::getfrontal);
         //Especifica o gampead para o módulo
         new com.example.chassi.RobotContainer(
-                hardwareMap,
                 gamepad1,
-                telemetry,
+                mecanumDrive,
                 subsystem::getTx,
-                team.getIncrement(),
                 subsystem::getfrontal,
-                team,
-                team.getShortIncrement()
+                team
         );
         //especifica o gamepad1 para o módulo
         new com.everest.outtake.RobotContainer(
@@ -56,8 +55,8 @@ public class RobotContainer {
                 telemetry,
                 gamepad1,
                 subsystemOuttake::atSetpoint,
-                subsystemOuttake::hasArtifact
-
+                subsystemOuttake::hasArtifact,
+                mecanumDrive::atSetpoint
         );
         new com.example.sarcofogo.RobotContainer(
                 hardwareMap,

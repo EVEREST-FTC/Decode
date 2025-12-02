@@ -1,5 +1,6 @@
 package com.example.chassi;
 
+import com.everest.constants.Constants;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PID {
@@ -21,6 +22,7 @@ public class PID {
     public void reset(){
         sum = 0;
         lastErro = 0;
+        lastTime = 0;
         timer.reset();
     }
 
@@ -37,5 +39,8 @@ public class PID {
     }
     public double getError(){
         return lastErro;
+    }
+    public boolean atSetpoint(){
+        return Math.abs(getError())< Constants.ADMISSIBLE_ERROR;
     }
 }

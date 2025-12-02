@@ -24,7 +24,7 @@ public class AutoLime3A extends Command {
 
         double distance = distanceSupplier.get();
 
-        if (!(/*subsystem.hasArtifact() &&*/ distance != 0)) {
+        if (distance == 0.0) {
             subsystem.setVelocity(0);
             return;
         }

@@ -7,13 +7,15 @@ import java.util.concurrent.TimeUnit;
 
 public class Constants {
     public static final double KP = 0.02;
-    public static final double KI = 0.06;
+    public static final double KI = 0.065;
 
     public static final double KD = 0.00001;
+
+    public static final double ADMISSIBLE_ERROR = 0.2;
     //TODO: calibrar
     public static final double POWER_LAUNCHER_CONVERSION = 825;
-    public static final double PID_INCREMENT_BLUE = -0.7;
-    public static final double PID_SHORTINCREMENT_BLUE = 1;
+    public static final double PID_INCREMENT_BLUE = -0.3;
+    public static final double PID_SHORTINCREMENT_BLUE = -6;
     public static final double PID_SHORTINCREMENT_RED = -7.5;
     public static final double PID_INCREMENT_RED = -7;
     public static final double TARGET_HEIGHT = 0.75;
@@ -56,7 +58,7 @@ public class Constants {
 
     public static final double leftInitialPosition = 0.99;
     public static final double rightInitialPosition = 0.01;
-    public static final double GateInitialPosition = 30;
+    public static final double GateInitialPosition = 55;
 
     public static final double SarcofogoInitialPosition = 0;
 

@@ -15,6 +15,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     DcMotorEx MLeve;
     Telemetry telemetry;
     private final double offset;
+    final PID pid;
 
     public MecanumDrive(HardwareMap hardwareMap, Telemetry telemetry, EnumTeam team){
         super(hardwareMap,new Pose2d(0,0,0));
@@ -25,6 +26,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
         offset = team.getOffset();
+        this.pid = new PID(Constants.KP, Constants.KI, Constants.KD);
     }
     public void drive(double x, double y, double z){
         double frontLeftPower = x+y-z;
@@ -88,6 +90,12 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
         telemetry.addData("erro",MLeve.getTargetPosition()-MLeve.getCurrentPosition());
         telemetry.addData("angle", getYaw());
     }
+
+    public boolean atSetpoint(){
+        return pid.atSetpoint();
+    }
+
+    public PID getPid(){ return pid;}
 
     public void stop(){
         drive(0.0, 0.0, 0.0);

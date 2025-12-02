@@ -21,12 +21,15 @@ public class RobotContainer {
 
     public final  BooleanSupplier hasartifact;
 
+    public final BooleanSupplier chassisPid;
+
 
     public RobotContainer(HardwareMap hardwareMap,
                           Telemetry telemetry,
-                          Gamepad gamepad, BooleanSupplier velocityVerifier, BooleanSupplier hasartifact) {
+                          Gamepad gamepad, BooleanSupplier velocityVerifier, BooleanSupplier hasartifact, BooleanSupplier chassisPid) {
         this.velocityVerifier = velocityVerifier;
         this.hasartifact = hasartifact;
+        this.chassisPid = chassisPid;
         this.triggerSubsystem = new TriggerSubsystem(hardwareMap, telemetry);
         this.gamepad = gamepad;
         triggerAssociations();
@@ -41,7 +44,10 @@ public class RobotContainer {
                         Constants.targetRightPosition
                 ).ateQUe(()->!hasartifact.getAsBoolean()).
                         antesDe(new ConditionalCommand(
-                                ()->(velocityVerifier.getAsBoolean())&&(hasartifact.getAsBoolean()))
+                                ()->(
+                                        velocityVerifier.getAsBoolean())
+                                        &&(hasartifact.getAsBoolean()
+                                        &&(chassisPid.getAsBoolean())))
                         ))
         );
     }

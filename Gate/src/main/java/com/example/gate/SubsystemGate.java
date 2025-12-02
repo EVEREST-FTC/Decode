@@ -25,7 +25,6 @@ public class SubsystemGate extends SubsystemBase {
     double position;
     public SubsystemGate(HardwareMap hardwareMap, Telemetry telemetry){
         ServoDor = hardwareMap.get(Servo.class,"ServoDor");
-        /*setPositionGate(1-GateInitialPosition/GATE_MAX_SERVO_ANGLE);*/
         resetPosiiton();
         sensorGate = hardwareMap.get(RevColorSensorV3.class,"SensorGate");
 
@@ -36,7 +35,7 @@ public class SubsystemGate extends SubsystemBase {
 
 
     public void setPositionGate(double alvo){
-        position = 1 - limiter(alvo)/GATE_MAX_SERVO_ANGLE;
+        position = limiter(alvo)/GATE_MAX_SERVO_ANGLE;
         ServoDor.setPosition(position);
     }
     public double getDistanceGate(){
