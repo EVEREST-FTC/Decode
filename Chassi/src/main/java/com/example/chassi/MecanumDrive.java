@@ -1,0 +1,95 @@
+package com.example.chassi;
+
+import com.acmerobotics.roadrunner.Pose2d;
+import com.everest.CommandBased.definition.CommandScheduler;
+import com.everest.constants.Constants;
+import com.everest.constants.EnumTeam;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+public final class MecanumDrive extends com.example.chassi.roadrunner.lib.MecanumDrive {
+
+    DcMotorEx MLeve;
+    Telemetry telemetry;
+    private final double offset;
+
+    public MecanumDrive(HardwareMap hardwareMap, Telemetry telemetry, EnumTeam team){
+        super(hardwareMap,new Pose2d(0,0,0));
+        /// estrutura de elevação
+        MLeve = hardwareMap.get(DcMotorEx.class,"MLeve");
+        MLeve.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MLeve.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.telemetry = telemetry;
+        CommandScheduler.getInstance().registerSubsystem(this);
+        offset = team.getOffset();
+    }
+    public void drive(double x, double y, double z){
+        double frontLeftPower = x+y-z;
+        double frontRightPower = x-y+z;
+        double backLeftPower = x-y-z;
+        double backRightPower = x+y+z;
+        leftFront.setPower(frontLeftPower);
+        rightFront.setPower(frontRightPower);
+        leftBack.setPower(backLeftPower);
+        rightBack.setPower(backRightPower);
+
+    }
+
+    public void driveFieldRelative(double x, double y, double rotate) {
+        double angle = lazyImu.get().getRobotYawPitchRollAngles().getYaw()+offset;
+        angle = Math.toRadians(angle);
+        double x_rotated = x * Math.cos(angle) - y * Math.sin(angle);
+        double y_rotated = x * Math.sin(angle) + y * Math.cos(angle);
+
+        drive(x_rotated, y_rotated, rotate);
+    }
+    public void ResetEncoder(){
+        rightFront.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftFront.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
+    public void setPositionEleveitor(int alvo){
+        int position = alvo*Constants.Eleveitor_tickConversion/360;
+        MLeve.setTargetPosition(position);
+        MLeve.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        MLeve.setVelocity(1000);
+    }
+
+
+    public void brake(){
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+    public double getYaw(){
+        return lazyImu.get().getRobotYawPitchRollAngles().getYaw()+offset;
+    }
+    public void resetIMU(){
+        lazyImu.get().resetYaw();
+    }
+
+    public double DeadZone(double valor){
+        if (Math.abs(valor) > Constants.DEAD_ZONE_MIN)
+            return valor;
+        else
+            return 0;
+    }
+
+    @Override
+    public void periodic() {
+        telemetry.addData("angle", getYaw());
+        telemetry.addData("MotorElevaçãoPosição",MLeve.getCurrentPosition());
+        telemetry.addData("erro",MLeve.getTargetPosition()-MLeve.getCurrentPosition());
+        telemetry.addData("angle", getYaw());
+    }
+
+    public void stop(){
+        drive(0.0, 0.0, 0.0);
+    }
+}
