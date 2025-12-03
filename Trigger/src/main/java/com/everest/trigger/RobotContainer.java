@@ -14,6 +14,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
+import lombok.Getter;
+
 public class RobotContainer {
     private final TriggerSubsystem triggerSubsystem;
     private final Gamepad gamepad;

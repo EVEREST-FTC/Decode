@@ -12,14 +12,12 @@ import java.util.function.Function;
 
 public class RoadRunnerWrapper extends Command {
     private final MecanumDrive subsystem;
-    final Pose2d pose2d;
     boolean isrunning = true;
     Function<MecanumDrive, TrajectoryActionBuilder> action;
     Action runningAction;
     final TelemetryPacket telemetryPacket;
-    public RoadRunnerWrapper(MecanumDrive subsystem, Pose2d pose2d, Function<MecanumDrive, TrajectoryActionBuilder> action) {
+    public RoadRunnerWrapper(MecanumDrive subsystem,  Function<MecanumDrive, TrajectoryActionBuilder> action) {
         this.subsystem = subsystem;
-        this.pose2d = pose2d;
         this.telemetryPacket = new TelemetryPacket();
         this.action = action;
         addRequirements(subsystem);

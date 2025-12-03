@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.BooleanSupplier;
-
 public class RobotContainer {
     private final Gamepad gamepad;
     private final SubsystemGate subsystemGate;

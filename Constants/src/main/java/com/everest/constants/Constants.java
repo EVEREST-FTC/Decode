@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.util.concurrent.TimeUnit;
 
 public class Constants {
+    //RELATIVO AO PIDd
     public static final double KP = 0.02;
     public static final double KI = 0.065;
 

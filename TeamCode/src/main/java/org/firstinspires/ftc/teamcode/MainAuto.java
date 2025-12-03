@@ -2,19 +2,17 @@ package org.firstinspires.ftc.teamcode;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.constants.EnumTeam;
-import com.example.chassi.AutonomousRoutine;
+import com.everest.trigger.subsystem.TriggerSubsystem;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-@Autonomous(name = "Auto")
+@Autonomous(name = "AutoRED")
 public class MainAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         new AutonomousRoutine(
                 hardwareMap,
                 telemetry,
-                EnumTeam.BLUE
-
-        );
+                EnumTeam.RED);
         //delay p construção dos subsistemas
         waitForStart();
 

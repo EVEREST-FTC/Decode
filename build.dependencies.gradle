@@ -22,5 +22,8 @@ dependencies {
     implementation 'com.acmerobotics.roadrunner:actions:1.0.1'
     implementation 'com.acmerobotics.dashboard:dashboard:0.5.1'
 
+    compileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
+
 }
 
