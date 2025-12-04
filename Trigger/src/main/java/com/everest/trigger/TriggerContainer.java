@@ -12,11 +12,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
-import lombok.Getter;
-
-public class RobotContainer {
+public class TriggerContainer {
     private final TriggerSubsystem triggerSubsystem;
     private final Gamepad gamepad;
     private final BooleanSupplier velocityVerifier;
@@ -26,9 +23,9 @@ public class RobotContainer {
     public final BooleanSupplier chassisPid;
 
 
-    public RobotContainer(HardwareMap hardwareMap,
-                          Telemetry telemetry,
-                          Gamepad gamepad, BooleanSupplier velocityVerifier, BooleanSupplier hasartifact, BooleanSupplier chassisPid) {
+    public TriggerContainer(HardwareMap hardwareMap,
+                            Telemetry telemetry,
+                            Gamepad gamepad, BooleanSupplier velocityVerifier, BooleanSupplier hasartifact, BooleanSupplier chassisPid) {
         this.velocityVerifier = velocityVerifier;
         this.hasartifact = hasartifact;
         this.chassisPid = chassisPid;

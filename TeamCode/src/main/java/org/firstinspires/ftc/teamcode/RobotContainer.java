@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.everest.constants.EnumTeam;
 import com.everest.outtake.subsystem.SubsystemOuttake;
+import com.everest.trigger.TriggerContainer;
 import com.example.chassi.MecanumDrive;
 import com.example.gate.SubsystemGate;
 import com.example.limelightcentral.Subsystem;
@@ -50,7 +51,7 @@ public class RobotContainer {
                 gamepad1,
                 telemetry
         );
-        new com.everest.trigger.RobotContainer(
+        new TriggerContainer(
                 hardwareMap,
                 telemetry,
                 gamepad1,

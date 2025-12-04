@@ -53,7 +53,10 @@ public class SubsystemOuttake extends SubsystemBase {
     }
     public boolean atSetpoint(){
         double velocity = -MOUTR.getVelocity();
-        return Math.abs(velocity-targetVelocity)<15;
+        if (velocity == 0 || targetVelocity == 0)
+            return false;
+        return Math.abs(velocity-targetVelocity)<20;
+
     }
 
     public boolean hasArtifact(){
@@ -64,6 +67,10 @@ public class SubsystemOuttake extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData("velocidade", getVelocity());
+        telemetry.addData("velocidade", MOUTL.getVelocity()*Constants.FORWARD_TICK_CONVERSION);
+        telemetry.addData("alvoVelociade",targetVelocity);
+        telemetry.addData("atSetpoint",atSetpoint());
+        telemetry.addData("hasArtifact",hasArtifact());
 
     }
 

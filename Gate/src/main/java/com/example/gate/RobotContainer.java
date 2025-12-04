@@ -26,9 +26,10 @@ public class RobotContainer {
     }
 
     private void triggerAssociations(){
+
         subsystemGate.setDefaultCommand(
-                new Command(subsystemGate,0)
+                new Command(subsystemGate,Constants.GateInitialPosition)
         );
-        new Trigger(hasArtifact).whileTrue( new Command(subsystemGate,Constants.GateInitialPosition));
+        new Trigger(hasArtifact).whileFalse( new Command(subsystemGate,0));
     }
 }

@@ -7,6 +7,7 @@ import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
+import com.everest.CommandBased.util.InstantCommand;
 import com.everest.CommandBased.util.WaitCommand;
 import com.everest.constants.Constants;
 import com.everest.constants.EnumTeam;
@@ -60,24 +61,32 @@ public class AutonomousRoutine {
 
         );
         subsystemGate.setDefaultCommand(
-                new com.example.gate.Command(subsystemGate,0)
+                new com.example.gate.Command(subsystemGate,Constants.GateInitialPosition)
         );
+        new Trigger(subsystemOuttake::hasArtifact).whileFalse( new com.example.gate.Command(subsystemGate,0));
         intake.setDefaultCommand(new CommandIntake(intake, Constants.INTAKE_POWER));
-        new Trigger(subsystemOuttake::hasArtifact).whileTrue( new com.example.gate.Command(subsystemGate,Constants.GateInitialPosition));
         REDLONGECOMPLETO();
     }
 
     public void REDLONGECOMPLETO(){
         new SequentialCommandGroup(
                 strafeToLinearHeading(0,-5,-22),
-                new WaitCommand(0.2,Constants.clockSeconds),
-                Lancar(),
-                strafeToLinearHeading(16.458,-30.2,104),
-                strafeToLinearHeading(34,-30.2,104),
+                LancarAuto(),
+                strafeToLinearHeading(0, 0, 0)
+
+                /*new InstantCommand(chassi::resetIMU),
                 strafeToLinearHeading(0,-5,-22),
-                Lancar(),
-                strafeToLinearHeading(16,-55,104),
-                strafeToLinearHeading(34,-55,104)
+                new WaitCommand(0.1,Constants.clockSeconds),
+
+                strafeToLinearHeading(12,-29,90),
+                strafeToLinearHeading(30,-29,90),
+                strafeToLinearHeading(0,-5,-22),
+                strafeToLinearHeading(12,-58,90),
+                new WaitCommand(0.2,Constants.clockSeconds),
+                strafeToLinearHeading(30,-58,90),
+                strafeToLinearHeading(0,-5,-22)*/
+
+
 
         ).schedule();
     }
@@ -87,7 +96,20 @@ public class AutonomousRoutine {
                         chassi.localizer.getPose()).strafeToLinearHeading(
                         new Vector2d(y,x), Math.toRadians(angulo)));
     }
-    public Command Lancar(){
+    public Command Mirar(){
+        return new AlignToAngle(subLime::getTx, chassi,//chassi
+                () -> 0,
+                () -> 0,
+                subLime::getfrontal,
+                chassi.getPid(),team.getIncrement(),
+                team.getShortIncrement()
+        ).espere(3,Constants.clockSeconds);
+
+    }
+    /*public Command LancarManual(){
+        return new
+    }*/
+    public Command LancarAuto(){
 
         return new ParallelCommandGroup(
                 new RepeatCommand(//comando do trigger
@@ -103,17 +125,11 @@ public class AutonomousRoutine {
                                                 &&(subsystemOuttake.hasArtifact()
                                                 &&(chassi.atSetpoint())))
                                 )),
-                new AlignToAngle(subLime::getTx, chassi,//chassi
-                () -> 0,
-                () -> 0,
-                        subLime::getfrontal,
-                chassi.getPid(),team.getIncrement(),
-                        team.getShortIncrement()
-                ),
+                Mirar(),
                 new AutoLime3A(subLime::getfrontal,subsystemOuttake),//outtake
                 new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry)//plataforma,
 
-        ).espere(5,Constants.clockSeconds) ;
+        ).espere(1,Constants.clockSeconds) ;
 
     }
 

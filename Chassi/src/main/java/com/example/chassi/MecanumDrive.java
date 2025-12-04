@@ -89,6 +89,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
         telemetry.addData("MotorElevaçãoPosição",MLeve.getCurrentPosition());
         telemetry.addData("erro",MLeve.getTargetPosition()-MLeve.getCurrentPosition());
         telemetry.addData("angle", getYaw());
+        telemetry.addData("1atSetpoint",atSetpoint());
     }
 
     public boolean atSetpoint(){
@@ -100,4 +101,6 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     public void stop(){
         drive(0.0, 0.0, 0.0);
     }
+
 }
+
