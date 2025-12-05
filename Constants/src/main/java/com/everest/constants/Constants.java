@@ -7,12 +7,12 @@ import java.util.concurrent.TimeUnit;
 
 public class Constants {
     //RELATIVO AO PIDd
-    public static final double KP = 0.02;
-    public static final double KI = 0.065;
+    public static final double KP = 0.015;
+    public static final double KI = 0.072;
 
     public static final double KD = 0.00001;
 
-    public static final double ADMISSIBLE_ERROR = 0.2;
+    public static final double ADMISSIBLE_ERROR = 0.6;
     //TODO: calibrar
     public static final double POWER_LAUNCHER_CONVERSION = 825;
     public static final double PID_INCREMENT_BLUE = -0.3;
@@ -66,7 +66,7 @@ public class Constants {
     public static final double targetLeftPosition = 0.89;
     public static final double targetRightPosition = 0.12;
     public static Clock clockSeconds = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
-    public static final double INTAKE_POWER = 0.4;
+    public static final double INTAKE_POWER = 0.8;
 
     public static final double CHASSIS_LIMIT_POWER = 1.0;
     public static final double CHASSIS_LIMIT_POWER_TURN = 0.5;

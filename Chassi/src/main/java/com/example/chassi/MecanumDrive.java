@@ -61,6 +61,13 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
         MLeve.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         MLeve.setVelocity(1000);
     }
+    public void getOdoX(){
+        rightFront.getCurrentPosition();
+    }
+    public void getOdoY(){
+        leftBack.getCurrentPosition();
+
+    }
 
 
     public void brake(){

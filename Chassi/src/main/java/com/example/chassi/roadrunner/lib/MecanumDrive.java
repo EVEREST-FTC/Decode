@@ -64,17 +64,17 @@ public class MecanumDrive extends SubsystemBase{
                 RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         // drive model parameters
-        public double inPerTick = 102.362/34458;
-        public double lateralInPerTick = 0.001849786066637315;
-        public double trackWidthTicks = 4312.686204327676;
+        public double inPerTick = 23.622/7983.5; ///0.00295885263355671
+        public double lateralInPerTick = 0.001778801362243004;
+        public double trackWidthTicks = 4259.670337116362;
 
         // feedforward parameters (in tick units)kV: 0.00041035336111782793, kS: 0.9772866670740017
-        public double kS = 0.9772866670740017;
-        public double kV = 0.00041035336111782793;
+        public double kS = 0.9829181806462528;
+        public double kV = 0.00041792390739571174;
         public double kA = 0.00007;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 60;
+        public double maxWheelVel = 20;
         public double minProfileAccel = -30;
         public double maxProfileAccel = 50;
 
@@ -294,15 +294,6 @@ public class MecanumDrive extends SubsystemBase{
                 t = Actions.now() - beginTs;
             }
 
-            if (t >= timeTrajectory.duration) {
-                leftFront.setPower(0);
-                leftBack.setPower(0);
-                rightBack.setPower(0);
-                rightFront.setPower(0);
-
-                return false;
-            }
-
             Pose2dDual<Time> txWorldTarget = timeTrajectory.get(t);
             targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
 
@@ -341,7 +332,18 @@ public class MecanumDrive extends SubsystemBase{
             p.put("xError", error.position.x);
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
+            double positionTOlerance = 0.05;
+            double headingTolerance = 1;
+            boolean atSetpoint = Math.abs(error.position.x) < positionTOlerance &&
+                    Math.abs(error.heading.toDouble())<headingTolerance;
+            if (t >= timeTrajectory.duration && atSetpoint) {
+                leftFront.setPower(0);
+                leftBack.setPower(0);
+                rightBack.setPower(0);
+                rightFront.setPower(0);
 
+                return false;
+            }
             // only draw when active; only one drive action should be active at a time
             Canvas c = p.fieldOverlay();
             drawPoseHistory(c);

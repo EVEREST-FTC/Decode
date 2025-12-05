@@ -20,6 +20,7 @@ import com.everest.plataform.subsystem.SubsystemCalibrator;
 import com.everest.trigger.command.TriggerCommand;
 import com.everest.trigger.subsystem.TriggerSubsystem;
 import com.example.chassi.AlignToAngle;
+import com.example.chassi.Drive;
 import com.example.chassi.MecanumDrive;
 import com.example.chassi.roadrunner.command.RoadRunnerWrapper;
 import com.example.gate.SubsystemGate;
@@ -70,11 +71,11 @@ public class AutonomousRoutine {
 
     public void REDLONGECOMPLETO(){
         new SequentialCommandGroup(
-                strafeToLinearHeading(0,-5,-22),
-                LancarAuto(),
-                strafeToLinearHeading(0, 0, 0)
+//                strafeToLinearHeading(0,-5,-22),
+//                LancarAuto(),
+//                strafeToLinearHeading(0, 0, 0)
 
-                /*new InstantCommand(chassi::resetIMU),
+                new InstantCommand(chassi::resetIMU),
                 strafeToLinearHeading(0,-5,-22),
                 new WaitCommand(0.1,Constants.clockSeconds),
 
@@ -84,7 +85,7 @@ public class AutonomousRoutine {
                 strafeToLinearHeading(12,-58,90),
                 new WaitCommand(0.2,Constants.clockSeconds),
                 strafeToLinearHeading(30,-58,90),
-                strafeToLinearHeading(0,-5,-22)*/
+                strafeToLinearHeading(0,-5,-22)
 
 
 
@@ -140,5 +141,8 @@ public class AutonomousRoutine {
     public void  Strafeto(){
         new RoadRunnerWrapper(chassi,
                 c->c.actionBuilder(chassi.localizer.getPose()).strafeTo(new Vector2d(-40, 0))).schedule();
+    }
+    public void  moverMANUAL(){
+
     }
 }
