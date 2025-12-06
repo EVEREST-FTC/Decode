@@ -62,7 +62,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
 
         GateContainer.builder()
                 .subsystemGate(gate)
-                .hasArtifact(limelight::isValid)
+                .hasArtifact(outtake::hasArtifact)
                 .build()
                 .defineMainRoutine();
 
