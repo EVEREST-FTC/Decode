@@ -25,5 +25,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.42'
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
+
+    implementation 'com.github.angelolfreitas:P1Demo:1.5'
 }
 

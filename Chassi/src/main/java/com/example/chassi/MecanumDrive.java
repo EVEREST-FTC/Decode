@@ -8,13 +8,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcontroller.internal.PID;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import lombok.Getter;
 
 public final class MecanumDrive extends com.example.chassi.roadrunner.lib.MecanumDrive {
 
     DcMotorEx MLeve;
     Telemetry telemetry;
     private final double offset;
+    @Getter
     final PID pid;
 
     public MecanumDrive(HardwareMap hardwareMap, Telemetry telemetry, EnumTeam team){
@@ -102,8 +106,6 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     public boolean atSetpoint(){
         return pid.atSetpoint();
     }
-
-    public PID getPid(){ return pid;}
 
     public void stop(){
         drive(0.0, 0.0, 0.0);
