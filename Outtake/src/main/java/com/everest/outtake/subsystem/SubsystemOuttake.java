@@ -12,10 +12,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import lombok.Getter;
+
 public class SubsystemOuttake extends SubsystemBase {
     DcMotorEx MOUTR, MOUTL;
     Telemetry telemetry;
     double artifactIn = 1;
+    @Getter
     private double targetVelocity = 0;
 
     private final RevColorSensorV3 ColorSensorL,ColorSensorR;
@@ -47,9 +50,6 @@ public class SubsystemOuttake extends SubsystemBase {
     }
     public double getVelocity(){
         return MOUTR.getVelocity()*Constants.FORWARD_TICK_CONVERSION;
-    }
-    public double getTargetVelocity(){
-        return targetVelocity;
     }
     public boolean atSetpoint(){
         double velocity = -MOUTR.getVelocity();

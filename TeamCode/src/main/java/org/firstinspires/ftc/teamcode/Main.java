@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.everest.CommandBased.definition.CommandScheduler;
-import com.everest.constants.EnumTeam;
+import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,13 +9,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class Main extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        new RobotContainer(
-                hardwareMap,
-                telemetry,
-                gamepad1,
-                gamepad2,
-                EnumTeam.BLUE
-        );
+        RobotContainer.builder()
+                .hardwareMap(hardwareMap)
+                .team(EnumTeam.BLUE)
+                .gamepad1(gamepad1)
+                .telemetry(telemetry)
+                .build()
+                .defineMainRoutine();
         //delay p construção dos subsistemas
         waitForStart();
 

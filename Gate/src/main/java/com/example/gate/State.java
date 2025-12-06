@@ -1,8 +1,18 @@
 package com.example.gate;
 
-public enum State {
+import com.everest.CommandBased.definition.Command;
+import com.everest.constants.Constants;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+public enum State implements com.everest.constants.meta.State {
     OPENED,
     CLOSED;
+    @Setter
+    Command associatedCommand;
 
     public static State selector(boolean hasArtifact){
         if(hasArtifact)

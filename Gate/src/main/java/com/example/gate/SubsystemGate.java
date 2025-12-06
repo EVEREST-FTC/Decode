@@ -4,11 +4,9 @@ import static com.everest.constants.Constants.GATE_MAX_ANGLE;
 import static com.everest.constants.Constants.GATE_MAX_SERVO_ANGLE;
 import static com.everest.constants.Constants.GATE_MIN_ANGLE;
 import static com.everest.constants.Constants.GateInitialPosition;
-import static com.everest.constants.Constants.PLATFORM_MAX_ANGLE;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
-import com.everest.constants.Constants;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -42,12 +40,6 @@ public class SubsystemGate extends SubsystemBase {
         return sensorGate.getDistance(DistanceUnit.MM);
     }
 
-
-    @Override
-    public void periodic() {
-
-
-    }
 
     public void resetPosiiton(){
         setPositionGate(GateInitialPosition);

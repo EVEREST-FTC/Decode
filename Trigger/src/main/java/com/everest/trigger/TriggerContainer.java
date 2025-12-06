@@ -4,6 +4,7 @@ import com.everest.CommandBased.compositions.RepeatCommand;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
 import com.everest.constants.Constants;
+import com.everest.constants.meta.RobotContainer;
 import com.everest.trigger.command.TriggerCommand;
 import com.everest.trigger.subsystem.TriggerSubsystem;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -13,7 +14,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.BooleanSupplier;
 
-public class TriggerContainer {
+import lombok.Builder;
+
+@Builder
+public class TriggerContainer implements RobotContainer {
     private final TriggerSubsystem triggerSubsystem;
     private final Gamepad gamepad;
     private final BooleanSupplier velocityVerifier;
@@ -22,32 +26,21 @@ public class TriggerContainer {
 
     public final BooleanSupplier chassisPid;
 
-
-    public TriggerContainer(HardwareMap hardwareMap,
-                            Telemetry telemetry,
-                            Gamepad gamepad, BooleanSupplier velocityVerifier, BooleanSupplier hasartifact, BooleanSupplier chassisPid) {
-        this.velocityVerifier = velocityVerifier;
-        this.hasartifact = hasartifact;
-        this.chassisPid = chassisPid;
-        this.triggerSubsystem = new TriggerSubsystem(hardwareMap, telemetry);
-        this.gamepad = gamepad;
-        triggerAssociations();
-    }
-
-    private void triggerAssociations(){
+    @Override
+    public void mainRoutine() {
         new Trigger(()->gamepad.left_bumper).toggleOnTrue(
                 new RepeatCommand(
-                new TriggerCommand(
-                        triggerSubsystem,
-                        Constants.targetLeftPosition,
-                        Constants.targetRightPosition
-                ).ateQUe(()->!hasartifact.getAsBoolean()).
-                        antesDe(new ConditionalCommand(
-                                ()->(
-                                        velocityVerifier.getAsBoolean())
-                                        &&(hasartifact.getAsBoolean()
-                                        &&(chassisPid.getAsBoolean())))
-                        ))
+                        new TriggerCommand(
+                                triggerSubsystem,
+                                Constants.targetLeftPosition,
+                                Constants.targetRightPosition
+                        ).ateQUe(()->!hasartifact.getAsBoolean()).
+                                antesDe(new ConditionalCommand(
+                                        ()->(
+                                                velocityVerifier.getAsBoolean())
+                                                &&(hasartifact.getAsBoolean()
+                                                &&(chassisPid.getAsBoolean())))
+                                ))
         );
     }
 }

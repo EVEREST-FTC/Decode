@@ -3,12 +3,12 @@ package com.example.chassi;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.constants.Constants;
-import com.everest.constants.EnumTeam;
+import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcontroller.internal.PID;
+import com.everest.constants.PID;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import lombok.Getter;
@@ -59,7 +59,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
-    public void setPositionEleveitor(int alvo){
+    public void setPositionElevator(int alvo){
         int position = alvo*Constants.Eleveitor_tickConversion/360;
         MLeve.setTargetPosition(position);
         MLeve.setMode(DcMotor.RunMode.RUN_TO_POSITION);

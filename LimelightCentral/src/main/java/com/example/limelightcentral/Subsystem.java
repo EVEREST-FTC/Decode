@@ -3,7 +3,7 @@ package com.example.limelightcentral;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
 import com.everest.constants.Constants;
-import com.everest.constants.EnumTeam;
+import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;

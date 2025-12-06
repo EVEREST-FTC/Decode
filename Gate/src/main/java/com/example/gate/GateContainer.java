@@ -1,0 +1,47 @@
+package com.example.gate;
+
+import com.everest.CommandBased.compositions.SelectCommand;
+import com.everest.CommandBased.util.InstantCommand;
+import com.everest.constants.Constants;
+import com.everest.constants.meta.RobotContainer;
+import com.everest.constants.meta.StateMachine;
+
+import java.util.Map;
+import java.util.function.BooleanSupplier;
+
+import lombok.Builder;
+
+@Builder
+public class GateContainer implements RobotContainer {
+    private final SubsystemGate subsystemGate;
+    private final BooleanSupplier hasArtifact;
+    private final StateMachine stateMachine = new StateMachine(State.CLOSED);
+
+
+    @Override
+    public void states() {
+        /*State.CLOSED.setAssociatedCommand(
+                new Command(subsystemGate, Constants.GateInitialPosition)
+        );
+        State.OPENED.setAssociatedCommand(
+                new Command(subsystemGate,0)
+        );
+
+        stateMachine.createRelation(State.CLOSED, State.OPENED, new InstantCommand());
+        stateMachine.createRelation(State.OPENED, State.CLOSED, new InstantCommand());
+        stateMachine.setCurrentState(State.CLOSED);*/
+    }
+
+    @Override
+    public void mainRoutine() {
+        subsystemGate.setDefaultCommand(
+                new SelectCommand<>(
+                        Map.ofEntries(
+                                Map.entry(State.CLOSED, new Command(subsystemGate, Constants.GateInitialPosition)),
+                                Map.entry(State.OPENED, new Command(subsystemGate,0))
+                        ),
+                        ()->State.selector(hasArtifact.getAsBoolean())
+                )
+        );
+    }
+}

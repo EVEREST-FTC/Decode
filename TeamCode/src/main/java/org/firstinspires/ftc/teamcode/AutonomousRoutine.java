@@ -10,7 +10,7 @@ import com.everest.CommandBased.util.ConditionalCommand;
 import com.everest.CommandBased.util.InstantCommand;
 import com.everest.CommandBased.util.WaitCommand;
 import com.everest.constants.Constants;
-import com.everest.constants.EnumTeam;
+import com.everest.constants.meta.EnumTeam;
 import com.everest.intake.Command.CommandIntake;
 import com.everest.intake.Subsystem.SubsytemIntake;
 import com.everest.outtake.command.AutoLime3A;

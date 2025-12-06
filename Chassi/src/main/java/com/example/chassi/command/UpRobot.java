@@ -15,11 +15,11 @@ public class UpRobot extends Command {
 
 
         @Override
-        public void execute() {chassi.setPositionEleveitor(90);}
+        public void execute() {chassi.setPositionElevator(90);}
 
         @Override
         public void end(boolean interrupted) {
-            chassi.setPositionEleveitor(0);
+            chassi.setPositionElevator(0);
     }
 
 }

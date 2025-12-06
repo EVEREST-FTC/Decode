@@ -1,76 +1,104 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.everest.constants.EnumTeam;
+import com.everest.constants.meta.EnumTeam;
+import com.everest.intake.IntakeContainer;
+import com.everest.intake.Subsystem.SubsytemIntake;
+import com.everest.outtake.OuttakeContainer;
 import com.everest.outtake.subsystem.SubsystemOuttake;
+import com.everest.plataform.PlatformContainer;
+import com.everest.plataform.subsystem.SubsystemCalibrator;
 import com.everest.trigger.TriggerContainer;
+import com.everest.trigger.subsystem.TriggerSubsystem;
 import com.example.chassi.MecanumDrive;
+import com.example.chassi.ChassisContainer;
+import com.example.gate.GateContainer;
 import com.example.gate.SubsystemGate;
 import com.example.limelightcentral.Subsystem;
+import com.example.sarcofogo.SarcofogoContainer;
 import com.example.sarcofogo.SubsystemSarcofogo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class RobotContainer {
-    public RobotContainer(
-            HardwareMap hardwareMap,
-            Telemetry telemetry,
-            Gamepad gamepad1,
-            Gamepad gamepad2,
-            EnumTeam team
-    ) {
-        Subsystem subsystem = new Subsystem(hardwareMap,telemetry,team);
-        SubsystemOuttake subsystemOuttake = new SubsystemOuttake(hardwareMap, telemetry);
-        SubsystemGate subsystemGate = new SubsystemGate(hardwareMap,telemetry);
-        SubsystemSarcofogo subsystemSarcofogo = new SubsystemSarcofogo(hardwareMap,telemetry);
-        MecanumDrive mecanumDrive = new MecanumDrive(hardwareMap, telemetry, team);
-        new com.everest.plataform.RobotContainer(
-                hardwareMap,
-                gamepad1,
+import lombok.Builder;
+
+@Builder
+public class RobotContainer implements com.everest.constants.meta.RobotContainer {
+    Gamepad gamepad1;
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
+    EnumTeam team;
+
+    @Override
+    public void mainRoutine() {
+        Subsystem limelight = new Subsystem(hardwareMap,
                 telemetry,
-                subsystem::getfrontal);
-        //Especifica o gampead para o módulo
-        new com.example.chassi.RobotContainer(
-                gamepad1,
-                mecanumDrive,
-                subsystem::getTx,
-                subsystem::getfrontal,
-                team
-        );
-        //especifica o gamepad1 para o módulo
-        new com.everest.outtake.RobotContainer(
-                hardwareMap,
-                gamepad1,
+                team);
+        MecanumDrive chassis = new MecanumDrive(hardwareMap,
                 telemetry,
-                subsystem::getfrontal,
-                subsystemOuttake
-        );
-        new com.everest.intake.RobotContainer(
-                hardwareMap,
-                gamepad1,
-                telemetry
-        );
-        new TriggerContainer(
-                hardwareMap,
-                telemetry,
-                gamepad1,
-                subsystemOuttake::atSetpoint,
-                subsystemOuttake::hasArtifact,
-                mecanumDrive::atSetpoint
-        );
-        new com.example.sarcofogo.RobotContainer(
-                hardwareMap,
-                telemetry,
-                gamepad1,
-                subsystemSarcofogo
-        );
-        new com.example.gate.RobotContainer(
-                hardwareMap,
-                telemetry,
-                gamepad1,
-                subsystemGate,
-                subsystemOuttake::hasArtifact
-        );
+                team);
+        SubsystemGate gate = new SubsystemGate(hardwareMap,
+                telemetry);
+        SubsystemSarcofogo sarcofogo = new SubsystemSarcofogo(hardwareMap,
+                telemetry);
+        SubsystemOuttake outtake = new SubsystemOuttake(hardwareMap,
+                telemetry);
+        SubsystemCalibrator platform =new SubsystemCalibrator(hardwareMap,
+                telemetry);
+        TriggerSubsystem triggerSubsystem = new TriggerSubsystem(hardwareMap,
+                telemetry);
+        SubsytemIntake intake = new SubsytemIntake(hardwareMap,
+                telemetry);
+
+        ChassisContainer.builder()
+                .team(team)
+                .target(limelight::getTx)
+                .distancia(limelight::getfrontal)
+                .gamepad1(gamepad1)
+                .chassi(chassis)
+                .build()
+                .defineMainRoutine();
+
+        GateContainer.builder()
+                .subsystemGate(gate)
+                .hasArtifact(limelight::isValid)
+                .build()
+                .defineMainRoutine();
+
+        IntakeContainer.builder()
+                .subsytemIntake(intake)
+                .build()
+                .defineMainRoutine();
+
+        OuttakeContainer.builder()
+                .gamepad1(gamepad1)
+                .distancia(limelight::getfrontal)
+                .subsystem(outtake)
+                .build()
+                .defineMainRoutine();
+
+        PlatformContainer.builder()
+                .gamepad(gamepad1)
+                .subsystemCalibrator(platform)
+                .distancia(limelight::getfrontal)
+                .telemetry(telemetry)
+                .build()
+                .defineMainRoutine();
+
+        SarcofogoContainer.builder()
+                .subsystemSarcofogo(sarcofogo)
+                .gamepad(gamepad1)
+                .build()
+                .defineMainRoutine();
+
+        TriggerContainer.builder()
+                .chassisPid(chassis::atSetpoint)
+                .hasartifact(limelight::isValid)
+                .gamepad(gamepad1)
+                .triggerSubsystem(triggerSubsystem)
+                .velocityVerifier(outtake::atSetpoint)
+                .build()
+                .defineMainRoutine();
     }
 }
