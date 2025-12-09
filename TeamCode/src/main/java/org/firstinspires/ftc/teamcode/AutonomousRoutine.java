@@ -47,7 +47,6 @@ public class AutonomousRoutine {
     ) {
         this.triggerSubsystem = new TriggerSubsystem(hardwareMap, telemetry);
         this.subsystemOuttake = new SubsystemOuttake(hardwareMap, telemetry);
-        this.subLime = new Subsystem(hardwareMap, telemetry, team);
         this.team = team;
         this.telemetry = telemetry;
         this.intake = new SubsytemIntake(hardwareMap, telemetry);
@@ -60,6 +59,8 @@ public class AutonomousRoutine {
 
 
         );
+
+        this.subLime = new Subsystem(hardwareMap, telemetry, team,chassi::getYaw );
         subsystemGate.setDefaultCommand(
                 new com.example.gate.Command(subsystemGate,Constants.GateInitialPosition)
         );

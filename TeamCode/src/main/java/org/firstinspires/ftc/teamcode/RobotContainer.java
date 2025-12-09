@@ -32,9 +32,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
 
     @Override
     public void mainRoutine() {
-        Subsystem limelight = new Subsystem(hardwareMap,
-                telemetry,
-                team);
+
         MecanumDrive chassis = new MecanumDrive(hardwareMap,
                 telemetry,
                 team);
@@ -51,6 +49,11 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
         SubsytemIntake intake = new SubsytemIntake(hardwareMap,
                 telemetry);
 
+        Subsystem limelight = new Subsystem(hardwareMap,
+                telemetry,
+                team,
+                chassis::getYaw
+                );
         ChassisContainer.builder()
                 .team(team)
                 .target(limelight::getTx)
@@ -67,9 +70,11 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .defineMainRoutine();
 
         IntakeContainer.builder()
+                .gamepad(gamepad1)
                 .subsytemIntake(intake)
                 .build()
                 .defineMainRoutine();
+
 
         OuttakeContainer.builder()
                 .gamepad1(gamepad1)
@@ -94,7 +99,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
 
         TriggerContainer.builder()
                 .chassisPid(chassis::atSetpoint)
-                .hasartifact(limelight::isValid)
+                .hasartifact(outtake::hasArtifact)
                 .gamepad(gamepad1)
                 .triggerSubsystem(triggerSubsystem)
                 .velocityVerifier(outtake::atSetpoint)

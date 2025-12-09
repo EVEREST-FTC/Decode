@@ -8,16 +8,16 @@ import java.util.concurrent.TimeUnit;
 public class Constants {
     //RELATIVO AO PIDd
     public static final double KP = 0.015;
-    public static final double KI = 0.072;
+    public static final double KI = 0.052;
 
-    public static final double KD = 0.00001;
+    public static final double KD = 0.000005;
 
     public static final double ADMISSIBLE_ERROR = 0.6;
     //TODO: calibrar
     public static final double POWER_LAUNCHER_CONVERSION = 825;
     public static final double PID_INCREMENT_BLUE = -0.3;
     public static final double PID_SHORTINCREMENT_BLUE = -6;
-    public static final double PID_SHORTINCREMENT_RED = -7.5;
+    public static final double PID_SHORTINCREMENT_RED = -5.5;
     public static final double PID_INCREMENT_RED = -7;
     public static final double TARGET_HEIGHT = 0.75;
     public static final double CAMERA_HEIGHT = 0.38;

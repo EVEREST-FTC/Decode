@@ -33,6 +33,9 @@ public class ChassisContainer implements RobotContainer {
                         () -> chassi.DeadZone(gamepad1.right_stick_x) * Constants.CHASSIS_LIMIT_POWER_TURN,
                         () -> chassi.DeadZone(gamepad1.left_stick_x) * Constants.CHASSIS_LIMIT_POWER,
                         () -> chassi.DeadZone(gamepad1.left_stick_y) * Constants.CHASSIS_LIMIT_POWER));
+        new Trigger(()->gamepad1.right_bumper).toggleOnTrue(
+                new InstantCommand(chassi::resetIMU)
+        );
         new Trigger(()->gamepad1.left_bumper).whileTrue(
                 new AlignToAngle(target, chassi,
                         () -> gamepad1.left_stick_x,

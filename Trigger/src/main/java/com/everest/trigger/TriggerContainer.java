@@ -28,7 +28,7 @@ public class TriggerContainer implements RobotContainer {
 
     @Override
     public void mainRoutine() {
-        new Trigger(()->gamepad.left_bumper).toggleOnTrue(
+        new Trigger(()->gamepad.left_bumper).whileTrue(
                 new RepeatCommand(
                         new TriggerCommand(
                                 triggerSubsystem,
@@ -41,6 +41,22 @@ public class TriggerContainer implements RobotContainer {
                                                 &&(hasartifact.getAsBoolean()
                                                 &&(chassisPid.getAsBoolean())))
                                 ))
+        );
+
+    }
+    public void mainRoutine2() {
+        new Trigger(()->gamepad.left_bumper).toggleOnTrue(
+                new TriggerCommand(
+                        triggerSubsystem,
+                        Constants.targetLeftPosition,
+                        Constants.targetRightPosition
+                ).ateQUe(()->!hasartifact.getAsBoolean()).
+                        antesDe(new ConditionalCommand(
+                                ()->(
+                                                /*velocityVerifier.getAsBoolean())
+                                                &&*/ hasartifact.getAsBoolean()
+                                        /* &&chassisPid.getAsBoolean()*/))
+                        )
         );
     }
 }

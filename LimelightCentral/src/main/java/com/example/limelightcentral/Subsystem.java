@@ -12,17 +12,20 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.List;
+import java.util.function.DoubleSupplier;
 
 public class Subsystem extends SubsystemBase {
     Limelight3A limelight3A;
     final Telemetry telemetry;
 
     final EnumTeam team;
+    final DoubleSupplier angle;
 
-    public Subsystem(HardwareMap hardwareMap, Telemetry telemetry, EnumTeam team) {
+    public Subsystem(HardwareMap hardwareMap, Telemetry telemetry, EnumTeam team, DoubleSupplier angle) {
         limelight3A = hardwareMap.get(Limelight3A.class,"Lime3A");
         this.telemetry = telemetry;
         this.team = team;
+        this.angle = angle;
         limelight3A.start();
         telemetry.setMsTransmissionInterval(11);
 
@@ -70,10 +73,14 @@ public class Subsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
+        limelight3A.updateRobotOrientation(angle.getAsDouble());
+        LLResult llResult = limelight3A.getLatestResult();
+        List<LLResultTypes.FiducialResult> Tags = llResult.getFiducialResults();
         Tags.forEach(
                 tag->telemetry.addLine(String.valueOf(tag.getFiducialId()))
         );
         telemetry.addData("getIdtag",getIdtag());
+        telemetry.addData("isValid",isValid());
+        telemetry.addData("posebotemrelaçãotag",llResult.getBotpose().toString());
     }
 }
