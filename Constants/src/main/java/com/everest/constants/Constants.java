@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class Constants {
     //RELATIVO AO PIDd
     public static final double KP = 0.015;
-    public static final double KI = 0.052;
+    public static final double KI = 0.032;
 
     public static final double KD = 0.000005;
 
