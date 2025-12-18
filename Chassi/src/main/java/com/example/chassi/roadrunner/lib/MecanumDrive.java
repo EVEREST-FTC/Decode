@@ -64,14 +64,14 @@ public class MecanumDrive extends SubsystemBase{
                 RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         // drive model parameters
-        public double inPerTick = 23.622/8069; ///0.00295885263355671
-        public double lateralInPerTick = 0.001778801362243004;
-        public double trackWidthTicks = 4351.584688634512;
+        public double inPerTick = 23.622/8034.5; ///0.00294007094
+        public double lateralInPerTick = 3.4231548302225994;
+        public double trackWidthTicks = 4279.008604387152;
 
         // feedforward parameters (in tick units)kV: 0.00041035336111782793, kS: 0.9772866670740017
-        public double kS = 1.0420949019695986;
-        public double kV = 0.00041222959302916116;
-        public double kA = 0.00007;
+        public double kS = 1.14143172787298;
+        public double kV = 0.0004025466145026467;
+        public double kA = 0.000001;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 30;
@@ -84,11 +84,11 @@ public class MecanumDrive extends SubsystemBase{
 
         // path controller gains
         public double axialGain = 13;
-        public double lateralGain = 0.01;
+        public double lateralGain = 9000;
         public double headingGain = 6; // shared with turn
 
         public double axialVelGain = 2;
-        public double lateralVelGain = 0.01;
+        public double lateralVelGain = 10;
         public double headingVelGain = 0.01;
     }
 
@@ -332,9 +332,10 @@ public class MecanumDrive extends SubsystemBase{
             p.put("xError", error.position.x);
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
-            double positionTOlerance = 0.05;
+            double positionTOlerance = 1;
             double headingTolerance = 1;
             boolean atSetpoint = Math.abs(error.position.x) < positionTOlerance &&
+                    Math.abs(error.position.y) < positionTOlerance &&
                     Math.abs(error.heading.toDouble())<headingTolerance;
             if (t >= timeTrajectory.duration && atSetpoint) {
                 leftFront.setPower(0);

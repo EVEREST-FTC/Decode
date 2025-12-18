@@ -12,8 +12,8 @@ public class LaunchCommand  extends Command {
 
 
     public LaunchCommand(SubsystemOuttake outtakeMotor, double velocityPercentage) {
-        if(Math.abs(velocityPercentage)>1) throw new RuntimeException("Porcentagem maior que 1. " +
-                "Não faça isso,");
+       /* if(Math.abs(velocityPercentage)>1) throw new RuntimeException("Porcentagem maior que 1. " +
+                "Não faça isso,");*/
         this.outtakeMotor = outtakeMotor;
         this.velocity = velocityPercentage * Constants.MAX_RPM;
         addRequirements(outtakeMotor);

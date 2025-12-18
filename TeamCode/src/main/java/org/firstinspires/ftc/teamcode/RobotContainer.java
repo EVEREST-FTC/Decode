@@ -63,9 +63,11 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .build()
                 .defineMainRoutine();
 
+
         GateContainer.builder()
                 .subsystemGate(gate)
                 .hasArtifact(outtake::hasArtifact)
+                .gamepad(gamepad1)
                 .build()
                 .defineMainRoutine();
 
@@ -94,8 +96,10 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
         SarcofogoContainer.builder()
                 .subsystemSarcofogo(sarcofogo)
                 .gamepad(gamepad1)
+                .hasArtifact(outtake::hasArtifact)
                 .build()
-                .defineMainRoutine();
+                .defineMainRoutine()
+        ;
 
         TriggerContainer.builder()
                 .chassisPid(chassis::atSetpoint)

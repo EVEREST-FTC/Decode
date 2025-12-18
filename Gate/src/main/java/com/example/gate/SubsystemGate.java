@@ -3,7 +3,7 @@ package com.example.gate;
 import static com.everest.constants.Constants.GATE_MAX_ANGLE;
 import static com.everest.constants.Constants.GATE_MAX_SERVO_ANGLE;
 import static com.everest.constants.Constants.GATE_MIN_ANGLE;
-import static com.everest.constants.Constants.GateInitialPosition;
+import static com.everest.constants.Constants.GateClosePosition;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
@@ -34,7 +34,7 @@ public class SubsystemGate extends SubsystemBase {
 
     public void setPositionGate(double alvo){
         position = limiter(alvo)/GATE_MAX_SERVO_ANGLE;
-        ServoDor.setPosition(position);
+        ServoDor.setPosition(1 - position);
     }
     public double getDistanceGate(){
         return sensorGate.getDistance(DistanceUnit.MM);
@@ -42,7 +42,7 @@ public class SubsystemGate extends SubsystemBase {
 
 
     public void resetPosiiton(){
-        setPositionGate(GateInitialPosition);
+        setPositionGate(GateClosePosition);
     }
     private double limiter(double angle){
         if(angle> GATE_MAX_ANGLE)

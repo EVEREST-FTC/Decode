@@ -25,16 +25,24 @@ public class PID {
         timer.reset();
     }
 
+    public double max_limiter(double valor){
+        if (Math.abs(valor) > Constants.PID_MAX)
+            return Constants.PID_MAX;
+        else
+            return valor;
+
+    }
 
     public double calculate(double target, double measurement){
         double error = (target-measurement);
         double dt = timer.time() - lastTime;
         double derro = error - lastErro;
-        sum += error*dt;
+        if(Math.abs(error)<Constants.iRange)
+            sum += error*dt;
         double derivativo = derro/dt;
         lastTime = timer.time();
         lastErro = error;
-        return error*KP+sum*KI+derivativo*KD;
+        return max_limiter(error*KP+sum*KI+derivativo*KD);
     }
     public double getError(){
         return lastErro;

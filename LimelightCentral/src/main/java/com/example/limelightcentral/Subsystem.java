@@ -1,23 +1,28 @@
 package com.example.limelightcentral;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
 import com.everest.constants.Constants;
 import com.everest.constants.meta.EnumTeam;
+import com.everest.constants.util.MathUtil;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 public class Subsystem extends SubsystemBase {
     Limelight3A limelight3A;
     final Telemetry telemetry;
-
     final EnumTeam team;
     final DoubleSupplier angle;
 
@@ -71,6 +76,26 @@ public class Subsystem extends SubsystemBase {
             return 0;
     }
 
+    public Optional<Pose3D> getBotPose(){
+        List<LLResultTypes.FiducialResult> tags = limelight3A.getLatestResult().getFiducialResults();
+        if(tags.isEmpty()) return Optional.empty();
+        return Optional.of(
+                tags.get(0).getCameraPoseTargetSpace()
+        );
+    }
+    public Optional<Pose2d> getBotPoseInches(){
+        Optional<Pose3D> pose3DOptional = getBotPose();
+        if(!pose3DOptional.isPresent()) return Optional.empty();
+        Pose3D pose3D = pose3DOptional.get();
+        return Optional.of(
+                new Pose2d(
+                        MathUtil.metersToInches(pose3D.getPosition().x),
+                        MathUtil.metersToInches(pose3D.getPosition().y),
+                        angle.getAsDouble()
+                )
+        );
+    }
+
     @Override
     public void periodic() {
         limelight3A.updateRobotOrientation(angle.getAsDouble());
@@ -79,8 +104,10 @@ public class Subsystem extends SubsystemBase {
         Tags.forEach(
                 tag->telemetry.addLine(String.valueOf(tag.getFiducialId()))
         );
-        telemetry.addData("getIdtag",getIdtag());
-        telemetry.addData("isValid",isValid());
-        telemetry.addData("posebotemrelaçãotag",llResult.getBotpose().toString());
+
+        Optional<Pose2d> poseOptional = getBotPoseInches();
+        if(!poseOptional.isPresent()) return;
+        Pose2d pose2d = poseOptional.get();
+        telemetry.addData("limelight3A-getIdtag",getIdtag());
     }
 }

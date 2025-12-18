@@ -4,6 +4,8 @@ import com.everest.CommandBased.definition.Command;
 import com.everest.constants.Constants;
 import com.everest.outtake.subsystem.SubsystemOuttake;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.function.Supplier;
 
 public class AutoLime3A extends Command {
@@ -30,6 +32,8 @@ public class AutoLime3A extends Command {
         }
 
 
+
+
         double Vy = Math.sqrt(2 * Constants.G * Constants.MAX_HEIGHT);
 
         double t_num = Vy + Math.sqrt(Vy*Vy - 2 * Constants.G * Constants.DELTA_HEIGHT);
@@ -39,12 +43,15 @@ public class AutoLime3A extends Command {
         double angle = Math.atan2(Vy, vx);
         double degrees = Math.toDegrees(angle);
 
-        System.out.println("angle: "+ degrees);
+        System.out.println("Plataform angle: "+ degrees);
 
         double velocity = Math.sqrt(Vy*Vy + vx*vx);
 
         subsystem.setVelocity(velocity*Constants.POWER_LAUNCHER_CONVERSION);
         subsystem.brake();
+
+        /*if (!subsystem.hasArtifact())
+            subsystem.setVelocity(0);*/
 
 
     }

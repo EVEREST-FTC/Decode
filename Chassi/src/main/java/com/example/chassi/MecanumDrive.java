@@ -1,15 +1,22 @@
 package com.example.chassi;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.constants.Constants;
 import com.everest.constants.meta.EnumTeam;
+import com.example.chassi.command.AlignToAngle;
+import com.example.chassi.roadrunner.command.RoadRunnerWrapper;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import com.everest.constants.PID;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import java.util.function.DoubleSupplier;
 
 import lombok.Getter;
 
@@ -96,11 +103,10 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
 
     @Override
     public void periodic() {
-        telemetry.addData("angle", getYaw());
-        telemetry.addData("MotorElevaçãoPosição",MLeve.getCurrentPosition());
-        telemetry.addData("erro",MLeve.getTargetPosition()-MLeve.getCurrentPosition());
-        telemetry.addData("angle", getYaw());
-        telemetry.addData("1atSetpoint",atSetpoint());
+        telemetry.addData("chassi-yaw", getYaw());
+        /*telemetry.addData("chassi-MotorElevaçãoPosição",MLeve.getCurrentPosition());*/
+        telemetry.addData("chassi-erro",pid.getError());
+        /*telemetry.addData("chassi-atSetpoint",atSetpoint());*/
     }
 
     public boolean atSetpoint(){
@@ -109,6 +115,25 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
 
     public void stop(){
         drive(0.0, 0.0, 0.0);
+    }
+    TranslationalVelConstraint velConstraint(int velocity){
+        return new TranslationalVelConstraint(velocity);
+    }
+    public Command strafeToLinearHeading(double x, double y, double angulo, int velocity){
+        return new RoadRunnerWrapper(this,
+                c->c.actionBuilder(
+                        this.localizer.getPose()).strafeToLinearHeading(
+                        new Vector2d(y,x), Math.toRadians(angulo),
+                        velConstraint(velocity)));
+    }
+    public Command mirar(EnumTeam team, DoubleSupplier tx, DoubleSupplier distance){
+        return new AlignToAngle(tx, this,//chassi
+                () -> 0,
+                () -> 0,
+                distance,
+                this.getPid(),team.getIncrement(),
+                team.getShortIncrement()
+        );
     }
 
 }

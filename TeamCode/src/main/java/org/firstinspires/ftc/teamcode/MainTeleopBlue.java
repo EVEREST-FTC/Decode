@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name =  "BLUE")
-public class Main extends LinearOpMode {
+public class MainTeleopBlue extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         RobotContainer.builder()

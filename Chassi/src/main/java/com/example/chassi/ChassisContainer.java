@@ -1,5 +1,6 @@
 package com.example.chassi;
 
+import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.InstantCommand;
 import com.everest.constants.Constants;
@@ -19,7 +20,7 @@ import lombok.Builder;
 public class ChassisContainer implements RobotContainer {
     private final MecanumDrive chassi;
     private final Gamepad gamepad1;
-    private final Supplier<Double> distancia;
+    private final DoubleSupplier distancia;
 
     private final EnumTeam team;
 
@@ -36,7 +37,7 @@ public class ChassisContainer implements RobotContainer {
         new Trigger(()->gamepad1.right_bumper).toggleOnTrue(
                 new InstantCommand(chassi::resetIMU)
         );
-        new Trigger(()->gamepad1.left_bumper).whileTrue(
+        new Trigger(()->gamepad1.left_trigger>0.9).whileTrue(
                 new AlignToAngle(target, chassi,
                         () -> gamepad1.left_stick_x,
                         () -> gamepad1.left_stick_y,
@@ -48,6 +49,8 @@ public class ChassisContainer implements RobotContainer {
         );
 
     }
+
+
     public void states(){
        /* ChassisState.DRIVING.setAssociatedCommand(
                 new Drive(

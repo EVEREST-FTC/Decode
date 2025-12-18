@@ -66,11 +66,10 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("velocidade", getVelocity());
-        telemetry.addData("velocidade", MOUTL.getVelocity()*Constants.FORWARD_TICK_CONVERSION);
-        telemetry.addData("alvoVelociade",targetVelocity);
-        telemetry.addData("atSetpoint",atSetpoint());
-        telemetry.addData("hasArtifact",hasArtifact());
+        telemetry.addData("outtake-velocidade", MOUTR.getVelocity());
+        telemetry.addData("outtake-alvoVelociade",targetVelocity);
+        /*telemetry.addData("outtake-atSetpoint",atSetpoint());
+        telemetry.addData("outtake-hasArtifact",hasArtifact());*/
 
     }
 

@@ -32,7 +32,7 @@ public class SubsystemSarcofogo extends SubsystemBase {
 
     public void setPositionGate(double alvo){
         position = limiter(alvo)/SARCOFOGO_MAX_SERVO_ANGLE;
-        ServoSarcofogo.setPosition(position);
+        ServoSarcofogo.setPosition(1 - position);
     }
 
 
