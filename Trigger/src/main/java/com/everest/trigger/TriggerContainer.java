@@ -1,6 +1,8 @@
 package com.everest.trigger;
 
+import com.everest.CommandBased.compositions.ParallelCommandGroup;
 import com.everest.CommandBased.compositions.RepeatCommand;
+import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
 import com.everest.constants.Constants;
@@ -23,40 +25,22 @@ public class TriggerContainer implements RobotContainer {
     private final BooleanSupplier velocityVerifier;
 
     public final  BooleanSupplier hasartifact;
-
-    public final BooleanSupplier chassisPid;
-
+    public final BooleanSupplier translationalSetpoint;
     @Override
     public void mainRoutine() {
         new Trigger(()->gamepad.left_trigger>0.9).whileTrue(
-                new RepeatCommand(
-                        new TriggerCommand(
-                                triggerSubsystem,
-                                Constants.targetLeftPosition,
-                                Constants.targetRightPosition
-                        ).ateQUe(()->!hasartifact.getAsBoolean()).
-                                antesDe(new ConditionalCommand(
-                                        ()->(
-                                                velocityVerifier.getAsBoolean())
-                                                &&(hasartifact.getAsBoolean()
-                                                &&(chassisPid.getAsBoolean())))
-                                ))
-        );
+                        new RepeatCommand(
+                                new TriggerCommand(
+                                        triggerSubsystem,
+                                        Constants.targetLeftPosition,
+                                        Constants.targetRightPosition
+                                ).ateQUe(()->!hasartifact.getAsBoolean()).
+                                        antesDe(new ConditionalCommand(
+                                                ()->(
+                                                        velocityVerifier.getAsBoolean())
+                                                        &&(hasartifact.getAsBoolean()
+                                                        &&translationalSetpoint.getAsBoolean())
+                                        )))
 
-    }
-    public void mainRoutine2() {
-        new Trigger(()->gamepad.left_trigger>0.9).whileTrue(
-                new RepeatCommand(
-                        new TriggerCommand(
-                                triggerSubsystem,
-                                Constants.targetLeftPosition,
-                                Constants.targetRightPosition
-                        ).ateQUe(()->!hasartifact.getAsBoolean()).
-                                antesDe(new ConditionalCommand(
-                                        ()->(
-                                                velocityVerifier.getAsBoolean())
-                                                &&(hasartifact.getAsBoolean()
-                                                &&(chassisPid.getAsBoolean())))
-                                ))
         );
 }}

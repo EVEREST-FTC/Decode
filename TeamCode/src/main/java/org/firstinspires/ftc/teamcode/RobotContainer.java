@@ -104,11 +104,11 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
         ;
 
         TriggerContainer.builder()
-                .chassisPid(chassis::atSetpoint)
                 .hasartifact(outtake::hasArtifact)
                 .gamepad(gamepad1)
                 .triggerSubsystem(triggerSubsystem)
                 .velocityVerifier(outtake::atSetpoint)
+                .translationalSetpoint(chassis::isTranslationalSetpoint)
                 .build()
                 .defineMainRoutine();
     }

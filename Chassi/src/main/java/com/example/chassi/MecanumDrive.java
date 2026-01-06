@@ -103,9 +103,8 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
 
     @Override
     public void periodic() {
-        telemetry.addData("chassi-yaw", getYaw());
-        /*telemetry.addData("chassi-MotorElevaçãoPosição",MLeve.getCurrentPosition());*/
-        telemetry.addData("chassi-erro",pid.getError());
+        telemetry.addData("chassi-yaw-error",atSetpoint());
+        telemetry.addData("chassi-erro",translationalSetpoint);
         /*telemetry.addData("chassi-atSetpoint",atSetpoint());*/
     }
 
@@ -127,9 +126,8 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                         velConstraint(velocity)));
     }
     public Command mirar(EnumTeam team, DoubleSupplier tx, DoubleSupplier distance){
-        return new AlignToAngle(tx, this,//chassi
-                () -> 0,
-                () -> 0,
+        return new AlignToAngle(telemetry,
+                tx, this,//chassi
                 distance,
                 this.getPid(),team.getIncrement(),
                 team.getShortIncrement()

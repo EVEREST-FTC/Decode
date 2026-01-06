@@ -135,9 +135,7 @@ public class AutonomousRoutine {
                         velConstraint(velocity)));
     }
     public Command Mirar(){
-        return new AlignToAngle(subLime::getTx, chassi,//chassi
-                () -> 0,
-                () -> 0,
+        return new AlignToAngle(telemetry, subLime::getTx, chassi,//chassi
                 subLime::getfrontal,
                 chassi.getPid(),team.getIncrement(),
                 team.getShortIncrement()

@@ -13,8 +13,6 @@ import java.util.function.Supplier;
 public class AlignToAngle extends Command {
     private final DoubleSupplier target;
     private final MecanumDrive chassi;
-    private final DoubleSupplier y;
-    private final DoubleSupplier x;
 
     final DoubleSupplier distanceSupplier;
     private final PID pid;
@@ -22,16 +20,17 @@ public class AlignToAngle extends Command {
     private double alvo;
 
     final double shotincrement;
+    Telemetry telemetry;
 
-    public AlignToAngle(DoubleSupplier target, MecanumDrive chassi, DoubleSupplier x, DoubleSupplier y, DoubleSupplier distanceSupplier, PID pid, double alvo,double shortincrement) {
+    public AlignToAngle(
+            Telemetry telemetry, DoubleSupplier target, MecanumDrive chassi, DoubleSupplier distanceSupplier, PID pid, double alvo,double shortincrement) {
         this.target = target;
         this.chassi = chassi;
-        this.y = y;
-        this.x = x;
         this.distanceSupplier = distanceSupplier;
         this.pid = pid;
         this.alvo = alvo;
         this.shotincrement = shortincrement;
+        this.telemetry = telemetry;
 
 
         addRequirements(chassi);
@@ -48,10 +47,13 @@ public class AlignToAngle extends Command {
             alvo = shotincrement;
 
         double angle = pid.calculate(alvo, target.getAsDouble());
-        double x = this.x.getAsDouble();
-        double y = this.y.getAsDouble();
+        telemetry.addData("Angle error", pid.atSetpoint());
+        chassi.drive(0, 0, angle);
+    }
 
-        chassi.drive(y, -x, angle);
+    @Override
+    public boolean isFinished() {
+        return pid.atSetpoint();
     }
 
     @Override

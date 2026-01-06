@@ -52,6 +52,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import lombok.Getter;
+
 @Config
 public class MecanumDrive extends SubsystemBase{
     public static class Params {
@@ -92,6 +94,8 @@ public class MecanumDrive extends SubsystemBase{
         public double headingVelGain = 0.01;
     }
 
+    @Getter
+    public boolean translationalSetpoint;
     public static Params PARAMS = new Params();
 
     public final MecanumKinematics kinematics = new MecanumKinematics(
@@ -334,10 +338,10 @@ public class MecanumDrive extends SubsystemBase{
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
             double positionTOlerance = 1;
             double headingTolerance = 1;
-            boolean atSetpoint = Math.abs(error.position.x) < positionTOlerance &&
+            translationalSetpoint = Math.abs(error.position.x) < positionTOlerance &&
                     Math.abs(error.position.y) < positionTOlerance &&
-                    Math.abs(error.heading.toDouble())<headingTolerance;
-            if (t >= timeTrajectory.duration && atSetpoint) {
+                    Math.abs(Math.toDegrees(error.heading.toDouble()))<headingTolerance;
+            if (t >= timeTrajectory.duration && translationalSetpoint) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
                 rightBack.setPower(0);

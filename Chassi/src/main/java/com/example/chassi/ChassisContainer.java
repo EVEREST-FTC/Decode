@@ -1,5 +1,7 @@
 package com.example.chassi;
 
+import com.everest.CommandBased.compositions.ParallelCommandGroup;
+import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.InstantCommand;
@@ -9,6 +11,8 @@ import com.everest.constants.meta.RobotContainer;
 import com.everest.constants.meta.StateMachine;
 import com.example.chassi.command.AlignToAngle;
 import com.example.chassi.command.Drive;
+import com.example.chassi.command.LockPosition;
+import com.example.chassi.roadrunner.command.RoadRunnerWrapper;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.util.function.DoubleSupplier;
@@ -38,13 +42,14 @@ public class ChassisContainer implements RobotContainer {
                 new InstantCommand(chassi::resetIMU)
         );
         new Trigger(()->gamepad1.left_trigger>0.9).whileTrue(
-                new AlignToAngle(target, chassi,
-                        () -> gamepad1.left_stick_x,
-                        () -> gamepad1.left_stick_y,
-                        distancia,
-                        chassi.getPid(),
-                        team.getIncrement(),
-                        team.getShortIncrement()
+                new SequentialCommandGroup(
+                        new AlignToAngle(chassi.telemetry, target, chassi,
+                                distancia,
+                                chassi.getPid(),
+                                team.getIncrement(),
+                                team.getShortIncrement()
+                        ),
+                        new LockPosition(chassi)
                 )
         );
 

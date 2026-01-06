@@ -54,11 +54,7 @@ public class SubsystemOuttake extends SubsystemBase {
     }
 
     public  int artifacts(){
-        if (getDistanceLeft() && getDistanceRight() && hasArtifact())
-            return 3;
-        else if (!getDistanceLeft())
-            return 2;
-        else if ()
+       return 0;
     }
 
     public void brake(){
