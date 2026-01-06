@@ -89,9 +89,11 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .gamepad(gamepad1)
                 .subsystemCalibrator(platform)
                 .distancia(limelight::getfrontal)
+                .hasArtifact(outtake::hasArtifact)
                 .telemetry(telemetry)
                 .build()
                 .defineMainRoutine();
+
 
         SarcofogoContainer.builder()
                 .subsystemSarcofogo(sarcofogo)

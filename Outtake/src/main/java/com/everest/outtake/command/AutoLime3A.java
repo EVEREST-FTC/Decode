@@ -47,7 +47,10 @@ public class AutoLime3A extends Command {
 
         double velocity = Math.sqrt(Vy*Vy + vx*vx);
 
-        subsystem.setVelocity(velocity*Constants.POWER_LAUNCHER_CONVERSION);
+        velocity*=(distance<Constants.DISTANCE_RANGE)?
+                Constants.CLOSE_POWER_LAUNCHER_CONVERSION:
+                Constants.POWER_LAUNCHER_CONVERSION;
+        subsystem.setVelocity(velocity);
         subsystem.brake();
 
         /*if (!subsystem.hasArtifact())

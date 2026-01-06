@@ -52,16 +52,19 @@ public class Subsystem extends SubsystemBase {
     public double getTy(){
         LLResult latestResult = limelight3A.getLatestResult();
         if(!isValid()) return 0.0;
-        return -latestResult.getTx();
+        return latestResult.getTy() + Constants.initialAngle;
     }
     public boolean isValid(){
         LLResult latestResult = limelight3A.getLatestResult();
         return latestResult.isValid();
     }
+    public boolean shortzonelaunch(){
+        return Math.abs(getfrontal()) < 1.5;
+    }
     public double getTx(){
         LLResult latestResult = limelight3A.getLatestResult();
         if(!isValid()) return 0.0;
-        return latestResult.getTy();
+        return latestResult.getTx();
     }
     public double getIdtag(){
         List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();

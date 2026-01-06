@@ -18,13 +18,15 @@ public class SubsystemGate extends SubsystemBase {
 
 
     Servo ServoDor ;
-    RevColorSensorV3 sensorGate;
+
     Telemetry telemetry;
+
+
     double position;
     public SubsystemGate(HardwareMap hardwareMap, Telemetry telemetry){
         ServoDor = hardwareMap.get(Servo.class,"ServoDor");
         resetPosiiton();
-        sensorGate = hardwareMap.get(RevColorSensorV3.class,"SensorGate");
+
 
 
         this.telemetry = telemetry;
@@ -36,9 +38,7 @@ public class SubsystemGate extends SubsystemBase {
         position = limiter(alvo)/GATE_MAX_SERVO_ANGLE;
         ServoDor.setPosition(1 - position);
     }
-    public double getDistanceGate(){
-        return sensorGate.getDistance(DistanceUnit.MM);
-    }
+
 
 
     public void resetPosiiton(){

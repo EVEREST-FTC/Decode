@@ -37,6 +37,7 @@ public final class SubsystemCalibrator extends SubsystemBase {
         ServoLC.setPosition(treatedAngle);
 
     }
+
     private double limiter(double angle){
         if(angle> PLATFORM_MAX_ANGLE)
             return PLATFORM_MAX_ANGLE;

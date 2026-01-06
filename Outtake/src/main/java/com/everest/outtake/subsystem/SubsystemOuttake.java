@@ -21,13 +21,15 @@ public class SubsystemOuttake extends SubsystemBase {
     @Getter
     private double targetVelocity = 0;
 
-    private final RevColorSensorV3 ColorSensorL,ColorSensorR;
+    private final RevColorSensorV3 ColorSensorL,ColorSensorR,SensorgateLeft,SensorgateRight;
     public SubsystemOuttake(HardwareMap hardwareMap, Telemetry telemetry){
         MOUTL = hardwareMap.get(DcMotorEx.class,"MOUTL");
         MOUTR = hardwareMap.get(DcMotorEx.class,"MOUTR");
         MOUTL.setDirection(DcMotorSimple.Direction.REVERSE);
         ColorSensorL = hardwareMap.get(RevColorSensorV3.class,"ColorSensorL");
         ColorSensorR = hardwareMap.get(RevColorSensorV3.class,"ColorSensorR");
+        SensorgateLeft = hardwareMap.get(RevColorSensorV3.class,"SensorgateLeft");
+        SensorgateRight = hardwareMap.get(RevColorSensorV3.class,"SensorgateRight");
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
     }
@@ -42,6 +44,21 @@ public class SubsystemOuttake extends SubsystemBase {
     }
     public double distanceSensorR(){
         return (ColorSensorR.getDistance(DistanceUnit.MM));
+    }
+
+    public boolean getDistanceLeft(){
+        return SensorgateLeft.getDistance(DistanceUnit.MM) < 8;
+    }
+    public boolean getDistanceRight(){
+        return SensorgateRight.getDistance(DistanceUnit.MM) < 8;
+    }
+
+    public  int artifacts(){
+        if (getDistanceLeft() && getDistanceRight() && hasArtifact())
+            return 3;
+        else if (!getDistanceLeft())
+            return 2;
+        else if ()
     }
 
     public void brake(){
@@ -60,7 +77,7 @@ public class SubsystemOuttake extends SubsystemBase {
     }
 
     public boolean hasArtifact(){
-        return distanceSensorR() < 70 || distanceSensorL() < 70;
+        return distanceSensorR() < 50 || distanceSensorL() < 50;
     }
 
 

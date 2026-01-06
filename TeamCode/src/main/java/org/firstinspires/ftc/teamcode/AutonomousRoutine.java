@@ -69,7 +69,7 @@ public class AutonomousRoutine {
         );
         new Trigger(subsystemOuttake::hasArtifact).whileFalse( new com.example.gate.Command(subsystemGate,0));
 
-        intake.setDefaultCommand(new CommandIntake(intake, 0.8));
+        intake.setDefaultCommand(new CommandIntake(intake, 0.65));
 
 
         if (team.getPipeline() == 0)
