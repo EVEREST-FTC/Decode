@@ -25,6 +25,7 @@ public class AutoLime3AC extends Command {
     @Override
     public void execute() {
         double distance = distanceSupplier.get();
+        double lastdegress;
 
         double Vy = Math.sqrt(2 * Constants.G * Constants.MAX_HEIGHT);
 
@@ -34,7 +35,9 @@ public class AutoLime3AC extends Command {
         double vx = distance / t;
         double angle = Math.atan2(Vy, vx);
         double degrees = Math.toDegrees(angle);
-        subsystem.setPositionL(degrees);
+        if (degrees != 0)
+            subsystem.setPositionL(degrees);
+
     }
 
 

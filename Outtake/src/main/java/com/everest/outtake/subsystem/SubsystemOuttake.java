@@ -17,7 +17,8 @@ import lombok.Getter;
 public class SubsystemOuttake extends SubsystemBase {
     DcMotorEx MOUTR, MOUTL;
     Telemetry telemetry;
-    double artifactIn = 1;
+    double memoreRight = 0;
+    double memoreLeft = 0;
     @Getter
     private double targetVelocity = 0;
 
@@ -34,7 +35,7 @@ public class SubsystemOuttake extends SubsystemBase {
         CommandScheduler.getInstance().registerSubsystem(this);
     }
     public void setVelocity(double velocity){
-        velocity *= Constants.REVERSE_TICK_CONVERSION * artifactIn;
+        velocity *= Constants.REVERSE_TICK_CONVERSION ;
         this.targetVelocity = velocity;
         MOUTR.setVelocity(-velocity);
         MOUTL.setVelocity(-velocity);
@@ -47,14 +48,29 @@ public class SubsystemOuttake extends SubsystemBase {
     }
 
     public boolean getDistanceLeft(){
-        return SensorgateLeft.getDistance(DistanceUnit.MM) < 8;
+        if (SensorgateLeft.getDistance(DistanceUnit.MM)< 60)
+            memoreLeft += 1;
+        return memoreLeft > 3;
+    }
+    public void resetmemore(){
+       memoreLeft = 0;
+       memoreRight = 0;
     }
     public boolean getDistanceRight(){
-        return SensorgateRight.getDistance(DistanceUnit.MM) < 8;
+        if (SensorgateRight.getDistance(DistanceUnit.MM)< 30)
+            memoreRight += 1;
+        return memoreRight > 3;
     }
 
     public  int artifacts(){
-       return 0;
+       if (hasArtifact()&&getDistanceLeft()&&getDistanceRight())
+           return 3;
+       else if (hasArtifact()&&getDistanceRight()&&!getDistanceLeft())
+           return 2;
+       else if (hasArtifact()&&!getDistanceRight()&&!getDistanceLeft())
+           return 1;
+       else
+           return 0;
     }
 
     public void brake(){
@@ -83,6 +99,7 @@ public class SubsystemOuttake extends SubsystemBase {
         telemetry.addData("outtake-alvoVelociade",targetVelocity);
         /*telemetry.addData("outtake-atSetpoint",atSetpoint());
         telemetry.addData("outtake-hasArtifact",hasArtifact());*/
+        telemetry.addData("artinumber",artifacts());
 
     }
 

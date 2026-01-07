@@ -50,17 +50,14 @@ public class AutoLime3A extends Command {
         velocity*=(distance<Constants.DISTANCE_RANGE)?
                 Constants.CLOSE_POWER_LAUNCHER_CONVERSION:
                 Constants.POWER_LAUNCHER_CONVERSION;
-        subsystem.setVelocity(velocity);
-        subsystem.brake();
 
-        /*if (!subsystem.hasArtifact())
-            subsystem.setVelocity(0);*/
-
-
+        if (degrees!=0)
+                subsystem.setVelocity(velocity);
     }
 
     @Override
     public void end(boolean interrupted) {
         subsystem.setVelocity(0);
+        subsystem.brake();
     }
 }
