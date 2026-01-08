@@ -12,6 +12,7 @@ import com.everest.constants.meta.StateMachine;
 import com.example.chassi.command.AlignToAngle;
 import com.example.chassi.command.Drive;
 import com.example.chassi.command.LockPosition;
+import com.example.chassi.command.UpRobot;
 import com.example.chassi.roadrunner.command.RoadRunnerWrapper;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -32,6 +33,7 @@ public class ChassisContainer implements RobotContainer {
     private final StateMachine stateMachine = new StateMachine(ChassisState.DRIVING);
 
     public void mainRoutine(){
+
         chassi.setDefaultCommand(
                 new Drive(
                         chassi,
@@ -41,6 +43,7 @@ public class ChassisContainer implements RobotContainer {
         new Trigger(()->gamepad1.right_bumper).toggleOnTrue(
                 new InstantCommand(chassi::resetIMU)
         );
+        new Trigger(()->gamepad1.y).toggleOnTrue(new UpRobot(chassi));
         new Trigger(()->gamepad1.left_trigger>0.9).whileTrue(
                 new SequentialCommandGroup(
                         new AlignToAngle(chassi.telemetry, target, chassi,
@@ -48,8 +51,8 @@ public class ChassisContainer implements RobotContainer {
                                 chassi.getPid(),
                                 team.getIncrement(),
                                 team.getShortIncrement()
-                        ),
-                        new LockPosition(chassi)
+                        )/*,
+                        new LockPosition(chassi)*/
                 )
         );
 
