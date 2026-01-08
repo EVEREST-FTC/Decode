@@ -8,19 +8,19 @@ import java.util.concurrent.TimeUnit;
 public class Constants {
     //RELATIVO AO PID da limelight
     public static final double KP = 0.0225;
-    public static final double KI = 0.035;///0.0.025
+    public static final double KI = 0.04;///0.0.025
 
     public static final double KD = 0;///0.000009
     ///
     public static final double PID_MAX = 0.5;
     public static final double iRange = 7;
 
-    public static final double ADMISSIBLE_ERROR = 3;
+    public static final double ADMISSIBLE_ERROR = 1.0;
     //Relativo ao modelo de lancador
     public static final double POWER_LAUNCHER_CONVERSION = 773; ///750
     public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 850;
     public static final double DISTANCE_RANGE = 1.5;
-    public static final double PID_INCREMENT_BLUE = -3;
+    public static final double PID_INCREMENT_BLUE = -2;
     public static final double PID_SHORTINCREMENT_BLUE = -6;
     public static final double PID_SHORTINCREMENT_RED = -10;
     public static final double PID_INCREMENT_RED = -5;
@@ -45,9 +45,8 @@ public class Constants {
 
     public static double PLATFORM_MAX_SERVO_ANGLE = 280;
     public static double GATE_MAX_SERVO_ANGLE = 280;
+    public static double BANDEIRA_MAX_SERVO_ANGLE = 280;
     public static double SARCOFOGO_MAX_SERVO_ANGLE = 280;
-
-
 
 
 
@@ -62,6 +61,9 @@ public class Constants {
     public static final double SARCOFOGO_MAX_ANGLE = 90;
     public static final double SARCOFOGO_MIN_ANGLE = 0;
 
+    public static final double BANDEIRA_MIN_ANGLE = 0;
+    public static final double BANDEIRA_MAX_ANGLE = 90;
+
     public static final double rightInitialPosition = 0;
 
     public static final double leftInitialPosition = 1 - rightInitialPosition -0.02 ;
@@ -70,6 +72,7 @@ public class Constants {
     public static final double GateOpenPosition = 0;
 
     public static final double SarcofogoInitialPosition = 10;
+    public static final double BandeiraInitialPosition = 0;
 
     public static final double targetLeftPosition = 0.79;
     public static final double targetRightPosition = 1 - targetLeftPosition;

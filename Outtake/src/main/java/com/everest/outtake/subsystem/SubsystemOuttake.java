@@ -19,6 +19,9 @@ public class SubsystemOuttake extends SubsystemBase {
     Telemetry telemetry;
     double memoreRight = 0;
     double memoreLeft = 0;
+
+    double memoreouttake = 0;
+    boolean lastMemoryRight = false, lastMemoryLeft = false, lastMemoryOuttake = false;
     @Getter
     private double targetVelocity = 0;
 
@@ -50,20 +53,37 @@ public class SubsystemOuttake extends SubsystemBase {
     public boolean getDistanceLeft(){
         if (SensorgateLeft.getDistance(DistanceUnit.MM)< 60)
             memoreLeft += 1;
-        return memoreLeft > 3;
+        return memoreLeft > 6;
     }
+    public boolean leftVerifier(){
+        boolean isSeeing = SensorgateLeft.getDistance(DistanceUnit.MM)< 60;
+        return !lastMemoryLeft && isSeeing || lastMemoryLeft && isSeeing;
+
+    }
+    public boolean rightVerifier(){
+        boolean isSeeing = SensorgateRight.getDistance(DistanceUnit.MM)< 60;
+        return !lastMemoryRight && isSeeing || lastMemoryRight && isSeeing;
+
+    }
+    public boolean outtakeVerifier(){
+        boolean isSeeing = hasArtifact();
+        return !lastMemoryOuttake && isSeeing || lastMemoryOuttake && isSeeing;
+
+    }
+
     public void resetmemore(){
        memoreLeft = 0;
        memoreRight = 0;
+       memoreouttake = 0;
     }
     public boolean getDistanceRight(){
-        if (SensorgateRight.getDistance(DistanceUnit.MM)< 30)
+        if (SensorgateRight.getDistance(DistanceUnit.MM)< 60)
             memoreRight += 1;
-        return memoreRight > 3;
+        return memoreRight > 6;
     }
 
     public  int artifacts(){
-       if (hasArtifact()&&getDistanceLeft()&&getDistanceRight())
+        if (hasArtifact()&&getDistanceLeft()&&getDistanceRight())
            return 3;
        else if (hasArtifact()&&getDistanceRight()&&!getDistanceLeft())
            return 2;
@@ -71,6 +91,20 @@ public class SubsystemOuttake extends SubsystemBase {
            return 1;
        else
            return 0;
+    }
+    public int toggledArtifacts(){
+        if(!outtakeVerifier()&&!leftVerifier()&&!rightVerifier())
+            return 0;
+        else if(outtakeVerifier()&&leftVerifier()&&rightVerifier())
+            return 3;
+        else if(outtakeVerifier()&&rightVerifier())
+            return 2;
+        else
+            return 1;
+
+    }
+    public boolean artifactCount(){
+        return artifacts()>2;
     }
 
     public void brake(){
@@ -95,11 +129,13 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("outtake-velocidade", MOUTR.getVelocity());
-        telemetry.addData("outtake-alvoVelociade",targetVelocity);
+        telemetry.addData("outtake-velocidadeRight", MOUTR.getVelocity());
+        telemetry.addData("outtake-velocidadeLeft", MOUTL.getVelocity());
+       /* telemetry.addData("outtake-alvoVelociade",targetVelocity);*/
         telemetry.addData("outtake-atSetpoint",atSetpoint());
         telemetry.addData("outtake-hasArtifact",hasArtifact());
         telemetry.addData("artinumber",artifacts());
+        telemetry.addData("toggled counter", toggledArtifacts());
 
     }
 

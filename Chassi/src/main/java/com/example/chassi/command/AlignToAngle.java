@@ -18,6 +18,7 @@ public class AlignToAngle extends Command {
     private final PID pid;
 
     private double alvo;
+    private final double greatIncrement;
 
     final double shotincrement;
     Telemetry telemetry;
@@ -28,9 +29,10 @@ public class AlignToAngle extends Command {
         this.chassi = chassi;
         this.distanceSupplier = distanceSupplier;
         this.pid = pid;
-        this.alvo = alvo;
+        this.greatIncrement = alvo;
         this.shotincrement = shortincrement;
         this.telemetry = telemetry;
+        this.alvo = greatIncrement;
 
 
         addRequirements(chassi);
@@ -45,9 +47,10 @@ public class AlignToAngle extends Command {
     public void execute() {
         if (distanceSupplier.getAsDouble() < 1.79)
             alvo = shotincrement;
-
+        else
+            alvo = greatIncrement;
         double angle = pid.calculate(alvo, target.getAsDouble());
-        telemetry.addData("Angle error", pid.atSetpoint());
+        telemetry.addData("target yaw", alvo);
         chassi.drive(0, 0, angle);
     }
 

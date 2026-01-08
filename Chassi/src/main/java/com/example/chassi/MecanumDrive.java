@@ -105,7 +105,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     public void periodic() {
         telemetry.addData("chassi-yaw-error",atSetpoint());
         telemetry.addData("chassi-erro",translationalSetpoint);
-        /*telemetry.addData("chassi-atSetpoint",atSetpoint());*/
+        telemetry.addData("yaw-error", pid.getError());
     }
 
     public boolean atSetpoint(){

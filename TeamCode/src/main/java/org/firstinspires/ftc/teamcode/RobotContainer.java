@@ -99,6 +99,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .subsystemSarcofogo(sarcofogo)
                 .gamepad(gamepad1)
                 .hasArtifact(outtake::hasArtifact)
+                .ArtifactComplete(outtake::artifactCount)
                 .build()
                 .defineMainRoutine()
         ;
