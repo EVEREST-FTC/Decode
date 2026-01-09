@@ -93,14 +93,7 @@ public class SubsystemOuttake extends SubsystemBase {
            return 0;
     }
     public int toggledArtifacts(){
-        if(!outtakeVerifier()&&!leftVerifier()&&!rightVerifier())
-            return 0;
-        else if(outtakeVerifier()&&leftVerifier()&&rightVerifier())
-            return 3;
-        else if(outtakeVerifier()&&rightVerifier())
-            return 2;
-        else
-            return 1;
+        return 3;
 
     }
     public boolean artifactCount(){
