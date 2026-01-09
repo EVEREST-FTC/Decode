@@ -12,9 +12,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +38,6 @@ public class Subsystem extends SubsystemBase {
         CommandScheduler.getInstance().registerSubsystem(this);
 
         telemetry.addData("distancia", this::getfrontal);
-        telemetry.addData("ty", this::getTy);
         telemetry.addData("tx", this::getTx);
     }
     public double getfrontal(){
@@ -66,7 +63,8 @@ public class Subsystem extends SubsystemBase {
         if(!isValid()) return 0.0;
         return latestResult.getTx();
     }
-    public double getIdtag(){
+
+    public double getIncrementById(){
         List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
         if ( Tags.isEmpty())
             return 0;
@@ -77,6 +75,13 @@ public class Subsystem extends SubsystemBase {
             return Constants.PID_INCREMENT_RED;
         else
             return 0;
+    }
+    public int getTagId(){
+        List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
+            if ( Tags.isEmpty())
+                return 0;
+            return Tags.get(0).getFiducialId();
+
     }
 
     public Optional<Pose3D> getBotPose(){
@@ -98,6 +103,9 @@ public class Subsystem extends SubsystemBase {
                 )
         );
     }
+    public void pipelineSwitch(int id){
+        limelight3A.pipelineSwitch(id);
+    }
 
     @Override
     public void periodic() {
@@ -111,6 +119,6 @@ public class Subsystem extends SubsystemBase {
         Optional<Pose2d> poseOptional = getBotPoseInches();
         if(!poseOptional.isPresent()) return;
         Pose2d pose2d = poseOptional.get();
-        telemetry.addData("limelight3A-getIdtag",getIdtag());
+        telemetry.addData("limelight3A-getIdtag", getIncrementById());
     }
 }

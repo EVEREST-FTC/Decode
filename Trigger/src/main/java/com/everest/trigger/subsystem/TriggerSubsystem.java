@@ -14,18 +14,20 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
+import lombok.Getter;
+
 public class TriggerSubsystem extends SubsystemBase {
 
 
     Servo ServoLG, ServoRG;
     Telemetry telemetry;
-
+    double lastLeft, lastRight;
+    @Getter
     int timelaunch = 0;
     public TriggerSubsystem(HardwareMap hardwareMap, Telemetry telemetry){
         ServoLG = hardwareMap.get(Servo.class,"ServoLG");
         ServoRG = hardwareMap.get(Servo.class,"ServoRG");
         resetPosiiton();
-
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
     }
@@ -38,21 +40,32 @@ public class TriggerSubsystem extends SubsystemBase {
 
 
     public void setPositionR(double alvo){
+        lastRight = alvo;
         ServoRG.setPosition(alvo);
     }
     public void setPositionL(double alvo){
+        lastLeft = alvo;
         ServoLG.setPosition(alvo);
     }
 
 
     @Override
     public void periodic() {
-        telemetry.addData("trigger-time launch",contlaunchtimes());
-        telemetry.addData("trigger-times launch",timelaunch);
+        telemetry.addData("artefatos lancados",timelaunch);
+        telemetry.addData("ordinal",  Constants.matchPattern.ordinal());
+        telemetry.addData("artifact moment ", artifactmoment());
+        telemetry.addData("right target", lastRight);
+        telemetry.addData("left target", lastLeft);
     }
 
-    public void resetPosiiton(){
+    public boolean artifactmoment(){
+        return Constants.matchPattern.ordinal() == timelaunch;
+    }
+    public void incrementTImeLaunch(){
         timelaunch += 1;
+    }
+    public void resetPosiiton(){
+
         setPositionL(Constants.leftInitialPosition);
         setPositionR(Constants.rightInitialPosition);
     }

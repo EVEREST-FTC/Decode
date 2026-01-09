@@ -1,6 +1,8 @@
 package com.everest.trigger.command;
 
 import com.everest.CommandBased.definition.Command;
+import com.everest.constants.Constants;
+import com.everest.constants.Pattern;
 import com.everest.trigger.subsystem.TriggerSubsystem;
 
 public class TriggerCommand extends Command {
@@ -20,6 +22,10 @@ public class TriggerCommand extends Command {
 
     }
 
+    @Override
+    public void initialize() {
+        if(Constants.matchPattern.equals(Pattern.MID))outtakeServo.incrementTImeLaunch();
+    }
 
     @Override
     public void execute() {
@@ -29,6 +35,7 @@ public class TriggerCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        if(!Constants.matchPattern.equals(Pattern.MID))outtakeServo.incrementTImeLaunch();
         outtakeServo.resetPosiiton();
 
 

@@ -20,6 +20,8 @@ import com.everest.trigger.subsystem.TriggerSubsystem;
 import com.example.chassi.MecanumDrive;
 import com.example.gate.SubsystemGate;
 import com.example.limelightcentral.Subsystem;
+import com.example.sarcofogo.SubsystemSarcofogo;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import lombok.Builder;
 /// Em testes: passando a responsabilidade dos comandos mais básicos para seus subssitemas, de modo que
@@ -30,6 +32,7 @@ public class AutonomousOptimized implements RobotContainer {
     private final MecanumDrive chassi;
     private final TriggerSubsystem triggerSubsystem;
     private final SubsystemOuttake subsystemOuttake;
+    private final SubsystemSarcofogo subsystemSarcofogo;
     private final Subsystem subLime;
     private final EnumTeam team;
     private final Telemetry telemetry;

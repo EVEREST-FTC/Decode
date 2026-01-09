@@ -4,10 +4,10 @@ package com.example.sarcofogo;
 
 public class CommandBandeira extends com.everest.CommandBased.definition.Command {
 
-    private final SubsystemSarcofogo subsystemSarcofogo;
+    private final FlagSubsystem subsystemSarcofogo;
 
     private final double alvo;
-    public CommandBandeira(SubsystemSarcofogo subsystemSarcofogo, double alvo) {
+    public CommandBandeira(FlagSubsystem subsystemSarcofogo, double alvo) {
         this.subsystemSarcofogo = subsystemSarcofogo;
         this.alvo = alvo;
         addRequirements(subsystemSarcofogo);

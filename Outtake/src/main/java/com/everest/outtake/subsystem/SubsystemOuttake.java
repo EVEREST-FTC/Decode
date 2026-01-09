@@ -50,11 +50,7 @@ public class SubsystemOuttake extends SubsystemBase {
         return (ColorSensorR.getDistance(DistanceUnit.MM));
     }
 
-    public boolean getDistanceLeft(){
-        if (SensorgateLeft.getDistance(DistanceUnit.MM)< 60)
-            memoreLeft += 1;
-        return memoreLeft > 6;
-    }
+
     public boolean leftVerifier(){
         boolean isSeeing = SensorgateLeft.getDistance(DistanceUnit.MM)< 60;
         return !lastMemoryLeft && isSeeing || lastMemoryLeft && isSeeing;
@@ -70,6 +66,12 @@ public class SubsystemOuttake extends SubsystemBase {
         return !lastMemoryOuttake && isSeeing || lastMemoryOuttake && isSeeing;
 
     }
+    public boolean getDistanceLeft(){
+        /*if (SensorgateLeft.getDistance(DistanceUnit.MM)< 28)
+            memoreLeft += 1;
+        return memoreLeft > 10;*/
+        return SensorgateLeft.getDistance(DistanceUnit.MM)< 35;
+    }
 
     public void resetmemore(){
        memoreLeft = 0;
@@ -77,9 +79,10 @@ public class SubsystemOuttake extends SubsystemBase {
        memoreouttake = 0;
     }
     public boolean getDistanceRight(){
-        if (SensorgateRight.getDistance(DistanceUnit.MM)< 60)
+        /*if (SensorgateRight.getDistance(DistanceUnit.MM)< 28)
             memoreRight += 1;
-        return memoreRight > 6;
+        return memoreRight > 6;*/
+        return SensorgateRight.getDistance(DistanceUnit.MM)< 35;
     }
 
     public  int artifacts(){
@@ -97,7 +100,11 @@ public class SubsystemOuttake extends SubsystemBase {
 
     }
     public boolean artifactCount(){
-        return artifacts()>2;
+        /*return artifacts()>2;*/
+        if (getDistanceRight() && getDistanceLeft() && hasArtifact())
+            memoreRight += 1;
+        return memoreRight > 0;
+
     }
 
     public void brake(){
@@ -122,13 +129,9 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("outtake-velocidadeRight", MOUTR.getVelocity());
-        telemetry.addData("outtake-velocidadeLeft", MOUTL.getVelocity());
-       /* telemetry.addData("outtake-alvoVelociade",targetVelocity);*/
-        telemetry.addData("outtake-atSetpoint",atSetpoint());
-        telemetry.addData("outtake-hasArtifact",hasArtifact());
-        telemetry.addData("artinumber",artifacts());
-        telemetry.addData("toggled counter", toggledArtifacts());
+
+        telemetry.addData("has artifact", hasArtifact());
+        telemetry.addData("artinumber",artifactCount());
 
     }
 

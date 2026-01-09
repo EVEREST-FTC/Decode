@@ -19,14 +19,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SubsystemSarcofogo extends SubsystemBase {
 
 
-    Servo ServoSarcofogo,Servobandeira;
+    Servo ServoSarcofogo;
     Telemetry telemetry;
     double position;
     public SubsystemSarcofogo(HardwareMap hardwareMap, Telemetry telemetry){
         ServoSarcofogo = hardwareMap.get(Servo.class,"ServoSarcofogo");
-        Servobandeira = hardwareMap.get(Servo.class,"ServoBandeira");
         resetPosiiton();
-        Servobandeira.setPosition(1);
 
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
@@ -37,17 +35,6 @@ public class SubsystemSarcofogo extends SubsystemBase {
         position = limiter(alvo)/SARCOFOGO_MAX_SERVO_ANGLE;
         ServoSarcofogo.setPosition(1 - position);
     }
-    public void setPositionbandeira(double alvo){
-        position = limiter(alvo)/BANDEIRA_MAX_SERVO_ANGLE;
-        Servobandeira.setPosition(1 -position);
-    }
-
-
-    @Override
-    public void periodic() {
-
-
-    }
     public void resetPosiiton(){
         setPositionGate(Constants.SarcofogoInitialPosition);
     }
@@ -55,11 +42,6 @@ public class SubsystemSarcofogo extends SubsystemBase {
         if(angle> SARCOFOGO_MAX_ANGLE)
             return SARCOFOGO_MAX_ANGLE;
         else return Math.max(angle,SARCOFOGO_MIN_ANGLE);
-    }
-    private double limiterB(double angle){
-        if(angle> Constants.BANDEIRA_MAX_ANGLE)
-            return Constants.BANDEIRA_MAX_ANGLE;
-        else return Math.max(angle, Constants.BANDEIRA_MIN_ANGLE);
     }
 
 }

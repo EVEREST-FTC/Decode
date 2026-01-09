@@ -14,6 +14,7 @@ import com.example.chassi.ChassisContainer;
 import com.example.gate.GateContainer;
 import com.example.gate.SubsystemGate;
 import com.example.limelightcentral.Subsystem;
+import com.example.sarcofogo.FlagSubsystem;
 import com.example.sarcofogo.SarcofogoContainer;
 import com.example.sarcofogo.SubsystemSarcofogo;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -40,6 +41,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 telemetry);
         SubsystemSarcofogo sarcofogo = new SubsystemSarcofogo(hardwareMap,
                 telemetry);
+        FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
         SubsystemOuttake outtake = new SubsystemOuttake(hardwareMap,
                 telemetry);
         SubsystemCalibrator platform =new SubsystemCalibrator(hardwareMap,
@@ -68,6 +70,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .subsystemGate(gate)
                 .hasArtifact(outtake::hasArtifact)
                 .gamepad(gamepad1)
+                .artifactMoment(triggerSubsystem::artifactmoment)
                 .build()
                 .defineMainRoutine();
 
@@ -100,6 +103,8 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .gamepad(gamepad1)
                 .hasArtifact(outtake::hasArtifact)
                 .ArtifactComplete(outtake::artifactCount)
+                .artifactMoment(triggerSubsystem::artifactmoment)
+                .flagSubsystem(flagSubsystem)
                 .build()
                 .defineMainRoutine()
         ;

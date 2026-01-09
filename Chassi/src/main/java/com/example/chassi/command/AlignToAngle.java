@@ -50,7 +50,6 @@ public class AlignToAngle extends Command {
         else
             alvo = greatIncrement;
         double angle = pid.calculate(alvo, target.getAsDouble());
-        telemetry.addData("target yaw", alvo);
         chassi.drive(0, 0, angle);
     }
 

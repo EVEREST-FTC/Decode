@@ -11,6 +11,7 @@ import com.everest.CommandBased.util.ConditionalCommand;
 import com.everest.CommandBased.util.InstantCommand;
 import com.everest.CommandBased.util.WaitCommand;
 import com.everest.constants.Constants;
+import com.everest.constants.Pattern;
 import com.everest.constants.meta.EnumTeam;
 import com.everest.intake.Command.CommandIntake;
 import com.everest.intake.Subsystem.SubsytemIntake;
@@ -25,7 +26,7 @@ import com.example.chassi.MecanumDrive;
 import com.example.chassi.roadrunner.command.RoadRunnerWrapper;
 import com.example.gate.SubsystemGate;
 import com.example.limelightcentral.Subsystem;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.example.sarcofogo.SubsystemSarcofogo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -34,6 +35,7 @@ public class AutonomousRoutine {
     private final MecanumDrive chassi;
     private final TriggerSubsystem triggerSubsystem;
     private final SubsystemOuttake subsystemOuttake;
+    private final SubsystemSarcofogo subsystemSarcofogo;
     private final Subsystem subLime;
     private final EnumTeam team;
     private final Telemetry telemetry;
@@ -50,6 +52,7 @@ public class AutonomousRoutine {
     ) {
         this.triggerSubsystem = new TriggerSubsystem(hardwareMap, telemetry);
         this.subsystemOuttake = new SubsystemOuttake(hardwareMap, telemetry);
+        this.subsystemSarcofogo = new SubsystemSarcofogo(hardwareMap,telemetry);
         this.team = team;
         this.telemetry = telemetry;
         this.intake = new SubsytemIntake(hardwareMap, telemetry);
@@ -71,11 +74,11 @@ public class AutonomousRoutine {
 
         intake.setDefaultCommand(new CommandIntake(intake, 0.65));
 
-
-        if (team.getPipeline() == 0)
+        obelisco().schedule();
+        /*if (team.getPipeline() == 0)
             BLUELONGECOMPLETO();
         else
-            REDLONGECOMPLETO();
+            REDLONGECOMPLETO();*/
     }
 
 
@@ -109,7 +112,8 @@ public class AutonomousRoutine {
     }
     public void BLUELONGECOMPLETO(){
         new SequentialCommandGroup(
-                new InstantCommand(chassi::resetIMU),
+
+               new InstantCommand(chassi::resetIMU),
                 strafeToLinearHeading(-4,-8,22,32),/// mira 1
                 new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
@@ -124,7 +128,7 @@ public class AutonomousRoutine {
                 new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
 
-                strafeToLinearHeading(-10,-28.3,0,45)/// final
+                strafeToLinearHeading(-10,-28.3,0,45)/// final*/
         ).schedule();
     }
     public Command strafeToLinearHeading(double x, double y, double angulo,int velocity){
@@ -133,6 +137,15 @@ public class AutonomousRoutine {
                         chassi.localizer.getPose()).strafeToLinearHeading(
                         new Vector2d(y,x), Math.toRadians(angulo),
                         velConstraint(velocity)));
+    }
+
+    public Command obelisco(){
+        return new SequentialCommandGroup(
+                new InstantCommand(()->subLime.pipelineSwitch(2)),
+                new InstantCommand(()->
+                        Constants.matchPattern= Pattern.getById(subLime.getTagId())
+                ),
+                new InstantCommand(()->subLime.pipelineSwitch(team.getPipeline())));
     }
     public Command Mirar(){
         return new AlignToAngle(telemetry, subLime::getTx, chassi,//chassi

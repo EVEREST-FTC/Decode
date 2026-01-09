@@ -51,6 +51,7 @@ public class AutonomousContainer implements RobotContainer {
                 .subLime(limelight)
                 .subsystemCalibrator(platform)
                 .subsystemGate(gate)
+                .subsystemSarcofogo(sarcofogo)
                 .subsystemOuttake(outtake)
                 .intake(intake)
                 .telemetry(telemetry)

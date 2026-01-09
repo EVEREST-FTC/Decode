@@ -18,27 +18,25 @@ public class GateContainer implements RobotContainer {
     private final BooleanSupplier hasArtifact;
     private final Gamepad gamepad;
     private final StateMachine stateMachine = new StateMachine(State.CLOSED);
+    private final BooleanSupplier artifactMoment;
 
 
-    @Override
-    public void states() {
-        /*State.CLOSED.setAssociatedCommand(
-                new Command(subsystemGate, Constants.GateInitialPosition)
-        );
-        State.OPENED.setAssociatedCommand(
-                new Command(subsystemGate,0)
-        );
 
-        stateMachine.createRelation(State.CLOSED, State.OPENED, new InstantCommand());
-        stateMachine.createRelation(State.OPENED, State.CLOSED, new InstantCommand());
-        stateMachine.setCurrentState(State.CLOSED);*/
-    }
 
     @Override
     public void mainRoutine() {
-        new Trigger(()->gamepad.x).whileTrue(
-                new Command(subsystemGate,Constants.GateClosePosition)
+        ///bloqueio pro carcofago
+        new Trigger(()->artifactMoment.getAsBoolean()&&gamepad.x).whileTrue(
+                new Command(subsystemGate, Constants.GateClosePosition)
         );
+
+
+
+
+
+
+
+        /// bloqueio pro outtake
         subsystemGate.setDefaultCommand(
                 new SelectCommand<>(
                         Map.ofEntries(

@@ -20,7 +20,7 @@ public class Constants {
     public static final double POWER_LAUNCHER_CONVERSION = 773; ///750
     public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 850;
     public static final double DISTANCE_RANGE = 1.5;
-    public static final double PID_INCREMENT_BLUE = -2;
+    public static final double PID_INCREMENT_BLUE = -3;
     public static final double PID_SHORTINCREMENT_BLUE = -6;
     public static final double PID_SHORTINCREMENT_RED = -10;
     public static final double PID_INCREMENT_RED = -5;
@@ -75,12 +75,14 @@ public class Constants {
     public static final double BandeiraInitialPosition = 0;
 
     public static final double targetLeftPosition = 0.79;
-    public static final double targetRightPosition = 1 - targetLeftPosition;
+    public static final double targetRightPosition = 1 - targetLeftPosition - 0.04;
     public static Clock clockSeconds = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
     public static final double INTAKE_POWER = 0.8;
 
     public static final double CHASSIS_LIMIT_POWER = 1.0;
     public static final double CHASSIS_LIMIT_POWER_TURN = 0.5;
+
+    public static com.everest.constants.Pattern matchPattern = Pattern.NONE;
 
 
 }

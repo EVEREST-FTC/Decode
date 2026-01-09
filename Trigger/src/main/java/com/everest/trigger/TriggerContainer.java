@@ -40,7 +40,9 @@ public class TriggerContainer implements RobotContainer {
                                                         velocityVerifier.getAsBoolean())
                                                         &&(hasartifact.getAsBoolean()
                                                         &&translationalSetpoint.getAsBoolean())
-                                        )))
+                                        ))).finalmente(
+                                triggerSubsystem::resettimelaunch
+                        )
 
         );
 }}

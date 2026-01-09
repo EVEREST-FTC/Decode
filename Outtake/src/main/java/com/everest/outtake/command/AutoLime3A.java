@@ -43,8 +43,6 @@ public class AutoLime3A extends Command {
         double angle = Math.atan2(Vy, vx);
         double degrees = Math.toDegrees(angle);
 
-        System.out.println("Plataform angle: "+ degrees);
-
         double velocity = Math.sqrt(Vy*Vy + vx*vx);
 
         velocity*=(distance<Constants.DISTANCE_RANGE)?
