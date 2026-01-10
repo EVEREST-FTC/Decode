@@ -9,10 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class MainAutoBlue extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        new AutonomousRoutine(
+        new AutonomousContainer(
                 hardwareMap,
                 telemetry,
-                EnumTeam.BLUE);
+                EnumTeam.SOLO_BLUE_FAR);
         //delay p construção dos subsistemas
         waitForStart();
 

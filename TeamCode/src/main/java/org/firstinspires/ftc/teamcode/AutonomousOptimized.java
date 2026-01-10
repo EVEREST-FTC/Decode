@@ -77,6 +77,12 @@ public class AutonomousOptimized implements RobotContainer {
                 chassi.strafeToLinearHeading(-10,-28.3,0,45)/// final
         ).schedule();
     }
+    public void BLUEPERTOCOMPLETO(){
+
+    }
+    public void REDPERTOCOMPLETO(){
+
+    }
 
     public Command Mirar(){
         return chassi.mirar(team, subLime::getTx, subLime::getfrontal);
@@ -108,7 +114,7 @@ public class AutonomousOptimized implements RobotContainer {
 
         intake.setDefaultCommand(new CommandIntake(intake, 0.65));
 
-        if (team == EnumTeam.BLUE)
+        if (team == EnumTeam.SOLO_BLUE_FAR)
             BLUELONGECOMPLETO();
         else
             REDLONGECOMPLETO();

@@ -75,10 +75,10 @@ public class AutonomousRoutine {
         intake.setDefaultCommand(new CommandIntake(intake, 0.65));
 
         obelisco().schedule();
-        /*if (team.getPipeline() == 0)
+        if (team.getPipeline() == 0)
             BLUELONGECOMPLETO();
         else
-            REDLONGECOMPLETO();*/
+            REDLONGECOMPLETO();
     }
 
 

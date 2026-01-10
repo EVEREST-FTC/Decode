@@ -11,7 +11,7 @@ public class MainTeleopRed extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         RobotContainer.builder()
                 .hardwareMap(hardwareMap)
-                .team(EnumTeam.RED)
+                .team(EnumTeam.SOLO_RED_FAR)
                 .gamepad1(gamepad1)
                 .telemetry(telemetry)
                 .build()

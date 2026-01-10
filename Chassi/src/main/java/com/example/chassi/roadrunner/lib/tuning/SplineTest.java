@@ -7,13 +7,12 @@ import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.example.chassi.roadrunner.lib.MecanumDrive;
-import com.example.chassi.roadrunner.lib.TankDrive;
 
 public final class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Pose2d beginPose = new Pose2d(0, 0, 0);
-        MecanumDrive drive = new com.example.chassi.MecanumDrive(hardwareMap, telemetry, EnumTeam.BLUE);
+        MecanumDrive drive = new com.example.chassi.MecanumDrive(hardwareMap, telemetry, EnumTeam.SOLO_BLUE_FAR);
 
         waitForStart();
 

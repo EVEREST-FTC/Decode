@@ -19,7 +19,7 @@ import lombok.Builder;
 /// Utilizacao do subssitema autonomo, criando so recursos necessarios para sua rotina
 @Builder
 public class AutonomousContainer implements RobotContainer {
-    Gamepad gamepad1;
+
     HardwareMap hardwareMap;
     Telemetry telemetry;
     EnumTeam team;
