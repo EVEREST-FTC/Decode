@@ -21,23 +21,23 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
     private final BooleanSupplier hasArtifact;
     private final BooleanSupplier ArtifactComplete;
     private final BooleanSupplier artifactMoment;
+    private final BooleanSupplier sensorSarcofogo;
 
 
     @Override
     public void mainRoutine() {
-        new Trigger(()->gamepad.x).whileTrue(
+
+        subsystemSarcofogo.setDefaultCommand(
                 new SelectCommand<>(
                         Map.ofEntries(
                                 Map.entry(Moment.KEEP, new Command(subsystemSarcofogo,
-                                        Constants.SarcofogoInitialPosition)),
-                                Map.entry(Moment.SEND, new Command(subsystemSarcofogo,34))
+                                        Constants.SarcofogoInitialPosition, Moment.KEEP)),
+                                Map.entry(Moment.SEND, new Command(subsystemSarcofogo,40, Moment.SEND).espere(
+                                        2, Constants.clockSeconds
+                                ))
                         ),
                         ()->Moment.select(artifactMoment.getAsBoolean())
                 )
-        );
-
-        subsystemSarcofogo.setDefaultCommand(new Command(subsystemSarcofogo,
-                Constants.SarcofogoInitialPosition)
         );
         flagSubsystem.setDefaultCommand(
                 new CommandBandeira(flagSubsystem, 0)
@@ -45,6 +45,5 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
         new Trigger(ArtifactComplete).whileTrue(
                 new CommandBandeira(flagSubsystem,90)
         );
-
     }
 }

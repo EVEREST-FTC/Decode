@@ -2,6 +2,7 @@ package com.example.gate;
 
 import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
+import com.everest.CommandBased.util.ConditionalCommand;
 import com.everest.constants.Constants;
 import com.everest.constants.meta.RobotContainer;
 import com.everest.constants.meta.StateMachine;
@@ -18,19 +19,22 @@ public class GateContainer implements RobotContainer {
     private final BooleanSupplier hasArtifact;
     private final Gamepad gamepad;
     private final StateMachine stateMachine = new StateMachine(State.CLOSED);
-    private final BooleanSupplier artifactMoment;
+    private final BooleanSupplier sarcofagoMoment;
+    private final BooleanSupplier sensorSarcofogo;
 
 
 
 
     @Override
     public void mainRoutine() {
-        ///bloqueio pro carcofago
-        new Trigger(()->artifactMoment.getAsBoolean()&&gamepad.x).whileTrue(
-                new Command(subsystemGate, Constants.GateClosePosition)
+        ///bloqueio pro sarcofag
+        /*new Trigger(()->(sensorSarcofogo.getAsBoolean() || artifactMoment.getAsBoolean())).whileTrue(
+                new Command(subsystemGate, Constants.GateClosePosition).ateQUe(()->!hasArtifact.getAsBoolean())
+        );*/
+
+        new Trigger(sarcofagoMoment).onTrue(
+                new Command(subsystemGate, Constants.GateClosePosition).espere(2,Constants.clockSeconds)
         );
-
-
 
 
 

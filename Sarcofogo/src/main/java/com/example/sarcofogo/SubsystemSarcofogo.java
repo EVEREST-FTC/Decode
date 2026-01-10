@@ -11,23 +11,37 @@ import static com.everest.constants.Constants.SARCOFOGO_MIN_ANGLE;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
 import com.everest.constants.Constants;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
 public class SubsystemSarcofogo extends SubsystemBase {
 
 
     Servo ServoSarcofogo;
+    RevColorSensorV3 SensorSarcofogo;
     Telemetry telemetry;
     double position;
+    @Setter
+    Moment moment = Moment.KEEP;
     public SubsystemSarcofogo(HardwareMap hardwareMap, Telemetry telemetry){
         ServoSarcofogo = hardwareMap.get(Servo.class,"ServoSarcofogo");
+        SensorSarcofogo = hardwareMap.get(RevColorSensorV3.class,"SensorSarcofogo");
         resetPosiiton();
 
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
+    }
+
+    public boolean getsensorSarcofogo(){
+        return SensorSarcofogo.getDistance(DistanceUnit.MM) < 34;
     }
 
 
@@ -43,5 +57,14 @@ public class SubsystemSarcofogo extends SubsystemBase {
             return SARCOFOGO_MAX_ANGLE;
         else return Math.max(angle,SARCOFOGO_MIN_ANGLE);
     }
+    public boolean isSending(){
+        return moment == Moment.SEND;
+    }
 
+    @Override
+    public void periodic() {
+        telemetry.addData("SensorSarcofogo",SensorSarcofogo.getDistance(DistanceUnit.MM));
+        telemetry.addData("artiINSarcofogo",getsensorSarcofogo());
+        telemetry.addData("momento:" , moment);
+    }
 }

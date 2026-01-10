@@ -30,7 +30,7 @@ public class Constants {
     public static final double TAG_RELATIVE_HEIGHT = TARGET_HEIGHT - CAMERA_HEIGHT;
     public static final double G = 9.81;
     public static final double MAX_HEIGHT = 0.9;
-    public static final double initialAngle = 23;
+    public static final double initialAngle = 15;
 
 
     public static final double DEAD_ZONE_MIN = 0.05;
@@ -68,7 +68,7 @@ public class Constants {
 
     public static final double leftInitialPosition = 1 - rightInitialPosition -0.02 ;
 
-    public static final double GateClosePosition = 66;
+    public static final double GateClosePosition = 70;
     public static final double GateOpenPosition = 0;
 
     public static final double SarcofogoInitialPosition = 10;
@@ -77,12 +77,12 @@ public class Constants {
     public static final double targetLeftPosition = 0.79;
     public static final double targetRightPosition = 1 - targetLeftPosition - 0.04;
     public static Clock clockSeconds = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
-    public static final double INTAKE_POWER = 0.8;
+    public static final double INTAKE_POWER = 0.92;
 
     public static final double CHASSIS_LIMIT_POWER = 1.0;
     public static final double CHASSIS_LIMIT_POWER_TURN = 0.5;
 
-    public static com.everest.constants.Pattern matchPattern = Pattern.NONE;
+    public static com.everest.constants.Pattern matchPattern = Pattern.MID;
 
 
 }

@@ -1,11 +1,13 @@
 package com.everest.outtake;
 
 import com.everest.CommandBased.essentials.Trigger;
+import com.everest.constants.Constants;
 import com.everest.outtake.command.AutoLime3A;
 import com.everest.outtake.command.LaunchCommand;
 import com.everest.outtake.subsystem.SubsystemOuttake;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import lombok.Builder;
@@ -18,10 +20,17 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
 
     private final SubsystemOuttake subsystem;
 
+    private final BooleanSupplier sarcofagoMoment;
+
+
+
     @Override
     public void mainRoutine() {
         new Trigger(()->gamepad1.left_trigger>0.9).whileTrue(
                 new AutoLime3A(distancia,subsystem)
+        );
+        new Trigger(sarcofagoMoment).onTrue(
+                new AutoLime3A(distancia,subsystem).espere(1, Constants.clockSeconds)
         );
     }
     public void testPower() {

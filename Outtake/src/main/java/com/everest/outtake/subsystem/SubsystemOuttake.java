@@ -129,9 +129,12 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
-
-        telemetry.addData("has artifact", hasArtifact());
-        telemetry.addData("artinumber",artifactCount());
+        /*telemetry.addData("outtakerR",distanceSensorR());
+        telemetry.addData("outtakerL",distanceSensorL());
+        telemetry.addData("gateL",SensorgateLeft.getDistance(DistanceUnit.MM));
+        telemetry.addData("gateR",SensorgateRight.getDistance(DistanceUnit.MM));*/
+       /* telemetry.addData("has artifact", hasArtifact());
+        telemetry.addData("artinumber",artifactCount());*/
 
     }
 

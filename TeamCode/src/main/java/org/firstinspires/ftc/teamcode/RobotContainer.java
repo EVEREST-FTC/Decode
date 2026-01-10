@@ -70,7 +70,8 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .subsystemGate(gate)
                 .hasArtifact(outtake::hasArtifact)
                 .gamepad(gamepad1)
-                .artifactMoment(triggerSubsystem::artifactmoment)
+                .sensorSarcofogo(sarcofogo::getsensorSarcofogo)
+                .sarcofagoMoment(sarcofogo::isSending)
                 .build()
                 .defineMainRoutine();
 
@@ -85,6 +86,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .gamepad1(gamepad1)
                 .distancia(limelight::getfrontal)
                 .subsystem(outtake)
+                .sarcofagoMoment(sarcofogo::isSending)
                 .build()
                 .defineMainRoutine();
 
@@ -103,6 +105,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .gamepad(gamepad1)
                 .hasArtifact(outtake::hasArtifact)
                 .ArtifactComplete(outtake::artifactCount)
+                .sensorSarcofogo(sarcofogo::getsensorSarcofogo)
                 .artifactMoment(triggerSubsystem::artifactmoment)
                 .flagSubsystem(flagSubsystem)
                 .build()
