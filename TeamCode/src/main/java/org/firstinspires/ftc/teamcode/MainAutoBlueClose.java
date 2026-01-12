@@ -12,7 +12,8 @@ public class MainAutoBlueClose extends LinearOpMode {
         new AutonomousContainer(
                 hardwareMap,
                 telemetry,
-                EnumTeam.SOLO_BLUE_CLOSE);
+                EnumTeam.SOLO_BLUE_CLOSE)
+                .mainRoutine();
         //delay p construção dos subsistemas
         waitForStart();
 

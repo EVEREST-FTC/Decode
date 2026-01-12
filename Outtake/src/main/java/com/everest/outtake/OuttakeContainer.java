@@ -1,6 +1,8 @@
 package com.everest.outtake;
 
+import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.essentials.Trigger;
+import com.everest.CommandBased.util.WaitCommand;
 import com.everest.constants.Constants;
 import com.everest.outtake.command.AutoLime3A;
 import com.everest.outtake.command.LaunchCommand;
@@ -22,6 +24,8 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
 
     private final BooleanSupplier sarcofagoMoment;
 
+    private final BooleanSupplier hasArtifact;
+
 
 
     @Override
@@ -29,26 +33,11 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
         new Trigger(()->gamepad1.left_trigger>0.9).whileTrue(
                 new AutoLime3A(distancia,subsystem)
         );
-        new Trigger(sarcofagoMoment).onTrue(
-                new AutoLime3A(distancia,subsystem).espere(1, Constants.clockSeconds)
-        );
-    }
-    public void testPower() {
-        new Trigger(()->gamepad1.a).toggleOnTrue(
-                new LaunchCommand(subsystem,6000*0.5)
-        );
-        new Trigger(()->gamepad1.b).toggleOnTrue(
-                new LaunchCommand(subsystem,6000*0.6)
-        );
-        new Trigger(()->gamepad1.y).toggleOnTrue(
-                new LaunchCommand(subsystem,6000*0.7)
-        );
-        new Trigger(()->gamepad1.x).toggleOnTrue(
-                new LaunchCommand(subsystem,6000*0.8)
-        );
-        new Trigger(()->gamepad1.left_trigger>0.9).whileTrue(
-                new AutoLime3A(distancia,subsystem)
-        );
-
+       /* new Trigger(sarcofagoMoment).and(()->!hasArtifact.getAsBoolean()).whileTrue(
+                new SequentialCommandGroup(
+                        new WaitCommand(.5, Constants.clockSeconds),
+                        new LaunchCommand(subsystem,2000)
+                )
+        );*/
     }
 }

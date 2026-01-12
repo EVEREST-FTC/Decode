@@ -92,17 +92,14 @@ public class AutonomousRoutine {
 
                 new InstantCommand(chassi::resetIMU),
                 strafeToLinearHeading(-4,-8,-22,32),/// mira 1
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 strafeToLinearHeading(10,-27.3,90,32),/// coleta 1
                 strafeToLinearHeading(29,-27.3,90,25),
                 strafeToLinearHeading(0,-8,-22,40),/// mira 2
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 strafeToLinearHeading(5,-52,90,32),/// coleta 2
                 strafeToLinearHeading(29,-52,90,25),
                 strafeToLinearHeading(0,-8,-15,32),//// mira 3
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 strafeToLinearHeading(10,-28.3,0,39)/// final
 
@@ -115,17 +112,14 @@ public class AutonomousRoutine {
 
                new InstantCommand(chassi::resetIMU),
                 strafeToLinearHeading(-4,-8,22,32),/// mira 1
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 strafeToLinearHeading(-10,-28.3,-90,45),/// coleta 1
                 strafeToLinearHeading(-29,-28.3,-90,15),
                 strafeToLinearHeading(0,-8,22,45),/// mira 2
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 strafeToLinearHeading(-5,-52,-90,45),/// coleta 2
                 strafeToLinearHeading(-29,-52,-90,17),
                 strafeToLinearHeading(0,-8,15,45),//// mira 3
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
 
                 strafeToLinearHeading(-10,-28.3,0,45)/// final*/
@@ -159,7 +153,8 @@ public class AutonomousRoutine {
         return new TriggerCommand(
                 triggerSubsystem,
                 Constants.targetLeftPosition,
-                Constants.targetRightPosition
+                Constants.targetRightPosition,
+                ()->{}
         ).ateQUe(()->!subsystemOuttake.hasArtifact()).
                 antesDe(new ConditionalCommand(
                         ()->(

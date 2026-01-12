@@ -85,6 +85,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
         OuttakeContainer.builder()
                 .gamepad1(gamepad1)
                 .distancia(limelight::getfrontal)
+                .hasArtifact(outtake::hasArtifact)
                 .subsystem(outtake)
                 .sarcofagoMoment(sarcofogo::isSending)
                 .build()
@@ -117,7 +118,9 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .gamepad(gamepad1)
                 .triggerSubsystem(triggerSubsystem)
                 .velocityVerifier(outtake::atSetpoint)
+                .limelightAcceptance(limelight::isValid)
                 .translationalSetpoint(chassis::atSetpoint)
+                .resetMemore(sarcofogo::resetmemore)
                 .build()
                 .defineMainRoutine();
     }

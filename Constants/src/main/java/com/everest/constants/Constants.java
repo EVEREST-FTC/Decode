@@ -17,13 +17,13 @@ public class Constants {
 
     public static final double ADMISSIBLE_ERROR = 1.0;
     //Relativo ao modelo de lancador
-    public static final double POWER_LAUNCHER_CONVERSION = 773; ///750
+    public static final double POWER_LAUNCHER_CONVERSION = 783; ///750
     public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 850;
     public static final double DISTANCE_RANGE = 1.5;
     public static final double PID_INCREMENT_BLUE = -3;
     public static final double PID_SHORTINCREMENT_BLUE = -6;
     public static final double PID_SHORTINCREMENT_RED = -10;
-    public static final double PID_INCREMENT_RED = -5;
+    public static final double PID_INCREMENT_RED = -7;
     public static final double TARGET_HEIGHT = 0.75;
     public static final double CAMERA_HEIGHT = 0.41;
     public static final double DELTA_HEIGHT = TARGET_HEIGHT - CAMERA_HEIGHT + 0.45;
@@ -52,7 +52,7 @@ public class Constants {
 
     public static final double INITIAL_POSITION = 0.3857;
 
-    public static final double PLATFORM_MAX_ANGLE = 68;
+    public static final double PLATFORM_MAX_ANGLE = 55;
     public static final double PLATFORM_MIN_ANGLE = 47;
 
     public static final double GATE_MAX_ANGLE = 75;

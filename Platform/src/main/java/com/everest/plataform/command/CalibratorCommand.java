@@ -21,7 +21,6 @@ public class CalibratorCommand extends Command {
     @Override
     public void execute() {
         outtakeSevoCalibrador.setPositionL(alvo);
-
     }
 
     @Override

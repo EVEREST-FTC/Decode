@@ -31,15 +31,9 @@ public class GateContainer implements RobotContainer {
         /*new Trigger(()->(sensorSarcofogo.getAsBoolean() || artifactMoment.getAsBoolean())).whileTrue(
                 new Command(subsystemGate, Constants.GateClosePosition).ateQUe(()->!hasArtifact.getAsBoolean())
         );*/
-
         new Trigger(sarcofagoMoment).onTrue(
-                new Command(subsystemGate, Constants.GateClosePosition).espere(2,Constants.clockSeconds)
+                new Command(subsystemGate, Constants.GateClosePosition).ateQUe(hasArtifact)
         );
-
-
-
-
-
         /// bloqueio pro outtake
         subsystemGate.setDefaultCommand(
                 new SelectCommand<>(
@@ -48,7 +42,7 @@ public class GateContainer implements RobotContainer {
                                 Map.entry(State.OPENED, new Command(subsystemGate,Constants.GateOpenPosition))
                         ),
                         ()->State.selector(hasArtifact.getAsBoolean())
-                )
+                ).antesDe(new ConditionalCommand(()->!sensorSarcofogo.getAsBoolean()))
         );
     }
 }

@@ -92,7 +92,8 @@ public class AutonomousOptimized implements RobotContainer {
                 new InstantCommand(()->
                         Constants.matchPattern= Pattern.getById(subLime.getTagId())
                 ),
-                new InstantCommand(()->subLime.pipelineSwitch(team.getPipeline())));
+                new InstantCommand(()->subLime.pipelineSwitch(team.getPipeline())),
+                new WaitCommand(.5, Constants.clockSeconds));
     }
 
     public Command Mirar(){
@@ -113,7 +114,7 @@ public class AutonomousOptimized implements RobotContainer {
                 Mirar(),
                 new AutoLime3A(subLime::getfrontal,subsystemOuttake),//outtake
                 new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry)//plataforma,
-        ).ateQUe(triggerSubsystem::contlaunchtimes).espere(7,Constants.clockSeconds);
+        ).ateQUe(triggerSubsystem::contlaunchtimes).espere(4.5,Constants.clockSeconds);
 
     }
     @Override
@@ -125,6 +126,8 @@ public class AutonomousOptimized implements RobotContainer {
 
         intake.setDefaultCommand(new CommandIntake(intake, Constants.INTAKE_POWER));
 
+        obelisco(); ///  identificar obelisco
+
         if (team == EnumTeam.SOLO_BLUE_FAR)
             BLUELONGECOMPLETO();
         else if (team == EnumTeam.SOLO_RED_FAR)
@@ -134,6 +137,6 @@ public class AutonomousOptimized implements RobotContainer {
         else
             BLUEPERTOCOMPLETO();
 
-        obelisco(); ///  identificar obelisco
+
     }
 }

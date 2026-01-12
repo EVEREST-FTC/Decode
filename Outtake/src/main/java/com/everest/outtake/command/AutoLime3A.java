@@ -15,6 +15,8 @@ public class AutoLime3A extends Command {
 
 
 
+
+
     public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem) {
         this.distanceSupplier = distanceSupplier;
         this.subsystem = subsystem;
@@ -25,15 +27,6 @@ public class AutoLime3A extends Command {
     public void execute() {
 
         double distance = distanceSupplier.get();
-
-        if (distance == 0.0) {
-            subsystem.setVelocity(0);
-            return;
-        }
-
-
-
-
         double Vy = Math.sqrt(2 * Constants.G * Constants.MAX_HEIGHT);
 
         double t_num = Vy + Math.sqrt(Vy*Vy - 2 * Constants.G * Constants.DELTA_HEIGHT);
@@ -42,14 +35,13 @@ public class AutoLime3A extends Command {
         double vx = distance / t;
         double angle = Math.atan2(Vy, vx);
         double degrees = Math.toDegrees(angle);
-
         double velocity = Math.sqrt(Vy*Vy + vx*vx);
 
         velocity*=(distance<Constants.DISTANCE_RANGE)?
                 Constants.CLOSE_POWER_LAUNCHER_CONVERSION:
                 Constants.POWER_LAUNCHER_CONVERSION;
 
-        if (degrees!=0)
+       if (degrees!=0)
                 subsystem.setVelocity(velocity);
     }
 

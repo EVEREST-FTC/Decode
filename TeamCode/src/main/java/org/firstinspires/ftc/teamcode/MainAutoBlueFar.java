@@ -12,7 +12,8 @@ public class MainAutoBlueFar extends LinearOpMode {
         new AutonomousContainer(
                 hardwareMap,
                 telemetry,
-                EnumTeam.SOLO_BLUE_FAR);
+                EnumTeam.SOLO_BLUE_FAR)
+                .mainRoutine();
         //delay p construção dos subsistemas
         waitForStart();
 

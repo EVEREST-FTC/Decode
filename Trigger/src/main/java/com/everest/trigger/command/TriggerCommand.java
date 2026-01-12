@@ -10,14 +10,16 @@ public class TriggerCommand extends Command {
     private final TriggerSubsystem outtakeServo;
     private final double leftPositionTarget,
                             rightPositionTarget;
+    private final Runnable resetSarcofago;
 
 
     public TriggerCommand(TriggerSubsystem outtak,
                           double leftPositionTarget,
-                          double rightPositionTarget) {
+                          double rightPositionTarget, Runnable resetSarcofago) {
         this.outtakeServo = outtak;
         this.leftPositionTarget = leftPositionTarget;
         this.rightPositionTarget = rightPositionTarget;
+        this.resetSarcofago = resetSarcofago;
         addRequirements(outtak);
 
     }
@@ -37,7 +39,7 @@ public class TriggerCommand extends Command {
     public void end(boolean interrupted) {
         if(!Constants.matchPattern.equals(Pattern.MID))outtakeServo.incrementTImeLaunch();
         outtakeServo.resetPosiiton();
-
+        resetSarcofago.run();
 
     }
 

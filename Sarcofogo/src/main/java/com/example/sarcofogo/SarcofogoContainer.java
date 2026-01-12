@@ -3,6 +3,7 @@ package com.example.sarcofogo;
 import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
+import com.everest.CommandBased.util.InstantCommand;
 import com.everest.constants.Constants;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.sun.tools.doclint.Checker;
@@ -26,19 +27,19 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
 
     @Override
     public void mainRoutine() {
-
         subsystemSarcofogo.setDefaultCommand(
                 new SelectCommand<>(
-                        Map.ofEntries(
-                                Map.entry(Moment.KEEP, new Command(subsystemSarcofogo,
-                                        Constants.SarcofogoInitialPosition, Moment.KEEP)),
-                                Map.entry(Moment.SEND, new Command(subsystemSarcofogo,40, Moment.SEND).espere(
-                                        2, Constants.clockSeconds
-                                ))
-                        ),
-                        ()->Moment.select(artifactMoment.getAsBoolean())
-                )
-        );
+                Map.ofEntries(
+                        Map.entry(Moment.KEEP, new Command(subsystemSarcofogo,
+                                Constants.SarcofogoInitialPosition, Moment.KEEP)),
+                        Map.entry(Moment.SEND, new Command(subsystemSarcofogo,50, Moment.SEND).espere(
+                                2, Constants.clockSeconds
+                        ))
+                ),
+                ()->Moment.select(artifactMoment.getAsBoolean())
+        ).antesDe(new ConditionalCommand(sensorSarcofogo)));
+
+        new Trigger(()->gamepad.left_trigger>0.9).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
         flagSubsystem.setDefaultCommand(
                 new CommandBandeira(flagSubsystem, 0)
         );

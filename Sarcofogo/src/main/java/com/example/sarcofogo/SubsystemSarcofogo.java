@@ -31,17 +31,24 @@ public class SubsystemSarcofogo extends SubsystemBase {
     double position;
     @Setter
     Moment moment = Moment.KEEP;
+
+    int memore;
     public SubsystemSarcofogo(HardwareMap hardwareMap, Telemetry telemetry){
         ServoSarcofogo = hardwareMap.get(Servo.class,"ServoSarcofogo");
         SensorSarcofogo = hardwareMap.get(RevColorSensorV3.class,"SensorSarcofogo");
         resetPosiiton();
+        resetmemore();
 
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
     }
 
     public boolean getsensorSarcofogo(){
-        return SensorSarcofogo.getDistance(DistanceUnit.MM) < 34;
+        if (SensorSarcofogo.getDistance(DistanceUnit.MM) < 34) memore += 1;
+        return memore > 3;
+    }
+    public  void resetmemore(){
+        memore = 0;
     }
 
 

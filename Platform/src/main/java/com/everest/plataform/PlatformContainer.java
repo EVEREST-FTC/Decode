@@ -25,7 +25,7 @@ public class PlatformContainer implements com.everest.constants.meta.RobotContai
     @Override
     public void mainRoutine() {
         subsystemCalibrator.setDefaultCommand(new AutoLime3AC(distancia,subsystemCalibrator,telemetry));
-        new Trigger(hasArtifact::get).whileFalse(new CalibratorCommand(subsystemCalibrator,45));
+        /*new Trigger(hasArtifact::get).whileFalse(new CalibratorCommand(subsystemCalibrator,45));*/
 
     }
 }

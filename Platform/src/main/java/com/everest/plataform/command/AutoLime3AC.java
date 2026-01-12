@@ -25,7 +25,6 @@ public class AutoLime3AC extends Command {
     @Override
     public void execute() {
         double distance = distanceSupplier.get();
-        double lastdegress;
 
         double Vy = Math.sqrt(2 * Constants.G * Constants.MAX_HEIGHT);
 

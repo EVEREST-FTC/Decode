@@ -32,7 +32,7 @@ public class TriggerSubsystem extends SubsystemBase {
         CommandScheduler.getInstance().registerSubsystem(this);
     }
     public boolean contlaunchtimes(){
-        return timelaunch == 3;
+        return timelaunch == 4;
     }
     public void resettimelaunch(){
         timelaunch = 0;
@@ -76,7 +76,8 @@ public class TriggerSubsystem extends SubsystemBase {
         return new TriggerCommand(
                 this,
                 Constants.targetLeftPosition,
-                Constants.targetRightPosition
+                Constants.targetRightPosition,
+                ()->{}
         ).ateQUe(()->!hasArtifact.getAsBoolean()).
                 antesDe(new ConditionalCommand(
                         ()->(

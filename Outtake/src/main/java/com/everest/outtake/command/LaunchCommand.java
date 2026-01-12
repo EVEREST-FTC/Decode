@@ -19,8 +19,6 @@ public class LaunchCommand  extends Command {
 
     }
 
-
-
     @Override
     public void execute() {
         outtakeMotor.setVelocity(velocity);

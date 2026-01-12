@@ -114,12 +114,20 @@ public class SubsystemOuttake extends SubsystemBase {
     public double getVelocity(){
         return MOUTR.getVelocity()*Constants.FORWARD_TICK_CONVERSION;
     }
-    public boolean atSetpoint(){
+    private boolean rightSetpoint(){
         double velocity = -MOUTR.getVelocity();
         if (velocity == 0 || targetVelocity == 0)
             return false;
         return Math.abs(velocity-targetVelocity)<20;
-
+    }
+    private boolean leftSetpoint(){
+        double velocity = MOUTL.getVelocity();
+        if (velocity == 0 || targetVelocity == 0)
+            return false;
+        return Math.abs(velocity-targetVelocity)<20;
+    }
+    public boolean atSetpoint(){
+        return rightVerifier()&&leftVerifier();
     }
 
     public boolean hasArtifact(){
@@ -129,6 +137,10 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
+        telemetry.addData("outtakerR",MOUTR.getVelocity());
+        telemetry.addData("outtakerL",MOUTL.getVelocity());
+        telemetry.addData("target velocity", targetVelocity);
+        telemetry.addData("has artifact", hasArtifact());
         /*telemetry.addData("outtakerR",distanceSensorR());
         telemetry.addData("outtakerL",distanceSensorL());
         telemetry.addData("gateL",SensorgateLeft.getDistance(DistanceUnit.MM));

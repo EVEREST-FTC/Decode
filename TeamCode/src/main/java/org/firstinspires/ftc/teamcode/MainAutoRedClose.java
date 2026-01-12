@@ -12,7 +12,8 @@ public class MainAutoRedClose extends LinearOpMode {
         new AutonomousContainer(
                 hardwareMap,
                 telemetry,
-                EnumTeam.SOLO_RED_CLOSE);
+                EnumTeam.SOLO_RED_CLOSE)
+                .mainRoutine();
         //delay p construção dos subsistemas
         waitForStart();
 

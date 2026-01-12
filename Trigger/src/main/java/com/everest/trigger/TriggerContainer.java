@@ -23,9 +23,10 @@ public class TriggerContainer implements RobotContainer {
     private final TriggerSubsystem triggerSubsystem;
     private final Gamepad gamepad;
     private final BooleanSupplier velocityVerifier;
-
+    private final BooleanSupplier limelightAcceptance;
     public final  BooleanSupplier hasartifact;
     public final BooleanSupplier translationalSetpoint;
+    private final Runnable resetMemore;
     @Override
     public void mainRoutine() {
         new Trigger(()->gamepad.left_trigger>0.9).whileTrue(
@@ -33,10 +34,12 @@ public class TriggerContainer implements RobotContainer {
                                 new TriggerCommand(
                                         triggerSubsystem,
                                         Constants.targetLeftPosition,
-                                        Constants.targetRightPosition
+                                        Constants.targetRightPosition,
+                                        resetMemore
                                 ).ateQUe(()->!hasartifact.getAsBoolean()).
                                         antesDe(new ConditionalCommand(
                                                 ()->(
+                                                        limelightAcceptance.getAsBoolean()&&
                                                         velocityVerifier.getAsBoolean())
                                                         &&(hasartifact.getAsBoolean()
                                                         &&translationalSetpoint.getAsBoolean())
