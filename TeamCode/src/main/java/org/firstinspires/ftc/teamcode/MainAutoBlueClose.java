@@ -2,17 +2,17 @@ package org.firstinspires.ftc.teamcode;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.constants.meta.EnumTeam;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-@Autonomous(name = "REDLONGE")
-public class MainAutoRed extends LinearOpMode {
+
+@Autonomous(name = "BLUEPERTO")
+public class MainAutoBlueClose extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         new AutonomousContainer(
                 hardwareMap,
                 telemetry,
-                EnumTeam.SOLO_RED_FAR);
+                EnumTeam.SOLO_BLUE_CLOSE);
         //delay p construção dos subsistemas
         waitForStart();
 

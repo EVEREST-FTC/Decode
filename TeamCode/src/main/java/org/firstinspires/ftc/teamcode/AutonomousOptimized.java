@@ -8,6 +8,7 @@ import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.InstantCommand;
 import com.everest.CommandBased.util.WaitCommand;
 import com.everest.constants.Constants;
+import com.everest.constants.Pattern;
 import com.everest.constants.meta.EnumTeam;
 import com.everest.constants.meta.RobotContainer;
 import com.everest.intake.Command.CommandIntake;
@@ -39,7 +40,9 @@ public class AutonomousOptimized implements RobotContainer {
     private final SubsytemIntake intake;
     private final SubsystemCalibrator subsystemCalibrator;
     private final SubsystemGate subsystemGate;
+
     public void REDLONGECOMPLETO(){
+
         new SequentialCommandGroup(
                 new InstantCommand(chassi::resetIMU),
                 chassi.strafeToLinearHeading(-4,-8,-22,32),/// mira 1
@@ -83,6 +86,14 @@ public class AutonomousOptimized implements RobotContainer {
     public void REDPERTOCOMPLETO(){
 
     }
+    public Command obelisco(){
+        return new SequentialCommandGroup(
+                new InstantCommand(()->subLime.pipelineSwitch(2)),
+                new InstantCommand(()->
+                        Constants.matchPattern= Pattern.getById(subLime.getTagId())
+                ),
+                new InstantCommand(()->subLime.pipelineSwitch(team.getPipeline())));
+    }
 
     public Command Mirar(){
         return chassi.mirar(team, subLime::getTx, subLime::getfrontal);
@@ -112,11 +123,17 @@ public class AutonomousOptimized implements RobotContainer {
         );
         new Trigger(subsystemOuttake::hasArtifact).whileFalse( new com.example.gate.Command(subsystemGate,0));
 
-        intake.setDefaultCommand(new CommandIntake(intake, 0.65));
+        intake.setDefaultCommand(new CommandIntake(intake, Constants.INTAKE_POWER));
 
         if (team == EnumTeam.SOLO_BLUE_FAR)
             BLUELONGECOMPLETO();
-        else
+        else if (team == EnumTeam.SOLO_RED_FAR)
             REDLONGECOMPLETO();
+        else if (team == EnumTeam.SOLO_RED_CLOSE)
+            REDPERTOCOMPLETO();
+        else
+            BLUEPERTOCOMPLETO();
+
+        obelisco(); ///  identificar obelisco
     }
 }

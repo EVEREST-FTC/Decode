@@ -20,7 +20,22 @@ public enum EnumTeam {
             Constants.PID_INCREMENT_RED,
             Constants.PID_SHORTINCREMENT_RED,
             false,
-            true);
+            true),
+
+    SOLO_BLUE_CLOSE(0,
+            -90,
+            Constants.PID_INCREMENT_BLUE,
+            Constants.PID_SHORTINCREMENT_BLUE,
+            true,
+            true
+    ),
+    SOLO_RED_CLOSE(1,
+            -90,
+            Constants.PID_INCREMENT_RED,
+            Constants.PID_SHORTINCREMENT_RED,
+            true,
+            true
+    );
     final int pipeline;
     final double offset;
     final double increment;

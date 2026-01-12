@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name = "BLUELONGE")
-public class MainAutoBlue extends LinearOpMode {
+public class MainAutoBlueFar extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         new AutonomousContainer(
