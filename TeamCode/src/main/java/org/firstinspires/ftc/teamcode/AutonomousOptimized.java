@@ -40,23 +40,21 @@ public class AutonomousOptimized implements RobotContainer {
     private final SubsytemIntake intake;
     private final SubsystemCalibrator subsystemCalibrator;
     private final SubsystemGate subsystemGate;
+    private boolean isAiming = false;
 
     public void REDLONGECOMPLETO(){
 
         new SequentialCommandGroup(
                 new InstantCommand(chassi::resetIMU),
                 chassi.strafeToLinearHeading(-4,-8,-22,32),/// mira 1
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 chassi.strafeToLinearHeading(10,-28.3,90,32),/// coleta 1
-                chassi.strafeToLinearHeading(29,-28.3,90,18),
-                chassi.strafeToLinearHeading(0,-8,-22,40),/// mira 2
-                new WaitCommand(0.3,Constants.clockSeconds),
+                chassi.strafeToLinearHeading(45,-28.3,90,40),
+                chassi.strafeToLinearHeading(0,-8,-22,45),/// mira 2
                 LancarAuto(),
                 chassi.strafeToLinearHeading(5,-52,90,32),/// coleta 2
-                chassi.strafeToLinearHeading(29,-52,90,18),
+                chassi.strafeToLinearHeading(45,-52,90,40),
                 chassi.strafeToLinearHeading(0,-8,-15,32),//// mira 3
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 chassi.strafeToLinearHeading(10,-28.3,0,39)/// final
         ).schedule();
@@ -65,17 +63,14 @@ public class AutonomousOptimized implements RobotContainer {
         new SequentialCommandGroup(
                 new InstantCommand(chassi::resetIMU),
                 chassi.strafeToLinearHeading(-4,-8,22,32),/// mira 1
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 chassi.strafeToLinearHeading(-10,-28.3,-90,45),/// coleta 1
-                chassi.strafeToLinearHeading(-29,-28.3,-90,17),
+                chassi.strafeToLinearHeading(-45,-28.3,-90,40),
                 chassi.strafeToLinearHeading(0,-8,22,45),/// mira 2
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 chassi.strafeToLinearHeading(-5,-52,-90,45),/// coleta 2
-                chassi.strafeToLinearHeading(-29,-52,-90,17),
+                chassi.strafeToLinearHeading(-45,-52,-90,40),
                 chassi.strafeToLinearHeading(0,-8,15,45),//// mira 3
-                new WaitCommand(0.3,Constants.clockSeconds),
                 LancarAuto(),
                 chassi.strafeToLinearHeading(-10,-28.3,0,45)/// final
         ).schedule();
@@ -97,14 +92,20 @@ public class AutonomousOptimized implements RobotContainer {
     }
 
     public Command Mirar(){
-        return chassi.mirar(team, subLime::getTx, subLime::getfrontal);
+        return new SequentialCommandGroup(
+                new InstantCommand(()->isAiming=true),
+                chassi.mirar(team, subLime::getTx, subLime::getfrontal)
+
+                ).finalmente(()->isAiming=false);
 
     }
     public Command atirar(){
-        return triggerSubsystem.launch(subsystemOuttake::hasArtifact, subsystemOuttake::atSetpoint, chassi::atSetpoint);
+        return triggerSubsystem.launch(subsystemOuttake::hasArtifact, subsystemOuttake::atSetpoint, chassi::atSetpoint)
+                .antesDe(new InstantCommand(subsystemOuttake::resetmemore));
     }
 
     public Command LancarAuto(){
+
         return new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(triggerSubsystem::resettimelaunch),
@@ -114,7 +115,9 @@ public class AutonomousOptimized implements RobotContainer {
                 Mirar(),
                 new AutoLime3A(subLime::getfrontal,subsystemOuttake),//outtake
                 new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry)//plataforma,
-        ).ateQUe(triggerSubsystem::contlaunchtimes).espere(4.5,Constants.clockSeconds);
+        )
+                .antesDe(new InstantCommand(()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts())))
+                .ateQUe(triggerSubsystem::contlaunchtimes);
 
     }
     @Override
@@ -124,7 +127,7 @@ public class AutonomousOptimized implements RobotContainer {
         );
         new Trigger(subsystemOuttake::hasArtifact).whileFalse( new com.example.gate.Command(subsystemGate,0));
 
-        intake.setDefaultCommand(new CommandIntake(intake, Constants.INTAKE_POWER));
+        intakeRoutine();
 
         obelisco(); ///  identificar obelisco
 
@@ -138,5 +141,31 @@ public class AutonomousOptimized implements RobotContainer {
             BLUEPERTOCOMPLETO();
 
 
+    }
+
+    private void intakeRoutine(){
+
+        intake.setDefaultCommand(new CommandIntake(intake, Constants.INTAKE_POWER));
+        new Trigger(()->isAiming).and(subsystemOuttake::hasArtifact).whileTrue(new CommandIntake(intake, 0));
+/*
+
+
+
+
+        /// longe
+        new Trigger(triggerSubsystem::intaketimepower)
+                .and(()->isAiming)
+                .and(()->!subsystemOuttake.hasArtifact())
+                .and(()->subLime.getfrontal()>1.79).whileTrue(
+                        new CommandIntake(intake,.8));
+
+        /// perto
+        new Trigger(triggerSubsystem::intaketimepower)
+                .and(()->isAiming)
+                .and(()->!subsystemOuttake.hasArtifact())
+                .whileTrue(
+                        new CommandIntake(intake,.85));
+
+ */
     }
 }

@@ -38,7 +38,7 @@ public class TriggerContainer implements RobotContainer {
                                         Constants.targetLeftPosition,
                                         Constants.targetRightPosition,
                                         resetMemore
-                                ).espere(0.3, Constants.clockSeconds).ateQUe(()->!hasartifact.getAsBoolean()).
+                                ).espere(0.1, Constants.clockSeconds).ateQUe(()->!hasartifact.getAsBoolean()).
                                         antesDe(
                                                 new ConditionalCommand(
                                                         ()->(

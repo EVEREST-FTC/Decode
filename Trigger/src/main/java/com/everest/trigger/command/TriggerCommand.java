@@ -25,11 +25,6 @@ public class TriggerCommand extends Command {
     }
 
     @Override
-    public void initialize() {
-        if(Constants.matchPattern.equals(Pattern.MID))outtakeServo.incrementTImeLaunch();
-    }
-
-    @Override
     public void execute() {
         outtakeServo.setPositionL(leftPositionTarget);
         outtakeServo.setPositionR(rightPositionTarget);;
@@ -37,7 +32,7 @@ public class TriggerCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        if(!Constants.matchPattern.equals(Pattern.MID))outtakeServo.incrementTImeLaunch();
+        outtakeServo.incrementTImeLaunch();
         outtakeServo.resetPosiiton();
         resetSarcofago.run();
 

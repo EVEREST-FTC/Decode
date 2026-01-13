@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class SubsystemOuttake extends SubsystemBase {
     DcMotorEx MOUTR, MOUTL;
@@ -21,9 +22,9 @@ public class SubsystemOuttake extends SubsystemBase {
     double memoreLeft = 0;
 
     double memoreouttake = 0;
-    boolean lastMemoryRight = false, lastMemoryLeft = false, lastMemoryOuttake = false;
     @Getter
     private double targetVelocity = 0;
+
 
     private final RevColorSensorV3 ColorSensorL,ColorSensorR,SensorgateLeft,SensorgateRight;
     public SubsystemOuttake(HardwareMap hardwareMap, Telemetry telemetry){
@@ -51,21 +52,6 @@ public class SubsystemOuttake extends SubsystemBase {
     }
 
 
-    public boolean leftVerifier(){
-        boolean isSeeing = SensorgateLeft.getDistance(DistanceUnit.MM)< 60;
-        return !lastMemoryLeft && isSeeing || lastMemoryLeft && isSeeing;
-
-    }
-    public boolean rightVerifier(){
-        boolean isSeeing = SensorgateRight.getDistance(DistanceUnit.MM)< 60;
-        return !lastMemoryRight && isSeeing || lastMemoryRight && isSeeing;
-
-    }
-    public boolean outtakeVerifier(){
-        boolean isSeeing = hasArtifact();
-        return !lastMemoryOuttake && isSeeing || lastMemoryOuttake && isSeeing;
-
-    }
     public boolean getDistanceLeft(){
         if (SensorgateLeft.getDistance(DistanceUnit.MM)< 28)
             memoreLeft += 1;
@@ -94,13 +80,6 @@ public class SubsystemOuttake extends SubsystemBase {
         int center = hasArtifact()?1:0;
         return left+right+center;
     }
-    public int toggledArtifacts(){
-        int left = getDistanceLeft()?1:0;
-        int right = getDistanceRight()?1:0;
-        int center = hasArtifact()?1:0;
-        return left+right+center;
-
-    }
     public boolean artifactCount(){
         return artifacts()>2;
 
@@ -110,20 +89,17 @@ public class SubsystemOuttake extends SubsystemBase {
         MOUTR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         MOUTL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    public double getVelocity(){
-        return MOUTR.getVelocity()*Constants.FORWARD_TICK_CONVERSION;
-    }
     private boolean rightSetpoint(){
         double velocity = Math.abs(MOUTR.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<10;
+        return Math.abs(velocity-targetVelocity)<30;
     }
     private boolean leftSetpoint(){
         double velocity =  Math.abs(MOUTL.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<10;
+        return Math.abs(velocity-targetVelocity)<30;
     }
     public boolean atSetpoint(){
         return rightSetpoint()&&leftSetpoint();
@@ -134,11 +110,17 @@ public class SubsystemOuttake extends SubsystemBase {
     }
 
 
+    public boolean hasArtifacts(){
+        return SensorgateRight.getDistance(DistanceUnit.MM)>= 28&&
+                !hasArtifact()&&
+                SensorgateLeft.getDistance(DistanceUnit.MM)>= 28;
+
+    }
     @Override
     public void periodic() {
 
+        telemetry.addData("artifacts in robot", artifacts());
         telemetry.addData("intake left sensor", intakeleftdistance());
-        telemetry.addData("artinumber",toggledArtifacts());
 
     }
 

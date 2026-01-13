@@ -15,6 +15,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class TriggerSubsystem extends SubsystemBase {
 
@@ -24,15 +25,19 @@ public class TriggerSubsystem extends SubsystemBase {
     double lastLeft, lastRight;
     @Getter
     int timelaunch = 0;
+    @Getter
+    @Setter
+    int lastTarget = 3;
     public TriggerSubsystem(HardwareMap hardwareMap, Telemetry telemetry){
         ServoLG = hardwareMap.get(Servo.class,"ServoLG");
         ServoRG = hardwareMap.get(Servo.class,"ServoRG");
         resetPosiiton();
+        timelaunch = 0;
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
     }
     public boolean contlaunchtimes(){
-        return timelaunch == 4;
+        return timelaunch == lastTarget;
     }
     public boolean intaketimepower(){
         return timelaunch > 1;
@@ -54,11 +59,13 @@ public class TriggerSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        /*telemetry.addData("artefatos lancados",timelaunch);
+        /*
         telemetry.addData("ordinal",  Constants.matchPattern.ordinal());
         telemetry.addData("artifact moment ", artifactmoment());
         telemetry.addData("right target", lastRight);
         telemetry.addData("left target", lastLeft);*/
+        telemetry.addData("artefatos lancados",timelaunch);
+        telemetry.addData("artefatos vistos", lastTarget);
     }
 
     public boolean artifactmoment(){

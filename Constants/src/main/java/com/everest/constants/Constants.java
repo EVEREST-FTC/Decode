@@ -96,7 +96,7 @@ public class Constants {
     public static final double targetLeftPosition = 0.79;
     public static final double targetRightPosition = 1 - targetLeftPosition ;
     public static Clock clockSeconds = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
-    public static final double INTAKE_POWER = 0.5;
+    public static final double INTAKE_POWER = 0.55;
 
     public static final double CHASSIS_LIMIT_POWER = 1.0;
     public static final double CHASSIS_LIMIT_POWER_TURN = 0.5;
