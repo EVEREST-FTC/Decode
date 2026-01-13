@@ -2,9 +2,11 @@ package com.everest.trigger;
 
 import com.everest.CommandBased.compositions.ParallelCommandGroup;
 import com.everest.CommandBased.compositions.RepeatCommand;
+import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
+import com.everest.CommandBased.util.WaitCommand;
 import com.everest.constants.Constants;
 import com.everest.constants.meta.RobotContainer;
 import com.everest.trigger.command.TriggerCommand;
@@ -36,14 +38,17 @@ public class TriggerContainer implements RobotContainer {
                                         Constants.targetLeftPosition,
                                         Constants.targetRightPosition,
                                         resetMemore
-                                ).ateQUe(()->!hasartifact.getAsBoolean()).
-                                        antesDe(new ConditionalCommand(
-                                                ()->(
-                                                        limelightAcceptance.getAsBoolean()&&
-                                                        velocityVerifier.getAsBoolean())
-                                                        &&(hasartifact.getAsBoolean()
-                                                        &&translationalSetpoint.getAsBoolean())
-                                        ))).finalmente(
+                                ).espere(0.3, Constants.clockSeconds).ateQUe(()->!hasartifact.getAsBoolean()).
+                                        antesDe(
+                                                new ConditionalCommand(
+                                                        ()->(
+                                                                limelightAcceptance.getAsBoolean()
+                                                                        && velocityVerifier.getAsBoolean())
+                                                                &&(hasartifact.getAsBoolean()
+                                                                &&translationalSetpoint.getAsBoolean())
+                                                )
+                                        )
+                        ).finalmente(
                                 triggerSubsystem::resettimelaunch
                         )
 

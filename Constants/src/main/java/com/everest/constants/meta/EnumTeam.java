@@ -1,6 +1,6 @@
 package com.everest.constants.meta;
 
-import com.everest.constants.Constants;
+import com.everest.constants.Constants.LauncherControllerConstants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,29 +10,33 @@ import lombok.Getter;
 public enum EnumTeam {
     SOLO_BLUE_FAR(0,
             -90,
-            Constants.PID_INCREMENT_BLUE,
-            Constants.PID_SHORTINCREMENT_BLUE,
+            LauncherControllerConstants.PID_INCREMENT_BLUE,
+            LauncherControllerConstants.PID_SHORTINCREMENT_BLUE,
+            LauncherControllerConstants.PID_LONGEINCREMENT_BLUE,
             false,
             true
             ),
     SOLO_RED_FAR(1,
             90,
-            Constants.PID_INCREMENT_RED,
-            Constants.PID_SHORTINCREMENT_RED,
+            LauncherControllerConstants.PID_INCREMENT_RED,
+            LauncherControllerConstants.PID_SHORTINCREMENT_RED,
+            LauncherControllerConstants.PID_LONGEINCREMENT_RED,
             false,
             true),
 
     SOLO_BLUE_CLOSE(0,
             -90,
-            Constants.PID_INCREMENT_BLUE,
-            Constants.PID_SHORTINCREMENT_BLUE,
+            LauncherControllerConstants.PID_INCREMENT_BLUE,
+            LauncherControllerConstants.PID_SHORTINCREMENT_BLUE,
+            LauncherControllerConstants.PID_LONGEINCREMENT_BLUE,
             true,
             true
     ),
     SOLO_RED_CLOSE(1,
             -90,
-            Constants.PID_INCREMENT_RED,
-            Constants.PID_SHORTINCREMENT_RED,
+            LauncherControllerConstants.PID_INCREMENT_RED,
+            LauncherControllerConstants.PID_SHORTINCREMENT_RED,
+            LauncherControllerConstants.PID_LONGEINCREMENT_RED,
             true,
             true
     );
@@ -40,6 +44,7 @@ public enum EnumTeam {
     final double offset;
     final double increment;
     final double shortIncrement;
+    final double LargeIncrement;
     final boolean isClose;
     final boolean isSolo;
 

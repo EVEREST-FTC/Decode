@@ -67,10 +67,13 @@ public class SubsystemOuttake extends SubsystemBase {
 
     }
     public boolean getDistanceLeft(){
-        /*if (SensorgateLeft.getDistance(DistanceUnit.MM)< 28)
+        if (SensorgateLeft.getDistance(DistanceUnit.MM)< 28)
             memoreLeft += 1;
-        return memoreLeft > 10;*/
-        return SensorgateLeft.getDistance(DistanceUnit.MM)< 35;
+        return memoreLeft > 10;
+        /*return SensorgateLeft.getDistance(DistanceUnit.MM)< 35;*/
+    }
+    public boolean intakeleftdistance(){
+        return SensorgateLeft.getDistance(DistanceUnit.MM)< 28;
     }
 
     public void resetmemore(){
@@ -79,31 +82,27 @@ public class SubsystemOuttake extends SubsystemBase {
        memoreouttake = 0;
     }
     public boolean getDistanceRight(){
-        /*if (SensorgateRight.getDistance(DistanceUnit.MM)< 28)
+        if (SensorgateRight.getDistance(DistanceUnit.MM)< 28)
             memoreRight += 1;
-        return memoreRight > 6;*/
-        return SensorgateRight.getDistance(DistanceUnit.MM)< 35;
+        return memoreRight > 6;
+        /*return SensorgateRight.getDistance(DistanceUnit.MM)< 35;*/
     }
 
     public  int artifacts(){
-        if (hasArtifact()&&getDistanceLeft()&&getDistanceRight())
-           return 3;
-       else if (hasArtifact()&&getDistanceRight()&&!getDistanceLeft())
-           return 2;
-       else if (hasArtifact()&&!getDistanceRight()&&!getDistanceLeft())
-           return 1;
-       else
-           return 0;
+        int left = getDistanceLeft()?1:0;
+        int right = getDistanceRight()?1:0;
+        int center = hasArtifact()?1:0;
+        return left+right+center;
     }
     public int toggledArtifacts(){
-        return 3;
+        int left = getDistanceLeft()?1:0;
+        int right = getDistanceRight()?1:0;
+        int center = hasArtifact()?1:0;
+        return left+right+center;
 
     }
     public boolean artifactCount(){
-        /*return artifacts()>2;*/
-        if (getDistanceRight() && getDistanceLeft() && hasArtifact())
-            memoreRight += 1;
-        return memoreRight > 0;
+        return artifacts()>2;
 
     }
 
@@ -115,19 +114,19 @@ public class SubsystemOuttake extends SubsystemBase {
         return MOUTR.getVelocity()*Constants.FORWARD_TICK_CONVERSION;
     }
     private boolean rightSetpoint(){
-        double velocity = -MOUTR.getVelocity();
+        double velocity = Math.abs(MOUTR.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<20;
+        return Math.abs(velocity-targetVelocity)<10;
     }
     private boolean leftSetpoint(){
-        double velocity = MOUTL.getVelocity();
+        double velocity =  Math.abs(MOUTL.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<20;
+        return Math.abs(velocity-targetVelocity)<10;
     }
     public boolean atSetpoint(){
-        return rightVerifier()&&leftVerifier();
+        return rightSetpoint()&&leftSetpoint();
     }
 
     public boolean hasArtifact(){
@@ -137,16 +136,9 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("outtakerR",MOUTR.getVelocity());
-        telemetry.addData("outtakerL",MOUTL.getVelocity());
-        telemetry.addData("target velocity", targetVelocity);
-        telemetry.addData("has artifact", hasArtifact());
-        /*telemetry.addData("outtakerR",distanceSensorR());
-        telemetry.addData("outtakerL",distanceSensorL());
-        telemetry.addData("gateL",SensorgateLeft.getDistance(DistanceUnit.MM));
-        telemetry.addData("gateR",SensorgateRight.getDistance(DistanceUnit.MM));*/
-       /* telemetry.addData("has artifact", hasArtifact());
-        telemetry.addData("artinumber",artifactCount());*/
+
+        telemetry.addData("intake left sensor", intakeleftdistance());
+        telemetry.addData("artinumber",toggledArtifacts());
 
     }
 

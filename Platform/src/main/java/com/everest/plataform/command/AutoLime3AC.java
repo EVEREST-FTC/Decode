@@ -1,7 +1,7 @@
 package com.everest.plataform.command;
 
 import com.everest.CommandBased.definition.Command;
-import com.everest.constants.Constants;
+import com.everest.constants.Constants.CameraConstants;
 import com.everest.plataform.subsystem.SubsystemCalibrator;
 
 
@@ -26,10 +26,10 @@ public class AutoLime3AC extends Command {
     public void execute() {
         double distance = distanceSupplier.get();
 
-        double Vy = Math.sqrt(2 * Constants.G * Constants.MAX_HEIGHT);
+        double Vy = Math.sqrt(2 * CameraConstants.G * CameraConstants.MAX_HEIGHT);
 
-        double t_num = Vy + Math.sqrt(Vy*Vy - 2 * Constants.G * Constants.DELTA_HEIGHT);
-        double t = t_num / Constants.G;
+        double t_num = Vy + Math.sqrt(Vy*Vy - 2 * CameraConstants.G * CameraConstants.DELTA_HEIGHT);
+        double t = t_num / CameraConstants.G;
 
         double vx = distance / t;
         double angle = Math.atan2(Vy, vx);

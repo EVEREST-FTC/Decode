@@ -1,17 +1,21 @@
 package com.example.chassi;
 
+import static com.everest.constants.Constants.Elevator_tickConversion;
+
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.definition.CommandScheduler;
-import com.everest.constants.Constants;
+import com.everest.constants.Constants.ControllerConstants;
+import com.everest.constants.Constants.GyroConstants;
 import com.everest.constants.meta.EnumTeam;
 import com.example.chassi.command.AlignToAngle;
 import com.example.chassi.roadrunner.command.RoadRunnerWrapper;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.everest.constants.Constants;
 
 import com.everest.constants.PID;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -37,7 +41,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
         offset = team.getOffset();
-        this.pid = new PID(Constants.KP, Constants.KI, Constants.KD);
+        this.pid = new PID(GyroConstants.KP, GyroConstants.KI, GyroConstants.KD);
     }
     public void drive(double x, double y, double z){
         double frontLeftPower = x+y-z;
@@ -67,7 +71,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
 
     }
     public void setPositionElevator(int alvo){
-        int position = alvo*Constants.Eleveitor_tickConversion/360;
+        int position = alvo* Elevator_tickConversion /360;
         MLeve.setTargetPosition(position);
         MLeve.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         MLeve.setVelocity(1000);
@@ -95,7 +99,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     }
 
     public double DeadZone(double valor){
-        if (Math.abs(valor) > Constants.DEAD_ZONE_MIN)
+        if (Math.abs(valor) > ControllerConstants.DEAD_ZONE_MIN)
             return valor;
         else
             return 0;
@@ -104,7 +108,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     @Override
     public void periodic() {
         //telemetry.addData("chassi-yaw-error", atSetpoint());
-        telemetry.addData("Pattern", Constants.matchPattern+" id: "+Constants.matchPattern.getAssociatedId());
+        //telemetry.addData("Pattern", Constants.matchPattern+" id: "+Constants.matchPattern.getAssociatedId());
     }
 
     public boolean atSetpoint(){
@@ -129,7 +133,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                 tx, this,//chassi
                 distance,
                 this.getPid(),team.getIncrement(),
-                team.getShortIncrement()
+                team.getShortIncrement(),team.getLargeIncrement()
         );
     }
 

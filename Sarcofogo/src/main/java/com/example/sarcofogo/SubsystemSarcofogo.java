@@ -70,8 +70,6 @@ public class SubsystemSarcofogo extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("SensorSarcofogo",SensorSarcofogo.getDistance(DistanceUnit.MM));
-        telemetry.addData("artiINSarcofogo",getsensorSarcofogo());
         telemetry.addData("momento:" , moment);
     }
 }

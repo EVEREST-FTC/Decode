@@ -77,7 +77,10 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
 
         IntakeContainer.builder()
                 .gamepad(gamepad1)
+                .hasartifact(outtake::hasArtifact)
                 .subsytemIntake(intake)
+                .intakemoment(triggerSubsystem::intaketimepower)
+                .distance(limelight::getfrontal)
                 .build()
                 .defineMainRoutine();
 

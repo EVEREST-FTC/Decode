@@ -34,6 +34,9 @@ public class TriggerSubsystem extends SubsystemBase {
     public boolean contlaunchtimes(){
         return timelaunch == 4;
     }
+    public boolean intaketimepower(){
+        return timelaunch > 1;
+    }
     public void resettimelaunch(){
         timelaunch = 0;
     }
@@ -51,11 +54,11 @@ public class TriggerSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("artefatos lancados",timelaunch);
+        /*telemetry.addData("artefatos lancados",timelaunch);
         telemetry.addData("ordinal",  Constants.matchPattern.ordinal());
         telemetry.addData("artifact moment ", artifactmoment());
         telemetry.addData("right target", lastRight);
-        telemetry.addData("left target", lastLeft);
+        telemetry.addData("left target", lastLeft);*/
     }
 
     public boolean artifactmoment(){

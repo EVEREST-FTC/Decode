@@ -26,8 +26,8 @@ public class PID {
     }
 
     public double max_limiter(double valor){
-        if (Math.abs(valor) > Constants.PID_MAX)
-            return Constants.PID_MAX;
+        if (Math.abs(valor) > Constants.GyroConstants.PID_MAX)
+            return Constants.GyroConstants.PID_MAX;
         else
             return valor;
 
@@ -37,7 +37,7 @@ public class PID {
         double error = (target-measurement);
         double dt = timer.time() - lastTime;
         double derro = error - lastErro;
-        if(Math.abs(error)<Constants.iRange)
+        if(Math.abs(error)<Constants.GyroConstants.iRange)
             sum += error*dt;
         double derivativo = derro/dt;
         lastTime = timer.time();
@@ -48,6 +48,6 @@ public class PID {
         return lastErro;
     }
     public boolean atSetpoint(){
-        return Math.abs(getError())< Constants.ADMISSIBLE_ERROR;
+        return Math.abs(getError())< Constants.GyroConstants.ADMISSIBLE_ERROR;
     }
 }

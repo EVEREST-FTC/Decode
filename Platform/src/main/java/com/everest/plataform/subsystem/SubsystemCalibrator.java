@@ -31,7 +31,6 @@ public final class SubsystemCalibrator extends SubsystemBase {
     }
     public void setPositionL(double alvo){
         double treatedAngle = limiter(alvo);
-        telemetry.addData("target angle:", treatedAngle);
         treatedAngle = (treatedAngle/ Constants.PLATFORM_MAX_SERVO_ANGLE)* Constants.CONVERSION_FACTOR;
         ServoRC.setPosition(treatedAngle);
         ServoLC.setPosition(treatedAngle);

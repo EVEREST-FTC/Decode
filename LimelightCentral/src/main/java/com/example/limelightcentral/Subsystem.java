@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
 import com.everest.constants.Constants;
+import com.everest.constants.Constants.LauncherControllerConstants;
 import com.everest.constants.meta.EnumTeam;
 import com.everest.constants.util.MathUtil;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -36,12 +37,9 @@ public class Subsystem extends SubsystemBase {
 
 
         CommandScheduler.getInstance().registerSubsystem(this);
-
-        telemetry.addData("distancia", this::getfrontal);
-        telemetry.addData("tx", this::getTx);
     }
     public double getfrontal(){
-        double relativeHeight = Constants.TAG_RELATIVE_HEIGHT;
+        double relativeHeight = Constants.CameraConstants.TAG_RELATIVE_HEIGHT;
         double angle = getTy();
         return relativeHeight/Math.tan(Math.toRadians(angle));
     }
@@ -49,7 +47,7 @@ public class Subsystem extends SubsystemBase {
     public double getTy(){
         LLResult latestResult = limelight3A.getLatestResult();
         if(!isValid()) return 0.0;
-        return latestResult.getTy() + Constants.initialAngle;
+        return latestResult.getTy() + Constants.CameraConstants.initialAngle;
     }
     public boolean isValid(){
         LLResult latestResult = limelight3A.getLatestResult();
@@ -70,9 +68,9 @@ public class Subsystem extends SubsystemBase {
             return 0;
         int ID  = Tags.get(0).getFiducialId();
         if (ID == 20)
-            return Constants.PID_INCREMENT_BLUE;
+            return Constants.LauncherControllerConstants.PID_INCREMENT_BLUE;
         else if (ID == 24)
-            return Constants.PID_INCREMENT_RED;
+            return Constants.LauncherControllerConstants.PID_INCREMENT_RED;
         else
             return 0;
     }
@@ -110,15 +108,7 @@ public class Subsystem extends SubsystemBase {
     @Override
     public void periodic() {
         limelight3A.updateRobotOrientation(angle.getAsDouble());
-        LLResult llResult = limelight3A.getLatestResult();
-        List<LLResultTypes.FiducialResult> Tags = llResult.getFiducialResults();
-        Tags.forEach(
-                tag->telemetry.addLine(String.valueOf(tag.getFiducialId()))
-        );
-
-        Optional<Pose2d> poseOptional = getBotPoseInches();
-        if(!poseOptional.isPresent()) return;
-        Pose2d pose2d = poseOptional.get();
-        telemetry.addData("limelight3A-getIdtag", getIncrementById());
+        telemetry.addData("distance", getfrontal());
+        telemetry.addData("tx", getTx());
     }
 }
