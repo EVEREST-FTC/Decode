@@ -13,14 +13,14 @@ public class TriggerCommand extends Command {
     private final Runnable resetSarcofago;
 
 
-    public TriggerCommand(TriggerSubsystem outtak,
+    public TriggerCommand(TriggerSubsystem outtake,
                           double leftPositionTarget,
                           double rightPositionTarget, Runnable resetSarcofago) {
-        this.outtakeServo = outtak;
+        this.outtakeServo = outtake;
         this.leftPositionTarget = leftPositionTarget;
         this.rightPositionTarget = rightPositionTarget;
         this.resetSarcofago = resetSarcofago;
-        addRequirements(outtak);
+        addRequirements(outtake);
 
     }
 

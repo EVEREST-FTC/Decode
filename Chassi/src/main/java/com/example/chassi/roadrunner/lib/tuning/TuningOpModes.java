@@ -287,6 +287,8 @@ public final class TuningOpModes {
             throw new RuntimeException();
         }
 
+        manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
+
 /*
 
         manager.register(metaForClass(AngularRampLogger.class), new AngularRampLogger(dvf));

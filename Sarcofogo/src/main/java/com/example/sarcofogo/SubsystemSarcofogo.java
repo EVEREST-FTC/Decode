@@ -1,12 +1,10 @@
 package com.example.sarcofogo;
 
-import static com.everest.constants.Constants.BANDEIRA_MAX_SERVO_ANGLE;
-import static com.everest.constants.Constants.GATE_MAX_ANGLE;
-import static com.everest.constants.Constants.GATE_MAX_SERVO_ANGLE;
-import static com.everest.constants.Constants.GATE_MIN_ANGLE;
-import static com.everest.constants.Constants.SARCOFOGO_MAX_ANGLE;
-import static com.everest.constants.Constants.SARCOFOGO_MAX_SERVO_ANGLE;
-import static com.everest.constants.Constants.SARCOFOGO_MIN_ANGLE;
+
+import static com.everest.constants.Constants.SarcofagoConstants.SARCOFOGO_MAX_ANGLE;
+import static com.everest.constants.Constants.SarcofagoConstants.SARCOFOGO_MAX_SERVO_ANGLE;
+import static com.everest.constants.Constants.SarcofagoConstants.SARCOFOGO_MIN_ANGLE;
+import static com.everest.constants.Constants.SarcofagoConstants.SarcofogoInitialPosition;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
@@ -57,7 +55,7 @@ public class SubsystemSarcofogo extends SubsystemBase {
         ServoSarcofogo.setPosition(1 - position);
     }
     public void resetPosiiton(){
-        setPositionGate(Constants.SarcofogoInitialPosition);
+        setPositionGate(SarcofogoInitialPosition);
     }
     private double limiter(double angle){
         if(angle> SARCOFOGO_MAX_ANGLE)

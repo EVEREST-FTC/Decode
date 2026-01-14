@@ -34,6 +34,8 @@ public class LocalizationTest extends LinearOpMode {
                 drive.updatePoseEstimate();
 
                 Pose2d pose = drive.localizer.getPose();
+                telemetry.addData("pose", pose.toString());
+                telemetry.update();
 
                 TelemetryPacket packet = new TelemetryPacket();
                 packet.fieldOverlay().setStroke("#3F51B5");

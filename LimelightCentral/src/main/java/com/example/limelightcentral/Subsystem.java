@@ -1,22 +1,15 @@
 package com.example.limelightcentral;
 
-import com.acmerobotics.roadrunner.Pose2d;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
 import com.everest.constants.Constants;
-import com.everest.constants.Constants.LauncherControllerConstants;
 import com.everest.constants.meta.EnumTeam;
-import com.everest.constants.util.MathUtil;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 public class Subsystem extends SubsystemBase {
@@ -53,53 +46,18 @@ public class Subsystem extends SubsystemBase {
         LLResult latestResult = limelight3A.getLatestResult();
         return latestResult.isValid();
     }
-    public boolean shortzonelaunch(){
-        return Math.abs(getfrontal()) < 1.5;
-    }
     public double getTx(){
         LLResult latestResult = limelight3A.getLatestResult();
         if(!isValid()) return 0.0;
         return latestResult.getTx();
     }
 
-    public double getIncrementById(){
-        List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
-        if ( Tags.isEmpty())
-            return 0;
-        int ID  = Tags.get(0).getFiducialId();
-        if (ID == 20)
-            return Constants.LauncherControllerConstants.PID_INCREMENT_BLUE;
-        else if (ID == 24)
-            return Constants.LauncherControllerConstants.PID_INCREMENT_RED;
-        else
-            return 0;
-    }
     public int getTagId(){
         List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
             if ( Tags.isEmpty())
                 return 0;
             return Tags.get(0).getFiducialId();
 
-    }
-
-    public Optional<Pose3D> getBotPose(){
-        List<LLResultTypes.FiducialResult> tags = limelight3A.getLatestResult().getFiducialResults();
-        if(tags.isEmpty()) return Optional.empty();
-        return Optional.of(
-                tags.get(0).getCameraPoseTargetSpace()
-        );
-    }
-    public Optional<Pose2d> getBotPoseInches(){
-        Optional<Pose3D> pose3DOptional = getBotPose();
-        if(!pose3DOptional.isPresent()) return Optional.empty();
-        Pose3D pose3D = pose3DOptional.get();
-        return Optional.of(
-                new Pose2d(
-                        MathUtil.metersToInches(pose3D.getPosition().x),
-                        MathUtil.metersToInches(pose3D.getPosition().y),
-                        angle.getAsDouble()
-                )
-        );
     }
     public void pipelineSwitch(int id){
         limelight3A.pipelineSwitch(id);

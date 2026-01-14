@@ -1,5 +1,7 @@
 package com.everest.outtake;
 
+import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
+
 import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.WaitCommand;
@@ -30,7 +32,7 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
 
     @Override
     public void mainRoutine() {
-        new Trigger(()->gamepad1.left_trigger>0.9).whileTrue(
+        new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
                 new AutoLime3A(distancia,subsystem)
         );
     }

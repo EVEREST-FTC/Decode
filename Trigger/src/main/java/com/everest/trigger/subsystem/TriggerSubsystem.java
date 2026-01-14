@@ -1,5 +1,10 @@
 package com.everest.trigger.subsystem;
 
+import static com.everest.constants.Constants.TriggerConstants.leftInitialPosition;
+import static com.everest.constants.Constants.TriggerConstants.rightInitialPosition;
+import static com.everest.constants.Constants.TriggerConstants.targetLeftPosition;
+import static com.everest.constants.Constants.TriggerConstants.targetRightPosition;
+
 import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
@@ -9,6 +14,7 @@ import com.everest.trigger.command.TriggerCommand;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.BooleanSupplier;
@@ -69,6 +75,7 @@ public class TriggerSubsystem extends SubsystemBase {
         telemetry.addData("artefatos lancados",timelaunch);
         telemetry.addData("artefatos vistos", lastTarget);
         telemetry.addData("contlaunchtimes", contlaunchtimes());
+        telemetry.addData("padrao:", Constants.matchPattern);
     }
 
     public boolean artifactmoment(){
@@ -79,24 +86,22 @@ public class TriggerSubsystem extends SubsystemBase {
     }
     public void resetPosiiton(){
 
-        setPositionL(Constants.leftInitialPosition);
-        setPositionR(Constants.rightInitialPosition);
+        setPositionL(leftInitialPosition);
+        setPositionR(rightInitialPosition);
     }
 
     public Command launch(BooleanSupplier hasArtifact,
-                          BooleanSupplier motorPower,
-                          BooleanSupplier chassis){
+                          BooleanSupplier motorPower){
         return new TriggerCommand(
                 this,
-                Constants.targetLeftPosition,
-                Constants.targetRightPosition,
+                targetLeftPosition,
+                targetRightPosition,
                 ()->{}
         ).ateQUe(()->!hasArtifact.getAsBoolean()).
                 antesDe(new ConditionalCommand(
                         ()->(
                                 motorPower.getAsBoolean())
-                                &&(hasArtifact.getAsBoolean()
-                                &&(chassis.getAsBoolean())))
+                                &&(hasArtifact.getAsBoolean()))
                 );
     }
 }

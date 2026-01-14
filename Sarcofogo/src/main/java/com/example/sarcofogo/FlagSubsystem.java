@@ -1,9 +1,9 @@
 package com.example.sarcofogo;
 
-import static com.everest.constants.Constants.BANDEIRA_MAX_SERVO_ANGLE;
-import static com.everest.constants.Constants.SARCOFOGO_MAX_ANGLE;
-import static com.everest.constants.Constants.SARCOFOGO_MAX_SERVO_ANGLE;
-import static com.everest.constants.Constants.SARCOFOGO_MIN_ANGLE;
+
+import static com.everest.constants.Constants.FlagConstants.BANDEIRA_MAX_ANGLE;
+import static com.everest.constants.Constants.FlagConstants.BANDEIRA_MAX_SERVO_ANGLE;
+import static com.everest.constants.Constants.FlagConstants.BANDEIRA_MIN_ANGLE;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
@@ -29,8 +29,8 @@ public class FlagSubsystem extends SubsystemBase {
     }
 
     private double limiterB(double angle){
-        if(angle> Constants.BANDEIRA_MAX_ANGLE)
-            return Constants.BANDEIRA_MAX_ANGLE;
-        else return Math.max(angle, Constants.BANDEIRA_MIN_ANGLE);
+        if(angle> BANDEIRA_MAX_ANGLE)
+            return BANDEIRA_MAX_ANGLE;
+        else return Math.max(angle, BANDEIRA_MIN_ANGLE);
     }
 }

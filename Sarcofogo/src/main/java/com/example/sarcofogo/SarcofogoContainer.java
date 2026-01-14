@@ -1,5 +1,8 @@
 package com.example.sarcofogo;
 
+import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
+import static com.everest.constants.Constants.SarcofagoConstants.SarcofogoInitialPosition;
+
 import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
@@ -31,7 +34,7 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
                 new SelectCommand<>(
                 Map.ofEntries(
                         Map.entry(Moment.KEEP, new Command(subsystemSarcofogo,
-                                Constants.SarcofogoInitialPosition, Moment.KEEP)),
+                                SarcofogoInitialPosition, Moment.KEEP)),
                         Map.entry(Moment.SEND, new Command(subsystemSarcofogo,50, Moment.SEND).espere(
                                 2, Constants.clockSeconds
                         ))
@@ -39,7 +42,7 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
                 ()->Moment.select(artifactMoment.getAsBoolean())
         ));
 
-        new Trigger(()->gamepad.left_trigger>0.9).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
+        new Trigger(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
         flagSubsystem.setDefaultCommand(
                 new CommandBandeira(flagSubsystem, 0)
         );

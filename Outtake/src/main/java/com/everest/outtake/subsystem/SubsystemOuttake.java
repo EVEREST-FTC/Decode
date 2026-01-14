@@ -2,7 +2,7 @@ package com.everest.outtake.subsystem;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
-import com.everest.constants.Constants;
+import com.everest.constants.Constants.ElevatorConstants;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -39,7 +39,7 @@ public class SubsystemOuttake extends SubsystemBase {
         CommandScheduler.getInstance().registerSubsystem(this);
     }
     public void setVelocity(double velocity){
-        velocity *= Constants.REVERSE_TICK_CONVERSION ;
+        velocity *= ElevatorConstants.REVERSE_TICK_CONVERSION ;
         this.targetVelocity = velocity;
         MOUTR.setVelocity(-velocity);
         MOUTL.setVelocity(-velocity);
@@ -55,7 +55,7 @@ public class SubsystemOuttake extends SubsystemBase {
     public boolean getDistanceLeft(){
         if (SensorgateLeft.getDistance(DistanceUnit.MM)< 28)
             memoreLeft += 1;
-        return memoreLeft > 6;
+        return memoreLeft > 4;
         /*return SensorgateLeft.getDistance(DistanceUnit.MM)< 35;*/
     }
     public boolean intakeleftdistance(){
@@ -70,7 +70,7 @@ public class SubsystemOuttake extends SubsystemBase {
     public boolean getDistanceRight(){
         if (SensorgateRight.getDistance(DistanceUnit.MM)< 28)
             memoreRight += 1;
-        return memoreRight > 6;
+        return memoreRight > 4;
         /*return SensorgateRight.getDistance(DistanceUnit.MM)< 35;*/
     }
 
@@ -93,13 +93,13 @@ public class SubsystemOuttake extends SubsystemBase {
         double velocity = Math.abs(MOUTR.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<30;
+        return Math.abs(velocity-targetVelocity)<50;
     }
     private boolean leftSetpoint(){
         double velocity =  Math.abs(MOUTL.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<30;
+        return Math.abs(velocity-targetVelocity)<50;
     }
     public boolean atSetpoint(){
         return rightSetpoint()&&leftSetpoint();
@@ -109,13 +109,6 @@ public class SubsystemOuttake extends SubsystemBase {
         return distanceSensorR() < 50 || distanceSensorL() < 50;
     }
 
-
-    public boolean hasArtifacts(){
-        return SensorgateRight.getDistance(DistanceUnit.MM)>= 28&&
-                !hasArtifact()&&
-                SensorgateLeft.getDistance(DistanceUnit.MM)>= 28;
-
-    }
     @Override
     public void periodic() {
 

@@ -1,7 +1,10 @@
 package com.everest.plataform.subsystem;
 
-import static com.everest.constants.Constants.PLATFORM_MAX_ANGLE;
-import static com.everest.constants.Constants.PLATFORM_MIN_ANGLE;
+import static com.everest.constants.Constants.PlatformConstants.CONVERSION_FACTOR;
+import static com.everest.constants.Constants.PlatformConstants.INITIAL_POSITION;
+import static com.everest.constants.Constants.PlatformConstants.PLATFORM_MAX_ANGLE;
+import static com.everest.constants.Constants.PlatformConstants.PLATFORM_MAX_SERVO_ANGLE;
+import static com.everest.constants.Constants.PlatformConstants.PLATFORM_MIN_ANGLE;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
@@ -21,7 +24,7 @@ public final class SubsystemCalibrator extends SubsystemBase {
 
         ServoLC.setDirection(Servo.Direction.REVERSE);
 
-        setPositionL(Constants.INITIAL_POSITION);
+        setPositionL(INITIAL_POSITION);
         /// 0.3875 é a posição inicial proporcional a 45 graus do servoRC
         /// 0.6143 é a posição inicial proporcional a 45 graus do servoLC
 
@@ -31,7 +34,7 @@ public final class SubsystemCalibrator extends SubsystemBase {
     }
     public void setPositionL(double alvo){
         double treatedAngle = limiter(alvo);
-        treatedAngle = (treatedAngle/ Constants.PLATFORM_MAX_SERVO_ANGLE)* Constants.CONVERSION_FACTOR;
+        treatedAngle = (treatedAngle/ PLATFORM_MAX_SERVO_ANGLE)* CONVERSION_FACTOR;
         ServoRC.setPosition(treatedAngle);
         ServoLC.setPosition(treatedAngle);
 

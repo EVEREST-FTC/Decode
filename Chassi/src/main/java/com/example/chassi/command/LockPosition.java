@@ -9,7 +9,6 @@ import com.example.chassi.MecanumDrive;
 public class LockPosition extends Command {
     private final MecanumDrive mecanumDrive;
     Pose2d pose2d;
-    boolean isRunning = true;
 
     public LockPosition(MecanumDrive mecanumDrive) {
         this.mecanumDrive = mecanumDrive;

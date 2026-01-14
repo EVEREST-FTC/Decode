@@ -1,7 +1,8 @@
 package com.everest.outtake.command;
 
+import static com.everest.constants.Constants.PlatformConstants.MAX_RPM;
+
 import com.everest.CommandBased.definition.Command;
-import com.everest.constants.Constants.LauncherConstants;
 import com.everest.outtake.subsystem.SubsystemOuttake;
 
 public class LaunchCommand  extends Command {
@@ -14,7 +15,7 @@ public class LaunchCommand  extends Command {
     public LaunchCommand(SubsystemOuttake outtakeMotor, double velocityPercentage) {
 
         this.outtakeMotor = outtakeMotor;
-        this.velocity = velocityPercentage * LauncherConstants.MAX_RPM;
+        this.velocity = velocityPercentage * MAX_RPM;
         addRequirements(outtakeMotor);
 
     }

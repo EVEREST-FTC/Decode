@@ -37,9 +37,12 @@ public class PID {
         double error = (target-measurement);
         double dt = timer.time() - lastTime;
         double derro = error - lastErro;
-        if(Math.abs(error)<Constants.GyroConstants.iRange)
-            sum += error*dt;
-        double derivativo = derro/dt;
+        double derivativo = 0;
+        if(Math.abs(error)<Constants.GyroConstants.iRange) {
+            sum += error * dt;
+            derivativo = derro/dt;
+        }
+
         lastTime = timer.time();
         lastErro = error;
         return max_limiter(error*KP+sum*KI+derivativo*KD);

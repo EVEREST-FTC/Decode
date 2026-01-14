@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public enum State implements com.everest.constants.meta.State {
+public enum State {
     OPENED,
     CLOSED;
     @Setter

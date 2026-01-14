@@ -1,6 +1,8 @@
 package com.example.chassi.command;
 
-import com.acmerobotics.dashboard.FtcDashboard;
+import static com.everest.constants.Constants.CameraConstants.largeIncrementDistance;
+import static com.everest.constants.Constants.CameraConstants.shortIncrementDistance;
+
 import com.everest.CommandBased.definition.Command;
 import com.example.chassi.MecanumDrive;
 
@@ -8,7 +10,6 @@ import com.everest.constants.PID;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
 
 public class AlignToAngle extends Command {
     private final DoubleSupplier target;
@@ -48,9 +49,9 @@ public class AlignToAngle extends Command {
 
     @Override
     public void execute() {
-        if (distanceSupplier.getAsDouble() < 1.79)
+        if (distanceSupplier.getAsDouble() < shortIncrementDistance)
             alvo = shotincrement;
-        else if (distanceSupplier.getAsDouble() > 2.6)
+        else if (distanceSupplier.getAsDouble() > largeIncrementDistance)
             alvo = LargeIncrement;
         else
             alvo = greatIncrement;

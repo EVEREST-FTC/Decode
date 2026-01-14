@@ -1,6 +1,6 @@
 package com.example.chassi;
 
-import static com.everest.constants.Constants.Elevator_tickConversion;
+import static com.everest.constants.Constants.ElevatorConstants;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
@@ -12,6 +12,7 @@ import com.everest.constants.Constants.GyroConstants;
 import com.everest.constants.meta.EnumTeam;
 import com.example.chassi.command.AlignToAngle;
 import com.example.chassi.roadrunner.command.RoadRunnerWrapper;
+import com.example.chassi.roadrunner.lib.Localizer;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -71,7 +72,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
 
     }
     public void setPositionElevator(int alvo){
-        int position = alvo* Elevator_tickConversion /360;
+        int position = alvo* ElevatorConstants.Elevator_tickConversion /360;
         MLeve.setTargetPosition(position);
         MLeve.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         MLeve.setVelocity(1000);
@@ -103,12 +104,6 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
             return valor;
         else
             return 0;
-    }
-
-    @Override
-    public void periodic() {
-        //telemetry.addData("chassi-yaw-error", atSetpoint());
-        //telemetry.addData("Pattern", Constants.matchPattern+" id: "+Constants.matchPattern.getAssociatedId());
     }
 
     public boolean atSetpoint(){

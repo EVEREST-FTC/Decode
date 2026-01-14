@@ -1,5 +1,9 @@
 package com.everest.trigger;
 
+import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
+import static com.everest.constants.Constants.TriggerConstants.targetLeftPosition;
+import static com.everest.constants.Constants.TriggerConstants.targetRightPosition;
+
 import com.everest.CommandBased.compositions.ParallelCommandGroup;
 import com.everest.CommandBased.compositions.RepeatCommand;
 import com.everest.CommandBased.compositions.SequentialCommandGroup;
@@ -31,33 +35,26 @@ public class TriggerContainer implements RobotContainer {
     private final Runnable resetMemore;
     @Override
     public void mainRoutine() {
-        new Trigger(()->gamepad.left_trigger>0.9).whileTrue(
+        BooleanSupplier triggerCondition = ()->
+            limelightAcceptance.getAsBoolean()
+                    &&velocityVerifier.getAsBoolean()
+                    &&hasartifact.getAsBoolean()
+                    &&translationalSetpoint.getAsBoolean();
+        new Trigger(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
                         new RepeatCommand(
                                 new TriggerCommand(
                                         triggerSubsystem,
-                                        Constants.targetLeftPosition,
-                                        Constants.targetRightPosition,
+                                        targetLeftPosition,
+                                        targetRightPosition,
                                         resetMemore
                                 ).espere(0.1, Constants.clockSeconds).ateQUe(()->!hasartifact.getAsBoolean()).
                                         antesDe(
-                                                new ConditionalCommand(
-                                                        ()->(
-                                                                limelightAcceptance.getAsBoolean()
-                                                                        && velocityVerifier.getAsBoolean())
-                                                                &&(hasartifact.getAsBoolean()
-                                                                &&translationalSetpoint.getAsBoolean())
-                                                )
-                                        )
+                                                new ConditionalCommand(triggerCondition)
                         ).finalmente(
                                 triggerSubsystem::resettimelaunch
                         )
 
-        );
-
-    }
-
-    @Override
-    public void states() {
+        ));
 
     }
 }

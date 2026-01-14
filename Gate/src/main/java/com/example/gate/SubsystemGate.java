@@ -1,12 +1,13 @@
 package com.example.gate;
 
-import static com.everest.constants.Constants.GATE_MAX_ANGLE;
-import static com.everest.constants.Constants.GATE_MAX_SERVO_ANGLE;
-import static com.everest.constants.Constants.GATE_MIN_ANGLE;
-import static com.everest.constants.Constants.GateClosePosition;
+import static com.everest.constants.Constants.GateConstants.GATE_MAX_ANGLE;
+import static com.everest.constants.Constants.GateConstants.GATE_MAX_SERVO_ANGLE;
+import static com.everest.constants.Constants.GateConstants.GATE_MIN_ANGLE;
+import static com.everest.constants.Constants.GateConstants.GateClosePosition;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
+import com.everest.constants.Constants;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -35,7 +36,7 @@ public class SubsystemGate extends SubsystemBase {
 
 
     public void setPositionGate(double alvo){
-        position = limiter(alvo)/GATE_MAX_SERVO_ANGLE;
+        position = limiter(alvo)/ GATE_MAX_SERVO_ANGLE;
         ServoDor.setPosition(1 - position);
     }
 
