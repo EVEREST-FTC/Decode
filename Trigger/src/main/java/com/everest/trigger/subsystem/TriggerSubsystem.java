@@ -33,11 +33,13 @@ public class TriggerSubsystem extends SubsystemBase {
         ServoRG = hardwareMap.get(Servo.class,"ServoRG");
         resetPosiiton();
         timelaunch = 0;
+        lastTarget = 3;
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
     }
     public boolean contlaunchtimes(){
         return timelaunch == lastTarget;
+
     }
     public boolean intaketimepower(){
         return timelaunch > 1;
@@ -66,6 +68,7 @@ public class TriggerSubsystem extends SubsystemBase {
         telemetry.addData("left target", lastLeft);*/
         telemetry.addData("artefatos lancados",timelaunch);
         telemetry.addData("artefatos vistos", lastTarget);
+        telemetry.addData("contlaunchtimes", contlaunchtimes());
     }
 
     public boolean artifactmoment(){

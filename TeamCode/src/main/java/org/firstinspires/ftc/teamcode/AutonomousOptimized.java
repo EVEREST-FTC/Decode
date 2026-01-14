@@ -14,6 +14,7 @@ import com.everest.constants.meta.RobotContainer;
 import com.everest.intake.Command.CommandIntake;
 import com.everest.intake.Subsystem.SubsytemIntake;
 import com.everest.outtake.command.AutoLime3A;
+import com.everest.outtake.command.LaunchCommand;
 import com.everest.outtake.subsystem.SubsystemOuttake;
 import com.everest.plataform.command.AutoLime3AC;
 import com.everest.plataform.subsystem.SubsystemCalibrator;
@@ -48,13 +49,13 @@ public class AutonomousOptimized implements RobotContainer {
                 new InstantCommand(chassi::resetIMU),
                 chassi.strafeToLinearHeading(-4,-8,-22,32),/// mira 1
                 LancarAuto(),
-                chassi.strafeToLinearHeading(10,-28.3,90,32),/// coleta 1
-                chassi.strafeToLinearHeading(45,-28.3,90,40),
+                chassi.strafeToLinearHeading(10,-28.3,90,35),/// coleta 1
+                chassi.strafeToLinearHeading(30,-28.3,90,12),
                 chassi.strafeToLinearHeading(0,-8,-22,45),/// mira 2
                 LancarAuto(),
-                chassi.strafeToLinearHeading(5,-52,90,32),/// coleta 2
-                chassi.strafeToLinearHeading(45,-52,90,40),
-                chassi.strafeToLinearHeading(0,-8,-15,32),//// mira 3
+                chassi.strafeToLinearHeading(5,-52,90,35),/// coleta 2
+                chassi.strafeToLinearHeading(30,-52,90,12),
+                chassi.strafeToLinearHeading(0,-8,-15,45),//// mira 3
                 LancarAuto(),
                 chassi.strafeToLinearHeading(10,-28.3,0,39)/// final
         ).schedule();
@@ -63,14 +64,18 @@ public class AutonomousOptimized implements RobotContainer {
         new SequentialCommandGroup(
                 new InstantCommand(chassi::resetIMU),
                 chassi.strafeToLinearHeading(-4,-8,22,32),/// mira 1
+
                 LancarAuto(),
-                chassi.strafeToLinearHeading(-10,-28.3,-90,45),/// coleta 1
-                chassi.strafeToLinearHeading(-45,-28.3,-90,40),
+                chassi.strafeToLinearHeading(-10,-28.3,-90,35),/// coleta 1
+                chassi.strafeToLinearHeading(-30,-28.3,-90,12),
                 chassi.strafeToLinearHeading(0,-8,22,45),/// mira 2
+
+
                 LancarAuto(),
-                chassi.strafeToLinearHeading(-5,-52,-90,45),/// coleta 2
-                chassi.strafeToLinearHeading(-45,-52,-90,40),
+                chassi.strafeToLinearHeading(-5,-52,-90,35),/// coleta 2
+                chassi.strafeToLinearHeading(-30,-52,-90,12),
                 chassi.strafeToLinearHeading(0,-8,15,45),//// mira 3
+
                 LancarAuto(),
                 chassi.strafeToLinearHeading(-10,-28.3,0,45)/// final
         ).schedule();
@@ -111,13 +116,15 @@ public class AutonomousOptimized implements RobotContainer {
                                 new InstantCommand(triggerSubsystem::resettimelaunch),
                                 new RepeatCommand(
                                         atirar()
-                                )),
+                                )
+                        ),
                 Mirar(),
-                new AutoLime3A(subLime::getfrontal,subsystemOuttake),//outtake
+                new AutoLime3A(subLime::getfrontal,subsystemOuttake).ateQUe((triggerSubsystem::contlaunchtimes)),//outtake
                 new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry)//plataforma,
         )
                 .antesDe(new InstantCommand(()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts())))
-                .ateQUe(triggerSubsystem::contlaunchtimes);
+                .ateQUe(triggerSubsystem::contlaunchtimes)
+                .antesDe( new InstantCommand(triggerSubsystem::resettimelaunch));
 
     }
     @Override
@@ -128,6 +135,7 @@ public class AutonomousOptimized implements RobotContainer {
         new Trigger(subsystemOuttake::hasArtifact).whileFalse( new com.example.gate.Command(subsystemGate,0));
 
         intakeRoutine();
+
 
         obelisco(); ///  identificar obelisco
 
@@ -143,10 +151,12 @@ public class AutonomousOptimized implements RobotContainer {
 
     }
 
+
     private void intakeRoutine(){
 
-        intake.setDefaultCommand(new CommandIntake(intake, Constants.INTAKE_POWER));
-        new Trigger(()->isAiming).and(subsystemOuttake::hasArtifact).whileTrue(new CommandIntake(intake, 0));
+       intake.setDefaultCommand(new CommandIntake(intake, Constants.INTAKE_POWER));
+        new Trigger(chassi::atSetpoint).and(subsystemOuttake::hasArtifact).and(subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake, 0));
+       /* new Trigger(()->isAiming).whileTrue();*/
 /*
 
 

@@ -21,6 +21,7 @@ public class SubsytemIntake extends SubsystemBase {
     }
 
     public void Braker(){
+        Mintake.setPower(0);
         Mintake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 

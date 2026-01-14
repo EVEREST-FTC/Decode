@@ -33,11 +33,5 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
         new Trigger(()->gamepad1.left_trigger>0.9).whileTrue(
                 new AutoLime3A(distancia,subsystem)
         );
-       /* new Trigger(sarcofagoMoment).and(()->!hasArtifact.getAsBoolean()).whileTrue(
-                new SequentialCommandGroup(
-                        new WaitCommand(.5, Constants.clockSeconds),
-                        new LaunchCommand(subsystem,2000)
-                )
-        );*/
     }
 }

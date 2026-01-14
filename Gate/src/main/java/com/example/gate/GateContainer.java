@@ -34,6 +34,11 @@ public class GateContainer implements RobotContainer {
         new Trigger(sarcofagoMoment).onTrue(
                 new Command(subsystemGate, Constants.GateClosePosition).ateQUe(hasArtifact)
         );
+
+    }
+
+    @Override
+    public void states() {
         /// bloqueio pro outtake
         subsystemGate.setDefaultCommand(
                 new SelectCommand<>(

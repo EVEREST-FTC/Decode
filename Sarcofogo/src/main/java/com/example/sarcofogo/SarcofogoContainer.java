@@ -27,7 +27,7 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
 
     @Override
     public void mainRoutine() {
-        subsystemSarcofogo.setDefaultCommand(
+        new Trigger(sensorSarcofogo).whileTrue(
                 new SelectCommand<>(
                 Map.ofEntries(
                         Map.entry(Moment.KEEP, new Command(subsystemSarcofogo,
@@ -37,7 +37,7 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
                         ))
                 ),
                 ()->Moment.select(artifactMoment.getAsBoolean())
-        ).antesDe(new ConditionalCommand(sensorSarcofogo)));
+        ));
 
         new Trigger(()->gamepad.left_trigger>0.9).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
         flagSubsystem.setDefaultCommand(

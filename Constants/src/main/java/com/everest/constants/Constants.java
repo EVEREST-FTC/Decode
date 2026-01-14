@@ -1,6 +1,9 @@
 package com.everest.constants;
 
 import com.everest.CommandBased.definition.Clock;
+import com.everest.CommandBased.definition.Command;
+import com.everest.CommandBased.util.InstantCommand;
+import com.everest.constants.meta.RobotState;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.concurrent.TimeUnit;
@@ -96,12 +99,15 @@ public class Constants {
     public static final double targetLeftPosition = 0.79;
     public static final double targetRightPosition = 1 - targetLeftPosition ;
     public static Clock clockSeconds = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
-    public static final double INTAKE_POWER = 0.55;
+    public static final double INTAKE_POWER = 0.45;
 
     public static final double CHASSIS_LIMIT_POWER = 1.0;
     public static final double CHASSIS_LIMIT_POWER_TURN = 0.5;
 
     public static com.everest.constants.Pattern matchPattern = Pattern.MID;
-
+    public static RobotState state = RobotState.Dirigindo;
+    public static Command setState(RobotState state){
+        return new InstantCommand(()-> Constants.state =state);
+    }
 
 }

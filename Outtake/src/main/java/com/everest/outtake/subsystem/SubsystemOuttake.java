@@ -55,7 +55,7 @@ public class SubsystemOuttake extends SubsystemBase {
     public boolean getDistanceLeft(){
         if (SensorgateLeft.getDistance(DistanceUnit.MM)< 28)
             memoreLeft += 1;
-        return memoreLeft > 10;
+        return memoreLeft > 6;
         /*return SensorgateLeft.getDistance(DistanceUnit.MM)< 35;*/
     }
     public boolean intakeleftdistance(){

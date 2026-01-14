@@ -42,7 +42,7 @@ public class AutoLime3A extends Command {
                 Constants.LauncherConstants.CLOSE_POWER_LAUNCHER_CONVERSION:
                 Constants.LauncherConstants.POWER_LAUNCHER_CONVERSION;
 
-       if (degrees!=0)
+       ///if (degrees!=0)
                 subsystem.setVelocity(velocity);
     }
 

@@ -23,6 +23,7 @@ public class CommandIntake extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        subsytemIntake.startIntake(0);
         subsytemIntake.Braker();
     }
 }

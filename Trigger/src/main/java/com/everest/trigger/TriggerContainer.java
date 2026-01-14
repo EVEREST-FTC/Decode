@@ -53,4 +53,11 @@ public class TriggerContainer implements RobotContainer {
                         )
 
         );
-}}
+
+    }
+
+    @Override
+    public void states() {
+
+    }
+}
