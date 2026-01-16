@@ -39,7 +39,7 @@ public class TriggerContainer implements RobotContainer {
             limelightAcceptance.getAsBoolean()
                     &&velocityVerifier.getAsBoolean()
                     &&hasartifact.getAsBoolean()
-                    &&translationalSetpoint.getAsBoolean();
+               &&translationalSetpoint.getAsBoolean();
         new Trigger(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
                         new RepeatCommand(
                                 new TriggerCommand(
@@ -50,11 +50,11 @@ public class TriggerContainer implements RobotContainer {
                                 ).espere(0.1, Constants.clockSeconds).ateQUe(()->!hasartifact.getAsBoolean()).
                                         antesDe(
                                                 new ConditionalCommand(triggerCondition)
-                        ).finalmente(
-                                triggerSubsystem::resettimelaunch
                         )
 
-        ));
+                        ).finalmente(
+                                triggerSubsystem::resettimelaunch
+                        ));
 
     }
 }

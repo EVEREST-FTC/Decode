@@ -13,7 +13,6 @@ public enum State {
     CLOSED;
     @Setter
     Command associatedCommand;
-
     public static State selector(boolean hasArtifact){
         if(hasArtifact)
             return CLOSED;

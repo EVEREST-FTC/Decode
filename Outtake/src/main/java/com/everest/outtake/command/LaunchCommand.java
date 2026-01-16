@@ -13,7 +13,6 @@ public class LaunchCommand  extends Command {
 
 
     public LaunchCommand(SubsystemOuttake outtakeMotor, double velocityPercentage) {
-
         this.outtakeMotor = outtakeMotor;
         this.velocity = velocityPercentage * MAX_RPM;
         addRequirements(outtakeMotor);

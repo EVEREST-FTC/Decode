@@ -64,28 +64,12 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
 
         drive(x_rotated, y_rotated, rotate);
     }
-    public void ResetEncoder(){
-        rightFront.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        leftFront.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-    }
     public void setPositionElevator(int alvo){
         int position = alvo* ElevatorConstants.Elevator_tickConversion /360;
         MLeve.setTargetPosition(position);
         MLeve.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         MLeve.setVelocity(1000);
     }
-    public void getOdoX(){
-        rightFront.getCurrentPosition();
-    }
-    public void getOdoY(){
-        leftBack.getCurrentPosition();
-
-    }
-
-
     public void brake(){
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -125,12 +109,15 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     }
     public Command mirar(EnumTeam team, DoubleSupplier tx, DoubleSupplier distance){
         return new AlignToAngle(telemetry,
-                tx, this,//chassi
+                tx, this,
                 distance,
                 this.getPid(),team.getIncrement(),
                 team.getShortIncrement(),team.getLargeIncrement()
         );
     }
 
+    @Override
+    public void periodic() {
+    }
 }
 

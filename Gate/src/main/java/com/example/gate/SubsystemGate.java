@@ -16,32 +16,19 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class SubsystemGate extends SubsystemBase {
-
-
-    Servo ServoDor ;
-
+    Servo ServoDor;
     Telemetry telemetry;
-
-
     double position;
     public SubsystemGate(HardwareMap hardwareMap, Telemetry telemetry){
         ServoDor = hardwareMap.get(Servo.class,"ServoDor");
         resetPosiiton();
-
-
-
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
     }
-
-
     public void setPositionGate(double alvo){
         position = limiter(alvo)/ GATE_MAX_SERVO_ANGLE;
         ServoDor.setPosition(1 - position);
     }
-
-
-
     public void resetPosiiton(){
         setPositionGate(GateClosePosition);
     }

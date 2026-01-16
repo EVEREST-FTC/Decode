@@ -22,8 +22,9 @@ public class MainTeleopBlue extends LinearOpMode {
         while (opModeIsActive()) {
             CommandScheduler.getInstance().run();
             telemetry.update();
+
         }
         //limpa o singleton no requerimento de stop
-        CommandScheduler.getInstance().m_scheduledCommands.clear();
+        if(isStopRequested())CommandScheduler.getInstance().cancelAll();
     }
 }

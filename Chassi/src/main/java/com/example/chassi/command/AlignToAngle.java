@@ -59,13 +59,6 @@ public class AlignToAngle extends Command {
         double angle = pid.calculate(alvo, target.getAsDouble());
         chassi.drive(0, 0, angle);
     }
-/*
-
-    @Override
-    public boolean isFinished() {
-        return pid.atSetpoint();
-    }
-*/
 
     @Override
     public void end(boolean interrupted) {

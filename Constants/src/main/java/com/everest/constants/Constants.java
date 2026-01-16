@@ -1,28 +1,20 @@
 package com.everest.constants;
 
-import androidx.annotation.NonNull;
-
 import com.everest.CommandBased.definition.Clock;
-import com.everest.CommandBased.definition.Command;
-import com.everest.CommandBased.util.InstantCommand;
-import com.everest.constants.meta.RobotState;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.jetbrains.annotations.Contract;
-
 import java.util.concurrent.TimeUnit;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /// Constantes genéricas do robô, e alguns métodos estáticos auxiliares
 public class Constants {
 
     public static Clock clockSeconds = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
-    public static com.everest.constants.Pattern matchPattern = Pattern.NONE;
-    public static RobotState state = RobotState.Dirigindo;
-    @NonNull
-    @Contract("_ -> new")
-    public static Command setState(RobotState state){
-        return new InstantCommand(()-> Constants.state =state);
-    }
+    public static Clock robotTimer = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
+    @Setter
+    @Getter
+    private static com.everest.constants.Pattern matchPattern = Pattern.NONE;
     /// Constantes do piloto
     public static class ControllerConstants{
         public static final double CHASSIS_LIMIT_POWER = 1.0;
@@ -35,12 +27,12 @@ public class Constants {
     ///RELATIVO AO PID da limelight
     public static class GyroConstants{
         public static final double KP = 0.02405;
-        public static final double KI = 0.0477;///0.0.047
+        public static final double KI = 0.045;///0.0.045
 
         public static final double KD = 0;
         ///
         public static final double PID_MAX = 0.5;
-        public static final double iRange = 8;
+        public static final double iRange = 7;
 
         public static final double ADMISSIBLE_ERROR = 1.0;
     }
@@ -135,8 +127,8 @@ public class Constants {
     }
     /// Constantes do intake
     public static class IntakeConstants{
-        public static final double INTAKE_POWER = 0.45;
-        public static final double INTAKE_POWER_CLOSE = 0.65;
+        public static final double INTAKE_POWER = 0.65;
+        public static final double INTAKE_POWER_CLOSE = 0.55;
 
     }
 

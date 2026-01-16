@@ -2,13 +2,16 @@ package com.everest.constants;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import lombok.Getter;
+
 public class PID {
     private final double KP;
     private final double KI;
     private final double KD;
 
     private final ElapsedTime timer;
-    private double sum = 0;
+    @Getter
+    private double sum;
     private double lastTime;
     private double lastErro;
 

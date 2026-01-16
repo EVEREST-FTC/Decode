@@ -21,33 +21,25 @@ import lombok.Builder;
 
 @Builder
 public class IntakeContainer implements com.everest.constants.meta.RobotContainer {
-
     private final SubsytemIntake subsytemIntake;
-
     private final Gamepad gamepad;
-
     private final BooleanSupplier hasartifact;
     private final BooleanSupplier intakemoment;
+    private final BooleanSupplier sarcofagoMoment;
     private final DoubleSupplier distance;
-
     @Override
     public void mainRoutine() {
-
-
         new Trigger(()->gamepad.y).toggleOnTrue(new CommandIntake(subsytemIntake,0));
-
-
         subsytemIntake.setDefaultCommand(new CommandIntake(subsytemIntake, INTAKE_POWER));
-
+        new Trigger(sarcofagoMoment).whileTrue(new CommandIntake(subsytemIntake, 0.2));
         new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(hasartifact).whileTrue(new CommandIntake(subsytemIntake, 0));
-
         /// longe
+        //TODO: tirar os numeros hardcoded
         new Trigger(intakemoment)
                 .and(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER)
                 .and(()->!hasartifact.getAsBoolean())
                 .and(()->distance.getAsDouble()>shortIncrementDistance).whileTrue(
                 new CommandIntake(subsytemIntake,.8));
-
         /// perto
         new Trigger(intakemoment)
                 .and(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER)

@@ -54,7 +54,7 @@ public class Subsystem extends SubsystemBase {
 
     public int getTagId(){
         List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
-            if ( Tags.isEmpty())
+            if (Tags.isEmpty())
                 return 0;
             return Tags.get(0).getFiducialId();
 
@@ -66,6 +66,7 @@ public class Subsystem extends SubsystemBase {
     @Override
     public void periodic() {
         limelight3A.updateRobotOrientation(angle.getAsDouble());
+        telemetry.addData("is valid", isValid());
         telemetry.addData("distance", getfrontal());
         telemetry.addData("tx", getTx());
     }

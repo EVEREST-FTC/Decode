@@ -17,14 +17,9 @@ public class Command extends com.everest.CommandBased.definition.Command {
     }
 
     @Override
-    public void initialize() {
-        subsystemSarcofogo.setMoment(moment);
-    }
-
-    @Override
     public void execute() {
         subsystemSarcofogo.setPositionGate(alvo);
-
+        subsystemSarcofogo.setMoment(moment);
     }
 
     @Override

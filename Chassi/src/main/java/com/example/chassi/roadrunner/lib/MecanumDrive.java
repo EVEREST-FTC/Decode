@@ -336,11 +336,10 @@ public class MecanumDrive extends SubsystemBase{
             p.put("xError", error.position.x);
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
-            double positionTOlerance = 1;
+            double positionTolerance = 2;
             double headingTolerance = 1;
-            translationalSetpoint = Math.abs(error.position.x) < positionTOlerance &&
-                    Math.abs(error.position.y) < positionTOlerance &&
-                    Math.abs(Math.toDegrees(error.heading.toDouble()))<headingTolerance;
+            translationalSetpoint = error.position.norm()<positionTolerance&&
+                    error.heading.toDouble()<headingTolerance;
             if (t >= timeTrajectory.duration && translationalSetpoint) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
@@ -365,6 +364,7 @@ public class MecanumDrive extends SubsystemBase{
 
             return true;
         }
+
 
         @Override
         public void preview(Canvas c) {

@@ -75,14 +75,14 @@ public class TriggerSubsystem extends SubsystemBase {
         telemetry.addData("artefatos lancados",timelaunch);
         telemetry.addData("artefatos vistos", lastTarget);
         telemetry.addData("contlaunchtimes", contlaunchtimes());
-        telemetry.addData("padrao:", Constants.matchPattern);
+        telemetry.addData("padrao:", Constants.getMatchPattern());
     }
 
     public boolean artifactmoment(){
-        return Constants.matchPattern.ordinal() == timelaunch;
+        return Constants.getMatchPattern().ordinal() == timelaunch;
     }
     public void incrementTImeLaunch(){
-        timelaunch += 1;
+        timelaunch ++;
     }
     public void resetPosiiton(){
 

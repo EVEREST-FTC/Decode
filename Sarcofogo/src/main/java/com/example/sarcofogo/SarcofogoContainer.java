@@ -23,21 +23,21 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
     private final SubsystemSarcofogo subsystemSarcofogo;
     private final FlagSubsystem flagSubsystem;
     private final BooleanSupplier hasArtifact;
-    private final BooleanSupplier ArtifactComplete;
+    private final Supplier<Integer> ArtifactComplete;
     private final BooleanSupplier artifactMoment;
-    private final BooleanSupplier sensorSarcofogo;
 
 
     @Override
     public void mainRoutine() {
-        new Trigger(sensorSarcofogo).whileTrue(
+        /*new Trigger(()->gamepad.x).and(()->!hasArtifact.getAsBoolean()).whileTrue(new Command(subsystemSarcofogo,50));*/
+
+
+        new Trigger(subsystemSarcofogo::getsensorSarcofogo).onTrue(
                 new SelectCommand<>(
                 Map.ofEntries(
                         Map.entry(Moment.KEEP, new Command(subsystemSarcofogo,
                                 SarcofogoInitialPosition, Moment.KEEP)),
-                        Map.entry(Moment.SEND, new Command(subsystemSarcofogo,50, Moment.SEND).espere(
-                                2, Constants.clockSeconds
-                        ))
+                        Map.entry(Moment.SEND, new Command(subsystemSarcofogo,50, Moment.SEND).ateQUe(()->!artifactMoment.getAsBoolean()))
                 ),
                 ()->Moment.select(artifactMoment.getAsBoolean())
         ));
@@ -46,7 +46,10 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
         flagSubsystem.setDefaultCommand(
                 new CommandBandeira(flagSubsystem, 0)
         );
-        new Trigger(ArtifactComplete).whileTrue(
+        new Trigger(()->ArtifactComplete.get()==2).whileTrue(
+                new CommandBandeira(flagSubsystem,45)
+        );
+        new Trigger(()->ArtifactComplete.get()==3).whileTrue(
                 new CommandBandeira(flagSubsystem,90)
         );
     }

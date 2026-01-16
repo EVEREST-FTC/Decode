@@ -2,10 +2,7 @@ package com.everest.outtake;
 
 import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
 
-import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.essentials.Trigger;
-import com.everest.CommandBased.util.WaitCommand;
-import com.everest.constants.Constants;
 import com.everest.outtake.command.AutoLime3A;
 import com.everest.outtake.command.LaunchCommand;
 import com.everest.outtake.subsystem.SubsystemOuttake;
@@ -20,20 +17,17 @@ import lombok.Builder;
 public class OuttakeContainer implements com.everest.constants.meta.RobotContainer {
     private final Gamepad gamepad1;
 
-    private final Supplier<Double>distancia;
+    private final Supplier<Double> distance;
 
     private final SubsystemOuttake subsystem;
 
     private final BooleanSupplier sarcofagoMoment;
 
     private final BooleanSupplier hasArtifact;
-
-
-
     @Override
     public void mainRoutine() {
-        new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
-                new AutoLime3A(distancia,subsystem)
-        );
+        subsystem.setDefaultCommand(
+                new AutoLime3A(distance, subsystem).ateQUe(()->gamepad1.left_trigger<=GAMEPAD_AIM_TRIGGER));
+        new Trigger(hasArtifact).whileFalse(new LaunchCommand(subsystem, -0.2));
     }
 }

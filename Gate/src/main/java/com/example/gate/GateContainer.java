@@ -22,15 +22,13 @@ public class GateContainer implements RobotContainer {
     private final BooleanSupplier sarcofagoMoment;
     private final BooleanSupplier sensorSarcofogo;
 
-
-
-
     @Override
     public void mainRoutine() {
         ///bloqueio pro sarcofago
-        new Trigger(sarcofagoMoment).onTrue(
-                new Command(subsystemGate, GateClosePosition).ateQUe(hasArtifact)
+       new Trigger(sarcofagoMoment).whileTrue(
+                new Command(subsystemGate, GateClosePosition)
         );
+        /*new Trigger(()->gamepad.x).whileTrue(new Command(subsystemGate, GateClosePosition));*/
 
     }
 
@@ -44,7 +42,7 @@ public class GateContainer implements RobotContainer {
                                 Map.entry(State.OPENED, new Command(subsystemGate,GateOpenPosition))
                         ),
                         ()->State.selector(hasArtifact.getAsBoolean())
-                ).antesDe(new ConditionalCommand(()->!sensorSarcofogo.getAsBoolean()))
+                )
         );
     }
 }
