@@ -33,7 +33,12 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     @Getter
     final PID pid;
 
-    public MecanumDrive(HardwareMap hardwareMap, Telemetry telemetry, EnumTeam team){
+    public MecanumDrive(HardwareMap hardwareMap,
+                        Telemetry telemetry,
+                        EnumTeam team,
+                        double kp,
+                        double ki,
+                        double kd){
         super(hardwareMap,new Pose2d(0,0,0));
         /// estrutura de elevação
         MLeve = hardwareMap.get(DcMotorEx.class,"MLeve");
@@ -42,7 +47,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
         this.telemetry = telemetry;
         CommandScheduler.getInstance().registerSubsystem(this);
         offset = team.getOffset();
-        this.pid = new PID(GyroConstants.KP, GyroConstants.KI, GyroConstants.KD);
+        this.pid = new PID(kp, ki, kd);
     }
     public void drive(double x, double y, double z){
         double frontLeftPower = x+y-z;

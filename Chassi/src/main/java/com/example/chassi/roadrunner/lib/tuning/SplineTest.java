@@ -1,9 +1,14 @@
 package com.example.chassi.roadrunner.lib.tuning;
 
+import static com.everest.constants.Constants.GyroConstants.KD;
+import static com.everest.constants.Constants.GyroConstants.KI;
+import static com.everest.constants.Constants.GyroConstants.KP;
+
 import com.acmerobotics.roadrunner.PathBuilder;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.everest.constants.Constants;
 import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -13,7 +18,8 @@ public final class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Pose2d beginPose = new Pose2d(0, 0, 0);
-        MecanumDrive drive = new com.example.chassi.MecanumDrive(hardwareMap, telemetry, EnumTeam.SOLO_BLUE_FAR);
+        MecanumDrive drive = new com.example.chassi.MecanumDrive(hardwareMap, telemetry, EnumTeam.SOLO_BLUE_FAR,
+                KP, KI, KD);
 
         waitForStart();
         Actions.runBlocking(

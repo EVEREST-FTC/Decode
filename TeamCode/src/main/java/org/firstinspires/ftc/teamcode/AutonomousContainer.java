@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import static com.everest.constants.Constants.GyroConstants.KD;
+import static com.everest.constants.Constants.GyroConstants.KI;
+import static com.everest.constants.Constants.GyroConstants.KP;
+
 import com.everest.constants.meta.EnumTeam;
 import com.everest.constants.meta.RobotContainer;
 import com.everest.intake.Subsystem.SubsytemIntake;
@@ -26,7 +30,10 @@ public class AutonomousContainer implements RobotContainer {
     public void mainRoutine() {
         MecanumDrive chassis = new MecanumDrive(hardwareMap,
                 telemetry,
-                team);
+                team,
+                KP,
+                KI,
+                KD);
         SubsystemGate gate = new SubsystemGate(hardwareMap,
                 telemetry);
         SubsystemSarcofogo sarcofogo = new SubsystemSarcofogo(hardwareMap,
@@ -55,7 +62,7 @@ public class AutonomousContainer implements RobotContainer {
                 .intake(intake)
                 .telemetry(telemetry)
                 .team(team)
-                .chassi(chassis)
+                .chassis(chassis)
                 .triggerSubsystem(triggerSubsystem)
                 .build()
                 .mainRoutine();

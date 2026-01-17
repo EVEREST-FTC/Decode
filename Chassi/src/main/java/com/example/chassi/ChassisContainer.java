@@ -12,16 +12,15 @@ import com.example.chassi.command.Drive;
 import com.example.chassi.command.UpRobot;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import java.util.Map;
 import java.util.function.DoubleSupplier;
 
 import lombok.Builder;
 
 @Builder
 public class ChassisContainer implements RobotContainer {
-    private final MecanumDrive chassi;
+    private final MecanumDrive chassis;
     private final Gamepad gamepad1;
-    private final DoubleSupplier distancia;
+    private final DoubleSupplier distance;
 
     private final EnumTeam team;
 
@@ -29,25 +28,25 @@ public class ChassisContainer implements RobotContainer {
 
     public void mainRoutine(){
         new Trigger(()->gamepad1.right_bumper).whileTrue(
-                new InstantCommand(chassi::resetIMU)
+                new InstantCommand(chassis::resetIMU)
         );
-        new Trigger(()->gamepad1.y).toggleOnTrue(new UpRobot(chassi));
+        new Trigger(()->gamepad1.y).toggleOnTrue(new UpRobot(chassis));
         new Trigger(()->gamepad1.left_trigger> GAMEPAD_AIM_TRIGGER).whileTrue(
-                new AlignToAngle(chassi.telemetry, target, chassi,
-                        distancia,
-                        chassi.getPid(),
+                new AlignToAngle(chassis.telemetry, target, chassis,
+                        distance,
+                        chassis.getPid(),
                         team.getIncrement(),
                         team.getShortIncrement(),
                         team.getLargeIncrement()
                 )
         );
 
-        chassi.setDefaultCommand(
+        chassis.setDefaultCommand(
                 new Drive(
-                        chassi,
-                        () -> chassi.DeadZone(gamepad1.right_stick_x) * ControllerConstants.CHASSIS_LIMIT_POWER_TURN,
-                        () -> chassi.DeadZone(gamepad1.left_stick_x) * ControllerConstants.CHASSIS_LIMIT_POWER,
-                        () -> chassi.DeadZone(gamepad1.left_stick_y) * ControllerConstants.CHASSIS_LIMIT_POWER));
+                        chassis,
+                        () -> chassis.DeadZone(gamepad1.right_stick_x) * ControllerConstants.CHASSIS_LIMIT_POWER_TURN,
+                        () -> chassis.DeadZone(gamepad1.left_stick_x) * ControllerConstants.CHASSIS_LIMIT_POWER,
+                        () -> chassis.DeadZone(gamepad1.left_stick_y) * ControllerConstants.CHASSIS_LIMIT_POWER));
     }
 
 }

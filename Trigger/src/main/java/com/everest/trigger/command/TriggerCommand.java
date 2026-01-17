@@ -1,8 +1,6 @@
 package com.everest.trigger.command;
 
 import com.everest.CommandBased.definition.Command;
-import com.everest.constants.Constants;
-import com.everest.constants.Pattern;
 import com.everest.trigger.subsystem.TriggerSubsystem;
 
 public class TriggerCommand extends Command {
@@ -10,16 +8,16 @@ public class TriggerCommand extends Command {
     private final TriggerSubsystem outtakeServo;
     private final double leftPositionTarget,
                             rightPositionTarget;
-    private final Runnable resetSarcofago;
+    private final Runnable resetSarcophagi;
 
 
     public TriggerCommand(TriggerSubsystem outtake,
                           double leftPositionTarget,
-                          double rightPositionTarget, Runnable resetSarcofago) {
+                          double rightPositionTarget, Runnable resetSarcophagi) {
         this.outtakeServo = outtake;
         this.leftPositionTarget = leftPositionTarget;
         this.rightPositionTarget = rightPositionTarget;
-        this.resetSarcofago = resetSarcofago;
+        this.resetSarcophagi = resetSarcophagi;
         addRequirements(outtake);
 
     }
@@ -27,14 +25,15 @@ public class TriggerCommand extends Command {
     @Override
     public void execute() {
         outtakeServo.setPositionL(leftPositionTarget);
-        outtakeServo.setPositionR(rightPositionTarget);;
+        outtakeServo.setPositionR(rightPositionTarget);
     }
 
     @Override
     public void end(boolean interrupted) {
+        outtakeServo.resetPosition();
+        if(interrupted) return;
         outtakeServo.incrementTImeLaunch();
-        outtakeServo.resetPosiiton();
-        resetSarcofago.run();
+        resetSarcophagi.run();
 
     }
 

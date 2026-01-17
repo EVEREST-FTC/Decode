@@ -5,11 +5,8 @@ import static com.everest.constants.Constants.SarcofagoConstants.SarcofogoInitia
 
 import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
-import com.everest.CommandBased.util.ConditionalCommand;
 import com.everest.CommandBased.util.InstantCommand;
-import com.everest.constants.Constants;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.sun.tools.doclint.Checker;
 
 import java.util.Map;
 import java.util.function.BooleanSupplier;
@@ -18,7 +15,7 @@ import java.util.function.Supplier;
 import lombok.Builder;
 
 @Builder
-public class SarcofogoContainer implements com.everest.constants.meta.RobotContainer {
+public class SarcophagiContainer implements com.everest.constants.meta.RobotContainer {
     private final Gamepad gamepad;
     private final SubsystemSarcofogo subsystemSarcofogo;
     private final FlagSubsystem flagSubsystem;
@@ -29,8 +26,6 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
 
     @Override
     public void mainRoutine() {
-        /*new Trigger(()->gamepad.x).and(()->!hasArtifact.getAsBoolean()).whileTrue(new Command(subsystemSarcofogo,50));*/
-
 
         new Trigger(subsystemSarcofogo::getsensorSarcofogo).onTrue(
                 new SelectCommand<>(
@@ -39,7 +34,7 @@ public class SarcofogoContainer implements com.everest.constants.meta.RobotConta
                                 SarcofogoInitialPosition, Moment.KEEP)),
                         Map.entry(Moment.SEND, new Command(subsystemSarcofogo,50, Moment.SEND).ateQUe(()->!artifactMoment.getAsBoolean()))
                 ),
-                ()->Moment.select(artifactMoment.getAsBoolean())
+                ()->Moment.select(artifactMoment.getAsBoolean()&&gamepad.left_trigger>GAMEPAD_AIM_TRIGGER)
         ));
 
         new Trigger(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));

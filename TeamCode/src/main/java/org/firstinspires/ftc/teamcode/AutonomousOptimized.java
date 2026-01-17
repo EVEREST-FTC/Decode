@@ -35,7 +35,7 @@ import lombok.Builder;
 @Builder
 public class AutonomousOptimized implements RobotContainer {
 
-    private final MecanumDrive chassi;
+    private final MecanumDrive chassis;
     private final TriggerSubsystem triggerSubsystem;
     private final SubsystemOuttake subsystemOuttake;
     private final SubsystemSarcofogo subsystemSarcofogo;
@@ -47,58 +47,58 @@ public class AutonomousOptimized implements RobotContainer {
     private final SubsystemGate subsystemGate;
     private boolean isAiming;
 
-    public void REDLONGECOMPLETO(){
+    public void farRedComplete(){
 
         new SequentialCommandGroup(
-                obelisco(),
-                new InstantCommand(chassi::resetIMU),
-                chassi.strafeToLinearHeading(-4,-8,-22,32),/// mira 1
-                LancarPrimeiro(),
-                chassi.strafeToLinearHeading(10,-28.3,90,35),/// coleta 1
-                chassi.strafeToLinearHeading(29,-28.3,90,10),
+                obelisk(),
+                new InstantCommand(chassis::resetIMU),
+                chassis.strafeToLinearHeading(-4,-8,-22,32),/// mira 1
+                firstLaunch(),
+                chassis.strafeToLinearHeading(10,-28.3,90,35),/// coleta 1
+                chassis.strafeToLinearHeading(29,-28.3,90,10),
 
-                chassi.strafeToLinearHeading(0,-8,-22,45),/// mira 2
-                resetmemore(),
+                chassis.strafeToLinearHeading(0,-8,-22,45),/// mira 2
+                resetMemory(),
                 new WaitCommand(0.4,Constants.clockSeconds),
-                LancarAuto(),
+                autoLaunch(),
 
-                chassi.strafeToLinearHeading(5,-52,90,35),/// coleta 2
-                chassi.strafeToLinearHeading(29,-52,90,10),
+                chassis.strafeToLinearHeading(5,-52,90,35),/// coleta 2
+                chassis.strafeToLinearHeading(29,-52,90,10),
 
-                chassi.strafeToLinearHeading(0,-8,-22,45),//// mira 3
-                resetmemore(),
+                chassis.strafeToLinearHeading(0,-8,-22,45),//// mira 3
+                resetMemory(),
                 new WaitCommand(0.4,Constants.clockSeconds),
-                LancarAuto(),
-                chassi.strafeToLinearHeading(10,-28.3,0,39)/// final
+                autoLaunch(),
+                chassis.strafeToLinearHeading(10,-28.3,0,39)/// final
         ).schedule();
     }
-    public void BLUELONGECOMPLETO(){
+    public void farBlueComplete(){
         new SequentialCommandGroup(
-                obelisco(),
-                new InstantCommand(chassi::resetIMU),
-                chassi.strafeToLinearHeading(4,-8,22,32),/// mira 1
+                obelisk(),
+                new InstantCommand(chassis::resetIMU),
+                chassis.strafeToLinearHeading(4,-8,22,32),/// mira 1
 
-                LancarPrimeiro(),
-                chassi.strafeToLinearHeading(-10,-28.3,-90,35),/// coleta 1
-                chassi.strafeToLinearHeading(-46,-28.3,-90,30),
-                chassi.strafeToLinearHeading(0,-8,22,45),/// mira 2
+                firstLaunch(),
+                chassis.strafeToLinearHeading(-10,-28.3,-90,35),/// coleta 1
+                chassis.strafeToLinearHeading(-46,-28.3,-90,30),
+                chassis.strafeToLinearHeading(0,-8,22,45),/// mira 2
 
 
-                LancarAuto(),
-                chassi.strafeToLinearHeading(-5,-52,-90,35),/// coleta 2
-                chassi.strafeToLinearHeading(-47,-52,-90,26),
-                chassi.strafeToLinearHeading(0,-8,22,45),//// mira 3
+                autoLaunch(),
+                chassis.strafeToLinearHeading(-5,-52,-90,35),/// coleta 2
+                chassis.strafeToLinearHeading(-47,-52,-90,26),
+                chassis.strafeToLinearHeading(0,-8,22,45),//// mira 3
 
-                LancarAuto(),
-                chassi.strafeToLinearHeading(-10,-28.3,0,45)/// final
+                autoLaunch(),
+                chassis.strafeToLinearHeading(-10,-28.3,0,45)/// final
         ).schedule();
     }
-    public void BLUEPERTOCOMPLETO(){
+    public void closeBlueComplete(){
         new SequentialCommandGroup(
                 new InstantCommand(()-> subLime.pipelineSwitch(2)),
-                new InstantCommand(chassi::resetIMU),
+                new InstantCommand(chassis::resetIMU),
                 new ParallelRaceGroup(
-                        chassi.strafeToLinearHeading(-10,30,20,32),
+                        chassis.strafeToLinearHeading(-10,30,20,32),
                         new Command() {
                             @Override
                             public void execute() {
@@ -111,33 +111,33 @@ public class AutonomousOptimized implements RobotContainer {
                             }
                         }
                 ),
-                chassi.strafeToLinearHeading(10,30,-50,32),/// mira 1
-                LancarPrimeiro(),
-                chassi.strafeToLinearHeading(7,50,90,32),/// coleta 1
-                chassi.strafeToLinearHeading(-20,50,90,26),
+                chassis.strafeToLinearHeading(10,30,-50,32),/// mira 1
+                firstLaunch(),
+                chassis.strafeToLinearHeading(7,50,90,32),/// coleta 1
+                chassis.strafeToLinearHeading(-20,50,90,26),
 
-                chassi.strafeToLinearHeading(10,30,-50,32),/// mira 2
-                LancarAuto(),
+                chassis.strafeToLinearHeading(10,30,-50,32),/// mira 2
+                autoLaunch(),
 
-                chassi.strafeToLinearHeading(7,75,90,32),/// coleta 2
-                chassi.strafeToLinearHeading(-25,75,90,26),
+                chassis.strafeToLinearHeading(7,75,90,32),/// coleta 2
+                chassis.strafeToLinearHeading(-25,75,90,26),
 
-                chassi.strafeToLinearHeading(10,30,-50,32),/// mira 3
-                LancarAuto(),
+                chassis.strafeToLinearHeading(10,30,-50,32),/// mira 3
+                autoLaunch(),
 
-                chassi.strafeToLinearHeading(-11,60,0,32)/// final
+                chassis.strafeToLinearHeading(-11,60,0,32)/// final
 
 
 
 
         ).schedule();
     }
-    public void REDPERTOCOMPLETO(){
+    public void closeRedComplete(){
         new SequentialCommandGroup(
                 new InstantCommand(()-> subLime.pipelineSwitch(2)),
-                new InstantCommand(chassi::resetIMU),
+                new InstantCommand(chassis::resetIMU),
                 new ParallelRaceGroup(
-                        chassi.strafeToLinearHeading(-10,30,20,32),
+                        chassis.strafeToLinearHeading(-10,30,20,32),
                         new Command() {
                                     @Override
                                     public void execute() {
@@ -150,21 +150,21 @@ public class AutonomousOptimized implements RobotContainer {
                                     }
                         }
                 ),
-                chassi.strafeToLinearHeading(-10,30,-50,32),/// mira 1
-                LancarPrimeiro(),
-                chassi.strafeToLinearHeading(-7,50,90,32),/// coleta 1
-                chassi.strafeToLinearHeading(20,50,90,26),
+                chassis.strafeToLinearHeading(-10,30,-50,32),/// mira 1
+                firstLaunch(),
+                chassis.strafeToLinearHeading(-7,50,90,32),/// coleta 1
+                chassis.strafeToLinearHeading(20,50,90,26),
 
-                chassi.strafeToLinearHeading(-10,30,-50,32),/// mira 2
-                LancarAuto(),
+                chassis.strafeToLinearHeading(-10,30,-50,32),/// mira 2
+                autoLaunch(),
 
-                chassi.strafeToLinearHeading(-7,75,90,32),/// coleta 2
-                chassi.strafeToLinearHeading(25,75,90,26),
+                chassis.strafeToLinearHeading(-7,75,90,32),/// coleta 2
+                chassis.strafeToLinearHeading(25,75,90,26),
 
-                chassi.strafeToLinearHeading(-10,30,-50,32),/// mira 3
-                LancarAuto(),
+                chassis.strafeToLinearHeading(-10,30,-50,32),/// mira 3
+                autoLaunch(),
 
-                chassi.strafeToLinearHeading(11,60,0,32)/// final
+                chassis.strafeToLinearHeading(11,60,0,32)/// final
 
 
 
@@ -174,22 +174,10 @@ public class AutonomousOptimized implements RobotContainer {
 
     }
 
-
-    public Command strafeToLinearHeading(double x,double y, double angulo, int velocidade){
-
-        return  new ParallelCommandGroup(
-                chassi.strafeToLinearHeading(x,y,angulo,velocidade),
-                new SequentialCommandGroup(
-                        new WaitCommand(0.3,Constants.clockSeconds),
-                        new InstantCommand(subsystemOuttake::resetMemory)
-                )
-
-        );
-    }
-    public Command resetmemore(){return new InstantCommand(subsystemOuttake::resetMemory); }
+    public Command resetMemory(){return new InstantCommand(subsystemOuttake::resetMemory); }
 
 
-    public Command obelisco(){
+    public Command obelisk(){
         return new SequentialCommandGroup(
                 new InstantCommand(()->
                         Constants.setMatchPattern(Pattern.getById(subLime.getTagId()))
@@ -197,54 +185,54 @@ public class AutonomousOptimized implements RobotContainer {
                 new InstantCommand(()->subLime.pipelineSwitch(team.getPipeline())));
     }
 
-    public Command Mirar(){
-        return chassi.mirar(team, subLime::getTx, subLime::getfrontal);
+    public Command aim(){
+        return chassis.mirar(team, subLime::getTx, subLime::getfrontal);
 
     }
-    public Command atirar(){
+    public Command launch(){
         return triggerSubsystem.launch(subsystemOuttake::hasArtifact, subsystemOuttake::atSetpoint)
                 .antesDe(new InstantCommand(subsystemOuttake::resetMemory));
     }
 
-    public Command LancarPrimeiro(){
+    public Command firstLaunch(){
 
         return new ParallelCommandGroup(
                 new SequentialCommandGroup(
-                        new InstantCommand(triggerSubsystem::resettimelaunch),
+                        new InstantCommand(triggerSubsystem::resetTimeLaunch),
                         new RepeatCommand(
-                                atirar()
+                                launch()
                         )
                 ),
-                Mirar(),
-                new AutoLime3A(subLime::getfrontal,subsystemOuttake).ateQUe((triggerSubsystem::contlaunchtimes)),//outtake
+                aim(),
+                new AutoLime3A(subLime::getfrontal,subsystemOuttake).ateQUe((triggerSubsystem::contLaunchTimes)),//outtake
                 new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry)//plataforma,
         )
                 .antesDe(new InstantCommand(()->isAiming=true))
                 .antesDe(new InstantCommand(()->triggerSubsystem.setLastTarget(3)))
-                .antesDe(new InstantCommand(triggerSubsystem::resettimelaunch))
+                .antesDe(new InstantCommand(triggerSubsystem::resetTimeLaunch))
                 .espere(7,Constants.clockSeconds)
-                .ateQUe(triggerSubsystem::contlaunchtimes)
+                .ateQUe(triggerSubsystem::contLaunchTimes)
                 .depois(new InstantCommand(()->isAiming=false));
 
     }
-    public Command LancarAuto(){
+    public Command autoLaunch(){
 
         return new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new InstantCommand(triggerSubsystem::resettimelaunch),
+                                new InstantCommand(triggerSubsystem::resetTimeLaunch),
                                 new RepeatCommand(
-                                        atirar()
+                                        launch()
                                 )
                         ),
-                Mirar(),
-                new AutoLime3A(subLime::getfrontal,subsystemOuttake).ateQUe((triggerSubsystem::contlaunchtimes)),//outtake
+                aim(),
+                new AutoLime3A(subLime::getfrontal,subsystemOuttake).ateQUe((triggerSubsystem::contLaunchTimes)),//outtake
                 new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry)//plataforma,
         )
                 .antesDe(new InstantCommand(()->isAiming=true))
                 .antesDe(new InstantCommand(()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts())))
-                .ateQUe(triggerSubsystem::contlaunchtimes)
+                .ateQUe(triggerSubsystem::contLaunchTimes)
                 .espere(7,Constants.clockSeconds)
-                .antesDe( new InstantCommand(triggerSubsystem::resettimelaunch))
+                .antesDe( new InstantCommand(triggerSubsystem::resetTimeLaunch))
                 .depois(new InstantCommand(()->isAiming=false));
 
     }
@@ -259,13 +247,13 @@ public class AutonomousOptimized implements RobotContainer {
         intakeRoutine();
 
         if (team == EnumTeam.SOLO_BLUE_FAR)
-            BLUELONGECOMPLETO();
+            farBlueComplete();
         else if (team == EnumTeam.SOLO_RED_FAR)
-            REDLONGECOMPLETO();
+            farRedComplete();
         else if (team == EnumTeam.SOLO_RED_CLOSE)
-            REDPERTOCOMPLETO();
+            closeRedComplete();
         else
-            BLUEPERTOCOMPLETO();
+            closeBlueComplete();
 
 
     }

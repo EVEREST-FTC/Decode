@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import static com.everest.constants.Constants.GyroConstants.KD_TELEOP;
+import static com.everest.constants.Constants.GyroConstants.KI_TELEOP;
+import static com.everest.constants.Constants.GyroConstants.KP_TELEOP;
+
 import com.everest.constants.meta.EnumTeam;
 import com.everest.intake.IntakeContainer;
 import com.everest.intake.Subsystem.SubsytemIntake;
@@ -15,7 +19,7 @@ import com.example.gate.GateContainer;
 import com.example.gate.SubsystemGate;
 import com.example.limelightcentral.Subsystem;
 import com.example.sarcofogo.FlagSubsystem;
-import com.example.sarcofogo.SarcofogoContainer;
+import com.example.sarcofogo.SarcophagiContainer;
 import com.example.sarcofogo.SubsystemSarcofogo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -36,10 +40,13 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
 
         MecanumDrive chassis = new MecanumDrive(hardwareMap,
                 telemetry,
-                team);
+                team,
+                KP_TELEOP,
+                KI_TELEOP,
+                KD_TELEOP);
         SubsystemGate gate = new SubsystemGate(hardwareMap,
                 telemetry);
-        SubsystemSarcofogo sarcofogo = new SubsystemSarcofogo(hardwareMap,
+        SubsystemSarcofogo sarcophagi = new SubsystemSarcofogo(hardwareMap,
                 telemetry);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
         SubsystemOuttake outtake = new SubsystemOuttake(hardwareMap,
@@ -59,9 +66,9 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
         ChassisContainer.builder()
                 .team(team)
                 .target(limelight::getTx)
-                .distancia(limelight::getfrontal)
+                .distance(limelight::getfrontal)
                 .gamepad1(gamepad1)
-                .chassi(chassis)
+                .chassis(chassis)
                 .build()
                 .defineMainRoutine();
 
@@ -70,17 +77,17 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .subsystemGate(gate)
                 .hasArtifact(outtake::hasArtifact)
                 .gamepad(gamepad1)
-                .sensorSarcofogo(sarcofogo::getsensorSarcofogo)
-                .sarcofagoMoment(sarcofogo::isSending)
+                .sensorSarcophagi(sarcophagi::getsensorSarcofogo)
+                .sarcophagiMoment(sarcophagi::isSending)
                 .build()
                 .defineMainRoutine();
 
         IntakeContainer.builder()
                 .gamepad(gamepad1)
-                .hasartifact(outtake::hasArtifact)
+                .hasArtifact(outtake::hasArtifact)
                 .subsytemIntake(intake)
-                .intakemoment(triggerSubsystem::intaketimepower)
-                .sarcofagoMoment(sarcofogo::isSending)
+                .intakeMoment(triggerSubsystem::intakeTimePower)
+                .sarcophagiMoment(sarcophagi::isSending)
                 .distance(limelight::getfrontal)
                 .build()
                 .defineMainRoutine();
@@ -91,39 +98,39 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .distance(limelight::getfrontal)
                 .hasArtifact(outtake::hasArtifact)
                 .subsystem(outtake)
-                .sarcofagoMoment(sarcofogo::isSending)
+                .sarcophagiMoment(sarcophagi::isSending)
                 .build()
                 .defineMainRoutine();
 
         PlatformContainer.builder()
                 .gamepad(gamepad1)
                 .subsystemCalibrator(platform)
-                .distancia(limelight::getfrontal)
+                .distance(limelight::getfrontal)
                 .hasArtifact(outtake::hasArtifact)
                 .telemetry(telemetry)
                 .build()
                 .defineMainRoutine();
 
 
-        SarcofogoContainer.builder()
-                .subsystemSarcofogo(sarcofogo)
+        SarcophagiContainer.builder()
+                .subsystemSarcofogo(sarcophagi)
                 .gamepad(gamepad1)
                 .hasArtifact(outtake::hasArtifact)
                 .ArtifactComplete(outtake::noDebounceArtifacts)
-                .artifactMoment(triggerSubsystem::artifactmoment)
+                .artifactMoment(triggerSubsystem::artifactMoment)
                 .flagSubsystem(flagSubsystem)
                 .build()
                 .defineMainRoutine()
         ;
 
         TriggerContainer.builder()
-                .hasartifact(outtake::hasArtifact)
+                .hasArtifact(outtake::hasArtifact)
                 .gamepad(gamepad1)
                 .triggerSubsystem(triggerSubsystem)
                 .velocityVerifier(outtake::atSetpoint)
                 .limelightAcceptance(limelight::isValid)
                 .translationalSetpoint(chassis::atSetpoint)
-                .resetMemore(sarcofogo::resetmemore)
+                .resetMemory(sarcophagi::resetmemore)
                 .build()
                 .defineMainRoutine();
     }

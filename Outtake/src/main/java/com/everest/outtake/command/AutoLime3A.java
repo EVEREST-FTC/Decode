@@ -1,6 +1,7 @@
 package com.everest.outtake.command;
 
 import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
+import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.POWER_LAUNCHER_CONVERSION;
 
 import com.everest.CommandBased.definition.Command;
@@ -30,10 +31,12 @@ public class AutoLime3A extends Command {
 
         double vx = distance / t;
         double velocity = Math.sqrt(Vy*Vy + vx*vx);
-
-        velocity*=(distance< Constants.LauncherControllerConstants.DISTANCE_RANGE)?
-                CLOSE_POWER_LAUNCHER_CONVERSION:
-                POWER_LAUNCHER_CONVERSION;
+        if(distance< Constants.LauncherControllerConstants.DISTANCE_RANGE)
+            velocity*=CLOSE_POWER_LAUNCHER_CONVERSION;
+        else if(distance> CameraConstants.largeIncrementDistance)
+            velocity*=FAR_POWER_LAUNCHER_CONVERSION;
+        else
+            velocity*=POWER_LAUNCHER_CONVERSION;
 
         subsystem.setVelocity(velocity);
     }

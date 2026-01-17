@@ -1,6 +1,7 @@
 package com.everest.intake.Command;
 
 import com.everest.CommandBased.definition.Command;
+import com.everest.constants.Constants;
 import com.everest.intake.Subsystem.SubsytemIntake;
 
 public class CommandIntake extends Command {
