@@ -8,15 +8,12 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.constants.Constants.ControllerConstants;
-import com.everest.constants.Constants.GyroConstants;
 import com.everest.constants.meta.EnumTeam;
 import com.example.chassi.command.AlignToAngle;
 import com.example.chassi.roadrunner.command.RoadRunnerWrapper;
-import com.example.chassi.roadrunner.lib.Localizer;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.everest.constants.Constants;
 
 import com.everest.constants.PID;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -119,10 +116,6 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                 this.getPid(),team.getIncrement(),
                 team.getShortIncrement(),team.getLargeIncrement()
         );
-    }
-
-    @Override
-    public void periodic() {
     }
 }
 

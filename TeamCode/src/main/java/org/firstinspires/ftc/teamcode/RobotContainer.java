@@ -30,10 +30,10 @@ import lombok.Builder;
 
 @Builder
 public class RobotContainer implements com.everest.constants.meta.RobotContainer {
-    Gamepad gamepad1;
-    HardwareMap hardwareMap;
-    Telemetry telemetry;
-    EnumTeam team;
+    private Gamepad gamepad1;
+    private HardwareMap hardwareMap;
+    private Telemetry telemetry;
+    private EnumTeam team;
 
     @Override
     public void mainRoutine() {
@@ -79,6 +79,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .gamepad(gamepad1)
                 .sensorSarcophagi(sarcophagi::getsensorSarcofogo)
                 .sarcophagiMoment(sarcophagi::isSending)
+                .isUnactive(sarcophagi::isUnactive)
                 .build()
                 .defineMainRoutine();
 

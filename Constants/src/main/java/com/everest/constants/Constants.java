@@ -14,8 +14,8 @@ public class Constants {
     public static Clock robotTimer = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
     @Setter
     @Getter
-    private static com.everest.constants.Pattern matchPattern = Pattern.BOTTOM;
-    /// Constantes do piloto
+    private static com.everest.constants.Pattern matchPattern = Pattern.NONE;
+    /// Constantes do piloto]
     public static class ControllerConstants{
         public static final double CHASSIS_LIMIT_POWER = 1.0;
         public static final double CHASSIS_LIMIT_POWER_TURN = 0.5;
@@ -27,7 +27,7 @@ public class Constants {
     ///RELATIVO AO PID da limelight
     public static class GyroConstants{
         public static final double KP = 0.02405;
-        public static final double KI = 0.045;///0.0.045
+        public static final double KI = 0.08;///0.0.045
 
         public static final double KD = 0;
         public static final double KP_TELEOP = 0.02405;

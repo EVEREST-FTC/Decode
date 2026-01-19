@@ -7,11 +7,9 @@ import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.InstantCommand;
 import com.qualcomm.robotcore.hardware.Gamepad;
-
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
-
 import lombok.Builder;
 
 @Builder
@@ -27,7 +25,7 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
     @Override
     public void mainRoutine() {
 
-        new Trigger(subsystemSarcofogo::getsensorSarcofogo).onTrue(
+       subsystemSarcofogo.setDefaultCommand(
                 new SelectCommand<>(
                 Map.ofEntries(
                         Map.entry(Moment.KEEP, new Command(subsystemSarcofogo,
@@ -38,6 +36,7 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
         ));
 
         new Trigger(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
+        new Trigger(()->gamepad.right_trigger>GAMEPAD_AIM_TRIGGER).toggleOnTrue(new Command(subsystemSarcofogo,0, Moment.UNACTIVE));
         flagSubsystem.setDefaultCommand(
                 new CommandBandeira(flagSubsystem, 0)
         );

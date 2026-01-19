@@ -17,16 +17,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import lombok.Getter;
 
 public class SubsystemOuttake extends SubsystemBase {
-    DcMotorEx rightEngine, leftEngine;
-    Telemetry telemetry;
-    double memoryRight = 0;
-    double memoryLeft = 0;
+    private final DcMotorEx rightEngine, leftEngine;
+    private final Telemetry telemetry;
+    private double memoryRight = 0;
+    private double memoryLeft = 0;
 
-    double memoryOuttake = 0;
+    private double memoryOuttake = 0;
     @Getter
     private double targetVelocity = 0;
 
-    double lastSeenRight = 0,
+    private double lastSeenRight = 0,
     lastSeenLeft = 0;
     private final double admissibleSeconds = 0.7;
 
@@ -75,11 +75,6 @@ public class SubsystemOuttake extends SubsystemBase {
         return memoryLeft > 8;
     }
 
-    public void resetMemory(){
-       memoryLeft = 0;
-       memoryRight = 0;
-       memoryOuttake = 0;
-    }
     public boolean getDistanceRight(){
         if (sensorGateRight.getDistance(DistanceUnit.MM)< 34) {
             memoryRight++;
@@ -88,7 +83,6 @@ public class SubsystemOuttake extends SubsystemBase {
         double deltaT = robotTimer.getTime()-lastSeenRight;
         if(deltaT>admissibleSeconds) memoryRight = 0;
         return memoryRight > 8;
-        /*return SensorgateRight.getDistance(DistanceUnit.MM)< 35;*/
     }
     public boolean noDebounceRight(){
         if (sensorGateRight.getDistance(DistanceUnit.MM)< 34) {
@@ -138,6 +132,8 @@ public class SubsystemOuttake extends SubsystemBase {
     public void periodic() {
         telemetry.addData("has artifact", hasArtifact());
         telemetry.addData("at setpoint", atSetpoint());
+        telemetry.addData("artifacts", artifacts());
+
     }
 
 }

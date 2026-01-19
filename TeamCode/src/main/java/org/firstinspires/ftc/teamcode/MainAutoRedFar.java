@@ -17,6 +17,7 @@ public class MainAutoRedFar extends LinearOpMode {
         //delay p construção dos subsistemas
         waitForStart();
 
+
         while (opModeIsActive()) {
             CommandScheduler.getInstance().run();
             telemetry.update();

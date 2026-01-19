@@ -13,23 +13,19 @@ import java.util.function.DoubleSupplier;
 
 public class AlignToAngle extends Command {
     private final DoubleSupplier target;
-    private final MecanumDrive chassi;
-
-    final DoubleSupplier distanceSupplier;
+    private final MecanumDrive chassis;
+    private final DoubleSupplier distanceSupplier;
     private final PID pid;
-
     private double alvo;
     private final double greatIncrement;
-
-    final double shotincrement;
-
-    final double LargeIncrement;
+    private final double shotincrement;
+    private final double LargeIncrement;
     Telemetry telemetry;
 
     public AlignToAngle(
             Telemetry telemetry, DoubleSupplier target, MecanumDrive chassi, DoubleSupplier distanceSupplier, PID pid, double alvo, double shortincrement, double largeIncrement) {
         this.target = target;
-        this.chassi = chassi;
+        this.chassis = chassi;
         this.distanceSupplier = distanceSupplier;
         this.pid = pid;
         this.greatIncrement = alvo;
@@ -57,11 +53,11 @@ public class AlignToAngle extends Command {
             alvo = greatIncrement;
 
         double angle = pid.calculate(alvo, target.getAsDouble());
-        chassi.drive(0, 0, angle);
+        chassis.drive(0, 0, angle);
     }
 
     @Override
     public void end(boolean interrupted) {
-        chassi.drive(0, 0, 0);
+        chassis.drive(0, 0, 0);
     }
 }

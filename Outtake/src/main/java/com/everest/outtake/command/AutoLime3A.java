@@ -44,7 +44,6 @@ public class AutoLime3A extends Command {
     @Override
     public void end(boolean interrupted) {
         subsystem.setVelocity(0);
-        subsystem.resetMemory();
         subsystem.brake();
     }
 }

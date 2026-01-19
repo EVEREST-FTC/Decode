@@ -23,9 +23,9 @@ import lombok.Builder;
 @Builder
 public class AutonomousContainer implements RobotContainer {
 
-    HardwareMap hardwareMap;
-    Telemetry telemetry;
-    EnumTeam team;
+    private HardwareMap hardwareMap;
+    private Telemetry telemetry;
+    private EnumTeam team;
     @Override
     public void mainRoutine() {
         MecanumDrive chassis = new MecanumDrive(hardwareMap,

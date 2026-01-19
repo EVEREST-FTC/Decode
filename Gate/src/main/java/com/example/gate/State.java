@@ -20,11 +20,12 @@ public enum State {
     public static State selector(boolean hasArtifact){
         if(hasArtifact)
             return CLOSED;
-
         return OPENED;
     }
-    public static State selector(boolean hasArtifact, boolean isSending){
-        if(Constants.getMatchPattern().equals(Pattern.BOTTOM)&&!isSending)
+    public static State selector(boolean hasArtifact, boolean isSending, boolean isUnactive){
+        if(Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
+                !isSending&&
+                !isUnactive)
             return BOTTOM_SELECTION;
         if(hasArtifact)
             return CLOSED;

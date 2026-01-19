@@ -76,7 +76,7 @@ public class MecanumDrive extends SubsystemBase{
         public double kA = 0.000001;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 30;
+        public double maxWheelVel = 50;
         public double minProfileAccel = -30;
         public double maxProfileAccel = 50;
 
@@ -85,13 +85,13 @@ public class MecanumDrive extends SubsystemBase{
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 13;
-        public double lateralGain = 9000;
-        public double headingGain = 6; // shared with turn
+        public double axialGain = 7;
+        public double lateralGain = 10000;
+        public double headingGain = 8; // shared with turn
 
-        public double axialVelGain = 2;
+        public double axialVelGain = 2.5;
         public double lateralVelGain = 10;
-        public double headingVelGain = 0.01;
+        public double headingVelGain = 0.1;
     }
 
     @Getter
@@ -337,7 +337,7 @@ public class MecanumDrive extends SubsystemBase{
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
             double positionTolerance = 2;
-            double headingTolerance = 1;
+            double headingTolerance = 2;
             translationalSetpoint = error.position.norm()<positionTolerance&&
                     error.heading.toDouble()<headingTolerance;
             if (t >= timeTrajectory.duration && translationalSetpoint) {
