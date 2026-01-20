@@ -5,6 +5,9 @@ import static com.everest.constants.Constants.GateConstants.GateClosePosition;
 import static com.everest.constants.Constants.GateConstants.GateOpenPosition;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_CLOSE;
+import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
+import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
+import static com.everest.constants.Constants.PlatformConstants.POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.SarcofagoConstants.SarcofogoInitialPosition;
 
 import com.everest.CommandBased.compositions.ParallelCommandGroup;
@@ -64,48 +67,60 @@ public class AutonomousOptimized implements RobotContainer {
     public void farRedComplete(){
 
         new SequentialCommandGroup(
-                obelisk(),
                 new InstantCommand(chassis::resetIMU),
+                obelisk(),
                 chassis.strafeToLinearHeading(-4,-8,-22,50),/// mira 1
 
                 firstLaunch(),
                 chassis.strafeToLinearHeading(10,-28.3,90,50),/// coleta 1
                 chassis.strafeToLinearHeading(29,-28.3,90,15),
 
-                chassis.strafeToLinearHeading(0,-8,-22,50),///mira 2
-                counting(),
+                new ParallelRaceGroup(
+                        counting(),
+                        chassis.strafeToLinearHeading(0,-8,-22,50)///mira 2
+                ),
                 autoLaunch(),
 
                 chassis.strafeToLinearHeading(5,-52,90,50),/// coleta 2
                 chassis.strafeToLinearHeading(29,-52,90,15),
 
-                chassis.strafeToLinearHeading(0,-8,-22,50),//// mira 3
-                counting(),
+                new ParallelRaceGroup(
+                        counting(),
+                        chassis.strafeToLinearHeading(0,-8,-22,50)///mira 3
+                ),
                 autoLaunch(),
                 chassis.strafeToLinearHeading(10,-28.3,0,50)/// final*/
         ).schedule();
     }
     public void farBlueComplete(){
-        new SequentialCommandGroup(
-                obelisk(),
-                new InstantCommand(chassis::resetIMU),
-                chassis.strafeToLinearHeading(4,-8,22,32),/// mira 1
+        new ParallelCommandGroup(
+                new SequentialCommandGroup(
+                        new InstantCommand(chassis::resetIMU),
+                        obelisk(),
+                        chassis.strafeToLinearHeading(4,-8,23.5,50),/// mira 1
 
-                firstLaunch(),
-                chassis.strafeToLinearHeading(-10,-28.3,-90,35),/// coleta 1
-                chassis.strafeToLinearHeading(-46,-28.3,-90,30),
-                chassis.strafeToLinearHeading(0,-8,22,45),/// mira 2
+                        firstLaunch(),
 
+                        chassis.strafeToLinearHeading(-10,-27.7,-90,50),/// coleta 1
+                        chassis.strafeToLinearHeading(-31,-27.7,-90,24),
 
-                counting(),
-                autoLaunch(),
-                chassis.strafeToLinearHeading(-5,-52,-90,35),/// coleta 2
-                chassis.strafeToLinearHeading(-47,-52,-90,26),
-                chassis.strafeToLinearHeading(0,-8,22,45),//// mira 3
+                        new ParallelRaceGroup(
+                                counting(),
+                                chassis.strafeToLinearHeading(0,-8,23.5,50)///mira 2
+                        ),
+                        autoLaunch(),
 
-                counting(),
-                autoLaunch(),
-                chassis.strafeToLinearHeading(-10,-28.3,0,45)/// final
+                        chassis.strafeToLinearHeading(-5,-50,-90,50),/// coleta 2
+                        chassis.strafeToLinearHeading(-31,-50,-90,24),
+
+                        new ParallelRaceGroup(
+                                counting(),
+                                chassis.strafeToLinearHeading(0,-8,23.5,50)///mira 3
+                        ),
+                        autoLaunch(),
+                        chassis.strafeToLinearHeading(-10,-28.3,0,50)/// final*/
+                ),
+                new RepeatCommand(new InstantCommand(subsystemOuttake::artifacts))
         ).schedule();
     }
     public void closeBlueComplete(){
@@ -113,7 +128,7 @@ public class AutonomousOptimized implements RobotContainer {
                 new InstantCommand(()-> subLime.pipelineSwitch(2)),
                 new InstantCommand(chassis::resetIMU),
                 new ParallelRaceGroup(
-                        chassis.strafeToLinearHeading(-10,30,20,32),
+                        chassis.strafeToLinearHeading(10,45,0,32),
                         new Command() {
                             @Override
                             public void execute() {
@@ -126,20 +141,24 @@ public class AutonomousOptimized implements RobotContainer {
                             }
                         }
                 ),
-                chassis.strafeToLinearHeading(10,30,-50,32),/// mira 1
+                chassis.strafeToLinearHeading(10,45,27,32),/// mira 1
                 firstLaunch(),
-                chassis.strafeToLinearHeading(7,50,90,32),/// coleta 1
-                chassis.strafeToLinearHeading(-20,50,90,26),
-
-                chassis.strafeToLinearHeading(10,30,-50,32),/// mira 2
-                counting(),
+                new WaitCommand(0.5,Constants.robotTimer),
+                chassis.strafeToLinearHeading(10,50,-90,15),/// coleta 1
+                chassis.strafeToLinearHeading(-17,50,-90,14),
+                new ParallelRaceGroup(
+                        chassis.strafeToLinearHeading(10,45,32,32),/// mira 2
+                        counting()
+                ),
                 autoLaunch(),
 
-                chassis.strafeToLinearHeading(7,75,90,32),/// coleta 2
-                chassis.strafeToLinearHeading(-25,75,90,26),
+                chassis.strafeToLinearHeading(10,75,-90,24),/// coleta 2
+                chassis.strafeToLinearHeading(-17,75,-90,14),
 
-                chassis.strafeToLinearHeading(10,30,-50,32),/// mira 3
-                counting(),
+                new ParallelRaceGroup(
+                        chassis.strafeToLinearHeading(10,45,32,32),/// mira 3
+                        counting()
+                ),
                 autoLaunch(),
 
                 chassis.strafeToLinearHeading(-11,60,0,32)/// final
@@ -198,16 +217,12 @@ public class AutonomousOptimized implements RobotContainer {
         return new SequentialCommandGroup(
                 new InstantCommand(()->subLime.pipelineSwitch(2)),
                 new InstantCommand(()->
-                        Constants.setMatchPattern(Pattern.BOTTOM)
-                        //Constants.setMatchPattern(Pattern.getById(subLime.getTagId()))
+                        /*Constants.setMatchPattern(Pattern.BOTTOM)*/
+                        Constants.setMatchPattern(Pattern.getById(subLime.getTagId()))
                 ),
                 new InstantCommand(()->subLime.pipelineSwitch(team.getPipeline())));
     }
 
-    public Command aim(){
-        return chassis.mirar(team, subLime::getTx, subLime::getfrontal);
-
-    }
     public Command launch(){
         return triggerSubsystem.launch(subsystemOuttake::hasArtifact, subsystemOuttake::atSetpoint);
     }
@@ -237,8 +252,10 @@ public class AutonomousOptimized implements RobotContainer {
     }
     public Command counting(){
         return new SequentialCommandGroup(
-                new WaitCommand(0.4, Constants.robotTimer),
-                new InstantCommand(()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts())));
+                new RepeatCommand(
+                        new InstantCommand(()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts()))
+                ).ateQUe(()->subsystemOuttake.noDebounceArtifacts()==3),
+                new WaitCommand(5, Constants.robotTimer));
     }
     public Command autoLaunch(){
 
@@ -296,22 +313,23 @@ public class AutonomousOptimized implements RobotContainer {
     }
     protected void outtakeRoutine(){
         subsystemOuttake.setDefaultCommand(
-                new AutoLime3A(subLime::getfrontal, subsystemOuttake).ateQUe(()->
+                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, 800.0).ateQUe(()->
                         (!isAiming&&
                                 !isSending)||
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         subsystemSarcofogo.isSending()&&
                                         !subsystemOuttake.hasArtifact())));
 
-        new Trigger(subsystemOuttake::hasArtifact).whileFalse(new LaunchCommand(subsystemOuttake, -0.2));
+        new Trigger(()->!subsystemOuttake.hasArtifact()).and(()->isSending).onTrue(new LaunchCommand(subsystemOuttake, -0.2).ateQUe(subsystemOuttake::hasArtifact));
     }
     protected void intakeRoutine(){
 
 
        intake.setDefaultCommand(new CommandIntake(intake, (team==EnumTeam.SOLO_BLUE_FAR||team==EnumTeam.SOLO_RED_FAR)?
-               0.85:
+               0.7:
                INTAKE_POWER_CLOSE
                ));
+       //mudança importante: lei de morgan
         new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).whileTrue(new CommandIntake(intake, 0.25));
 
     }

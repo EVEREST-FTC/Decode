@@ -28,7 +28,7 @@ public class SubsystemOuttake extends SubsystemBase {
 
     private double lastSeenRight = 0,
     lastSeenLeft = 0;
-    private final double admissibleSeconds = 0.7;
+    private final double admissibleSeconds = 0.5;
 
 
     private final RevColorSensorV3 ColorSensorL, ColorSensorR, sensorGateLeft, sensorGateRight;
@@ -66,13 +66,13 @@ public class SubsystemOuttake extends SubsystemBase {
         }
         double deltaT = robotTimer.getTime()-lastSeenLeft;
         if(deltaT>admissibleSeconds) memoryLeft = 0;
-        return memoryLeft > 8;
+        return memoryLeft > 5;
     }
     public boolean noDebounceLeft(){
         if (sensorGateLeft.getDistance(DistanceUnit.MM)< 34) {
             memoryLeft++;
         }
-        return memoryLeft > 8;
+        return memoryLeft > 6;
     }
 
     public boolean getDistanceRight(){
@@ -82,7 +82,7 @@ public class SubsystemOuttake extends SubsystemBase {
         }
         double deltaT = robotTimer.getTime()-lastSeenRight;
         if(deltaT>admissibleSeconds) memoryRight = 0;
-        return memoryRight > 8;
+        return memoryRight > 5;
     }
     public boolean noDebounceRight(){
         if (sensorGateRight.getDistance(DistanceUnit.MM)< 34) {
@@ -112,13 +112,13 @@ public class SubsystemOuttake extends SubsystemBase {
         double velocity = Math.abs(rightEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<50;
+        return Math.abs(velocity-targetVelocity)<13;
     }
     private boolean leftSetpoint(){
         double velocity =  Math.abs(leftEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<50;
+        return Math.abs(velocity-targetVelocity)<13;
     }
     public boolean atSetpoint(){
         return rightSetpoint()&&leftSetpoint();
@@ -130,9 +130,13 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("has artifact", hasArtifact());
+        /*telemetry.addData("has artifact", hasArtifact());
         telemetry.addData("at setpoint", atSetpoint());
-        telemetry.addData("artifacts", artifacts());
+        telemetry.addData("artifacts", artifacts());*/
+        telemetry.addData("artinumer",artifacts());
+
+
+
 
     }
 

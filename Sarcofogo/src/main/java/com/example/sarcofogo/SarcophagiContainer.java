@@ -36,7 +36,7 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
         ));
 
         new Trigger(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
-        new Trigger(()->gamepad.right_trigger>GAMEPAD_AIM_TRIGGER).toggleOnTrue(new Command(subsystemSarcofogo,0, Moment.UNACTIVE));
+        new Trigger(()->gamepad.right_trigger>GAMEPAD_AIM_TRIGGER).toggleOnFalse(new Command(subsystemSarcofogo,0, Moment.UNACTIVE));
         flagSubsystem.setDefaultCommand(
                 new CommandBandeira(flagSubsystem, 0)
         );

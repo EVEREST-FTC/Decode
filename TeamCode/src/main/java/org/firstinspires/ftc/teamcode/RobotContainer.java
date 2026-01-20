@@ -87,6 +87,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .gamepad(gamepad1)
                 .hasArtifact(outtake::hasArtifact)
                 .subsytemIntake(intake)
+                .isUnactive(sarcophagi::isUnactive)
                 .intakeMoment(triggerSubsystem::intakeTimePower)
                 .sarcophagiMoment(sarcophagi::isSending)
                 .distance(limelight::getfrontal)

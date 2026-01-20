@@ -30,8 +30,8 @@ public class Constants {
         public static final double KI = 0.08;///0.0.045
 
         public static final double KD = 0;
-        public static final double KP_TELEOP = 0.02405;
-        public static final double KI_TELEOP = 0.01;///0.0.045
+        public static final double KP_TELEOP = 0.0252;
+        public static final double KI_TELEOP = 0.029;///0.0.045
 
         public static final double KD_TELEOP = 0;
         ///
@@ -133,7 +133,7 @@ public class Constants {
     /// Constantes do intake
     public static class IntakeConstants{
         public static final double INTAKE_POWER = 0.65;
-        public static final double INTAKE_POWER_CLOSE = 0.55;
+        public static final double INTAKE_POWER_CLOSE = 0.95;
         public static final double LAST_INTAKE_POWER = 0.75;
         public static final double CLOSE_LAST_INTAKE_POWER = 0.85;
 

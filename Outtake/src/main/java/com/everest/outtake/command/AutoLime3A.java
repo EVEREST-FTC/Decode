@@ -14,9 +14,16 @@ import java.util.function.Supplier;
 public class AutoLime3A extends Command {
     final Supplier<Double>distanceSupplier;
     final SubsystemOuttake subsystem;
+    final double far, close, normal;
     public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem) {
+        this(distanceSupplier, subsystem, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION);
+    }
+    public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal) {
         this.distanceSupplier = distanceSupplier;
         this.subsystem = subsystem;
+        this.far = far;
+        this.close = close;
+        this.normal = normal;
         addRequirements(subsystem);
     }
 
@@ -32,11 +39,11 @@ public class AutoLime3A extends Command {
         double vx = distance / t;
         double velocity = Math.sqrt(Vy*Vy + vx*vx);
         if(distance< Constants.LauncherControllerConstants.DISTANCE_RANGE)
-            velocity*=CLOSE_POWER_LAUNCHER_CONVERSION;
+            velocity*=close;
         else if(distance> CameraConstants.largeIncrementDistance)
-            velocity*=FAR_POWER_LAUNCHER_CONVERSION;
+            velocity*=far;
         else
-            velocity*=POWER_LAUNCHER_CONVERSION;
+            velocity*=normal;
 
         subsystem.setVelocity(velocity);
     }

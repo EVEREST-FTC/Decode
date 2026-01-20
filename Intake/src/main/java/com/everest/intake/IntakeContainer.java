@@ -25,12 +25,13 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
     private final BooleanSupplier hasArtifact;
     private final BooleanSupplier intakeMoment;
     private final BooleanSupplier sarcophagiMoment;
+    private final BooleanSupplier isUnactive;
     private final DoubleSupplier distance;
     @Override
     public void mainRoutine() {
         new Trigger(()->gamepad.y).toggleOnTrue(new CommandIntake(subsytemIntake,0));
         subsytemIntake.setDefaultCommand(new CommandIntake(subsytemIntake, INTAKE_POWER));
-        new Trigger(sarcophagiMoment).whileTrue(new CommandIntake(subsytemIntake, 0.2));
+        new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).whileTrue(new CommandIntake(subsytemIntake, 0.2));
         new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(hasArtifact).whileTrue(new CommandIntake(subsytemIntake, 0));
         /// longe
         //TODO: tirar os numeros hardcoded

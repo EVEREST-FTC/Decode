@@ -69,5 +69,7 @@ public class Subsystem extends SubsystemBase {
         telemetry.addData("is valid", isValid());
         telemetry.addData("distance", getfrontal());
         telemetry.addData("tx", getTx());
+
+
     }
 }

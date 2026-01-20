@@ -22,6 +22,6 @@ public class MainAutoBlueFar extends LinearOpMode {
             telemetry.update();
         }
         //limpa o singleton no requerimento de stop
-        CommandScheduler.getInstance().m_scheduledCommands.clear();
+        if(isStopRequested())CommandScheduler.getInstance().cancelAll();
     }
 }
