@@ -37,6 +37,7 @@ import com.example.gate.State;
 import com.example.gate.SubsystemGate;
 import com.example.limelightcentral.Subsystem;
 import com.example.sarcofogo.CommandBandeira;
+import com.example.sarcofogo.FlagSubsystem;
 import com.example.sarcofogo.Moment;
 import com.example.sarcofogo.SubsystemSarcofogo;
 
@@ -61,32 +62,34 @@ public class AutonomousOptimized implements RobotContainer {
     protected final SubsytemIntake intake;
     protected final SubsystemCalibrator subsystemCalibrator;
     protected final SubsystemGate subsystemGate;
+    protected final FlagSubsystem flagSubsystem;
     protected boolean isAiming;
     protected boolean isSending;
+
 
     public void farRedComplete(){
 
         new SequentialCommandGroup(
                 new InstantCommand(chassis::resetIMU),
                 obelisk(),
-                chassis.strafeToLinearHeading(-4,-8,-22,50),/// mira 1
+                chassis.strafeToLinearHeading(-4,-8,-23.5,50),/// mira 1
 
                 firstLaunch(),
-                chassis.strafeToLinearHeading(10,-28.3,90,50),/// coleta 1
-                chassis.strafeToLinearHeading(29,-28.3,90,15),
+                chassis.strafeToLinearHeading(10,-27.7,90,50),/// coleta 1
+                chassis.strafeToLinearHeading(29,-27.7,90,15),
 
                 new ParallelRaceGroup(
                         counting(),
-                        chassis.strafeToLinearHeading(0,-8,-22,50)///mira 2
+                        chassis.strafeToLinearHeading(0,-8,-23.5,50)///mira 2
                 ),
                 autoLaunch(),
 
-                chassis.strafeToLinearHeading(5,-52,90,50),/// coleta 2
-                chassis.strafeToLinearHeading(29,-52,90,15),
+                chassis.strafeToLinearHeading(5,-50,90,50),/// coleta 2
+                chassis.strafeToLinearHeading(29,-50,90,15),
 
                 new ParallelRaceGroup(
                         counting(),
-                        chassis.strafeToLinearHeading(0,-8,-22,50)///mira 3
+                        chassis.strafeToLinearHeading(0,-8,-23.5,50)///mira 3
                 ),
                 autoLaunch(),
                 chassis.strafeToLinearHeading(10,-28.3,0,50)/// final*/
@@ -102,7 +105,7 @@ public class AutonomousOptimized implements RobotContainer {
                         firstLaunch(),
 
                         chassis.strafeToLinearHeading(-10,-27.7,-90,50),/// coleta 1
-                        chassis.strafeToLinearHeading(-31,-27.7,-90,24),
+                        chassis.strafeToLinearHeading(-31,-27.7,-90,10),
 
                         new ParallelRaceGroup(
                                 counting(),
@@ -111,7 +114,7 @@ public class AutonomousOptimized implements RobotContainer {
                         autoLaunch(),
 
                         chassis.strafeToLinearHeading(-5,-50,-90,50),/// coleta 2
-                        chassis.strafeToLinearHeading(-31,-50,-90,24),
+                        chassis.strafeToLinearHeading(-31,-50,-90,10),
 
                         new ParallelRaceGroup(
                                 counting(),
@@ -145,7 +148,7 @@ public class AutonomousOptimized implements RobotContainer {
                 firstLaunch(),
                 new WaitCommand(0.5,Constants.robotTimer),
                 chassis.strafeToLinearHeading(10,50,-90,15),/// coleta 1
-                chassis.strafeToLinearHeading(-17,50,-90,14),
+                chassis.strafeToLinearHeading(-17,50,-90,10),
                 new ParallelRaceGroup(
                         chassis.strafeToLinearHeading(10,45,32,32),/// mira 2
                         counting()
@@ -153,7 +156,7 @@ public class AutonomousOptimized implements RobotContainer {
                 autoLaunch(),
 
                 chassis.strafeToLinearHeading(10,75,-90,24),/// coleta 2
-                chassis.strafeToLinearHeading(-17,75,-90,14),
+                chassis.strafeToLinearHeading(-17,75,-90,10),
 
                 new ParallelRaceGroup(
                         chassis.strafeToLinearHeading(10,45,32,32),/// mira 3
@@ -252,10 +255,12 @@ public class AutonomousOptimized implements RobotContainer {
     }
     public Command counting(){
         return new SequentialCommandGroup(
+                new WaitCommand(0.5, Constants.robotTimer),
                 new RepeatCommand(
                         new InstantCommand(()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts()))
-                ).ateQUe(()->subsystemOuttake.noDebounceArtifacts()==3),
-                new WaitCommand(5, Constants.robotTimer));
+                ),
+                new WaitCommand(5, Constants.robotTimer)
+        );
     }
     public Command autoLaunch(){
 
@@ -277,6 +282,7 @@ public class AutonomousOptimized implements RobotContainer {
     @Override
     public void mainRoutine() {
         outtakeRoutine();
+        flagRoutine();
         gateRoutine();
         intakeRoutine();
         sarcophagiRoutine();
@@ -288,8 +294,6 @@ public class AutonomousOptimized implements RobotContainer {
             closeRedComplete();
         else
             closeBlueComplete();
-
-
     }
 
 
@@ -319,18 +323,26 @@ public class AutonomousOptimized implements RobotContainer {
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         subsystemSarcofogo.isSending()&&
                                         !subsystemOuttake.hasArtifact())));
-
         new Trigger(()->!subsystemOuttake.hasArtifact()).and(()->isSending).onTrue(new LaunchCommand(subsystemOuttake, -0.2).ateQUe(subsystemOuttake::hasArtifact));
+    }
+
+    protected void flagRoutine(){
+        new Trigger(()->isAiming).whileTrue(
+                new CommandBandeira(flagSubsystem,90)
+        );
+        /*new Trigger(subsystemOuttake::flagmomente).whileTrue(
+                new CommandBandeira(flagSubsystem,90)
+        );*/
     }
     protected void intakeRoutine(){
 
 
        intake.setDefaultCommand(new CommandIntake(intake, (team==EnumTeam.SOLO_BLUE_FAR||team==EnumTeam.SOLO_RED_FAR)?
-               0.7:
+               0.5:
                INTAKE_POWER_CLOSE
                ));
        //mudança importante: lei de morgan
-        new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).whileTrue(new CommandIntake(intake, 0.25));
+        new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).and( subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake, 0.25));
 
     }
     protected void sarcophagiRoutine(){

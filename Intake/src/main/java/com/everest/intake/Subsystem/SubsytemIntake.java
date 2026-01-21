@@ -22,8 +22,4 @@ public class SubsytemIntake extends SubsystemBase {
         Mintake.setPower(0);
         Mintake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    @Override
-    public void periodic() {
-        telemetry.addData("intake power", Mintake.getPower());
-    }
 }

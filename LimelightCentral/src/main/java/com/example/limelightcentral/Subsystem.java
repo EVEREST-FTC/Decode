@@ -66,10 +66,6 @@ public class Subsystem extends SubsystemBase {
     @Override
     public void periodic() {
         limelight3A.updateRobotOrientation(angle.getAsDouble());
-        telemetry.addData("is valid", isValid());
-        telemetry.addData("distance", getfrontal());
-        telemetry.addData("tx", getTx());
-
 
     }
 }

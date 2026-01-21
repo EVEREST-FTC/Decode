@@ -66,13 +66,13 @@ public class SubsystemOuttake extends SubsystemBase {
         }
         double deltaT = robotTimer.getTime()-lastSeenLeft;
         if(deltaT>admissibleSeconds) memoryLeft = 0;
-        return memoryLeft > 5;
+        return memoryLeft > 8;
     }
     public boolean noDebounceLeft(){
         if (sensorGateLeft.getDistance(DistanceUnit.MM)< 34) {
             memoryLeft++;
         }
-        return memoryLeft > 6;
+        return memoryLeft > 8;
     }
 
     public boolean getDistanceRight(){
@@ -103,6 +103,9 @@ public class SubsystemOuttake extends SubsystemBase {
         int center = hasArtifact()?1:0;
         return left+right+center;
     }
+    public boolean flagmomente(){
+        return noDebounceArtifacts() >2;
+    }
 
     public void brake(){
         rightEngine.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -112,13 +115,13 @@ public class SubsystemOuttake extends SubsystemBase {
         double velocity = Math.abs(rightEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<13;
+        return Math.abs(velocity-targetVelocity)<30;
     }
     private boolean leftSetpoint(){
         double velocity =  Math.abs(leftEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<13;
+        return Math.abs(velocity-targetVelocity)<30;
     }
     public boolean atSetpoint(){
         return rightSetpoint()&&leftSetpoint();
@@ -130,12 +133,6 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        /*telemetry.addData("has artifact", hasArtifact());
-        telemetry.addData("at setpoint", atSetpoint());
-        telemetry.addData("artifacts", artifacts());*/
-        telemetry.addData("artinumer",artifacts());
-
-
 
 
     }

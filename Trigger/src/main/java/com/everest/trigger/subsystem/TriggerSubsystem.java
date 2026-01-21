@@ -63,15 +63,6 @@ public class TriggerSubsystem extends SubsystemBase {
         ServoLG.setPosition(Target);
     }
 
-
-    @Override
-    public void periodic() {
-        telemetry.addData("artefatos lancados", timeLaunch);
-        telemetry.addData("artefatos vistos", lastTarget);
-        telemetry.addData("contlaunchtimes", contLaunchTimes());
-        telemetry.addData("padrao:", Constants.getMatchPattern());
-    }
-
     public boolean artifactMoment(){
         return Constants.getMatchPattern().ordinal() == timeLaunch;
     }

@@ -4,6 +4,8 @@ import static com.everest.constants.Constants.GyroConstants.KD_TELEOP;
 import static com.everest.constants.Constants.GyroConstants.KI_TELEOP;
 import static com.everest.constants.Constants.GyroConstants.KP_TELEOP;
 
+import com.everest.CommandBased.essentials.Trigger;
+import com.everest.CommandBased.util.InstantCommand;
 import com.everest.constants.meta.EnumTeam;
 import com.everest.intake.IntakeContainer;
 import com.everest.intake.Subsystem.SubsytemIntake;
@@ -24,6 +26,7 @@ import com.example.sarcofogo.SubsystemSarcofogo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Supplier;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import lombok.Builder;
@@ -31,13 +34,14 @@ import lombok.Builder;
 @Builder
 public class RobotContainer implements com.everest.constants.meta.RobotContainer {
     private Gamepad gamepad1;
+    private Gamepad gamepad2;
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
     private EnumTeam team;
+    private Supplier<Gamepad> gamepadSupplier;
 
     @Override
     public void mainRoutine() {
-
         MecanumDrive chassis = new MecanumDrive(hardwareMap,
                 telemetry,
                 team,
@@ -101,6 +105,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .hasArtifact(outtake::hasArtifact)
                 .subsystem(outtake)
                 .sarcophagiMoment(sarcophagi::isSending)
+                .isUnactive(sarcophagi::isUnactive)
                 .build()
                 .defineMainRoutine();
 

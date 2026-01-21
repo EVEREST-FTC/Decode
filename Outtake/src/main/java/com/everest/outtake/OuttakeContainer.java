@@ -2,6 +2,7 @@ package com.everest.outtake;
 
 import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
 
+import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.constants.Constants;
 import com.everest.constants.Pattern;
@@ -18,6 +19,7 @@ import lombok.Builder;
 @Builder
 public class OuttakeContainer implements com.everest.constants.meta.RobotContainer {
     private final Gamepad gamepad1;
+    private final Gamepad gamepad2;
 
     private final Supplier<Double> distance;
 
@@ -26,6 +28,7 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
     private final BooleanSupplier sarcophagiMoment;
 
     private final BooleanSupplier hasArtifact;
+    private final BooleanSupplier isUnactive;
     @Override
     public void mainRoutine() {
         subsystem.setDefaultCommand(
@@ -34,7 +37,8 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         sarcophagiMoment.getAsBoolean()&&
                                         !hasArtifact.getAsBoolean())));
-
-        new Trigger(hasArtifact).whileFalse(new LaunchCommand(subsystem, -0.2));
+        new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 0.5));
+        new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 0.8));
+        new Trigger(()->!hasArtifact.getAsBoolean()).and(()->!isUnactive.getAsBoolean()).whileTrue(new LaunchCommand(subsystem, -0.2));
     }
 }

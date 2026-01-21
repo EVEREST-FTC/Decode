@@ -13,6 +13,7 @@ import com.everest.trigger.subsystem.TriggerSubsystem;
 import com.example.chassi.MecanumDrive;
 import com.example.gate.SubsystemGate;
 import com.example.limelightcentral.Subsystem;
+import com.example.sarcofogo.FlagSubsystem;
 import com.example.sarcofogo.SubsystemSarcofogo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -52,9 +53,11 @@ public class AutonomousContainer implements RobotContainer {
                 team,
                 chassis::getYaw
         );
+        FlagSubsystem  flagSubsystem= new FlagSubsystem(hardwareMap,telemetry);
 
         AutonomousOptimized.builder()
                 .subLime(limelight)
+                .flagSubsystem(flagSubsystem)
                 .subsystemCalibrator(platform)
                 .subsystemGate(gate)
                 .subsystemSarcofogo(sarcofogo)

@@ -17,8 +17,10 @@ public class Constants {
     private static com.everest.constants.Pattern matchPattern = Pattern.NONE;
     /// Constantes do piloto]
     public static class ControllerConstants{
-        public static final double CHASSIS_LIMIT_POWER = 1.0;
-        public static final double CHASSIS_LIMIT_POWER_TURN = 0.5;
+        public static double CHASSIS_LIMIT_POWER = 1.0;
+        public static double CHASSIS_LIMIT_POWER_TURN = 0.5;
+        public static final double CHASSIS_MIN_LIMIT_POWER_TURN = 0.5;
+
 
         public static final double DEAD_ZONE_MIN = 0.01;
 

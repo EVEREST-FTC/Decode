@@ -2,7 +2,6 @@ package com.example.chassi.command;
 
 import com.everest.CommandBased.definition.Command;
 import com.example.chassi.MecanumDrive;
-
 public class UpRobot extends Command {
     private final MecanumDrive chassis;
 

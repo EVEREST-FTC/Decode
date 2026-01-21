@@ -65,9 +65,5 @@ public class SubsystemSarcofogo extends SubsystemBase {
     }
     public boolean isUnactive(){return moment == Moment.UNACTIVE; }
 
-    @Override
-    public void periodic() {
-        telemetry.addData("momento:" , moment);
-        telemetry.addData("sensor", getsensorSarcofogo());
-    }
+
 }
