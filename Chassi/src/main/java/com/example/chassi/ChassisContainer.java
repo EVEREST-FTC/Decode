@@ -23,6 +23,7 @@ import java.util.function.DoubleSupplier;
 import lombok.Builder;
 
 @Builder
+///  é o container é o fica a senquencia logica  e utilização dos comando de acordo com as condições
 public class ChassisContainer implements RobotContainer {
     private final MecanumDrive chassis;
     private final Gamepad gamepad1;
@@ -35,10 +36,14 @@ public class ChassisContainer implements RobotContainer {
 
 
     public void mainRoutine(){
+        /// ação de  resetar a orientação do robo
         new Trigger(()->gamepad1.right_bumper).or(()->gamepad2.right_bumper).whileTrue(
                 new InstantCommand(chassis::resetIMU)
         );
+        /// ação de levantar o robo
         new Trigger(()->gamepad1.y).or(()->gamepad2.y).toggleOnTrue(new UpRobot(chassis));
+
+        /// ação com conjunto de comandos ativado no momento de lançamento
         new Trigger(()->gamepad1.left_trigger> GAMEPAD_AIM_TRIGGER).or(()->gamepad2.left_trigger> GAMEPAD_AIM_TRIGGER).whileTrue(
                 new AlignToAngle(chassis.telemetry, target, chassis,
                         distance,

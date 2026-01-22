@@ -22,7 +22,7 @@ public class AlignToAngle extends Command {
     private final double LargeIncrement;
     Telemetry telemetry;
 
-    public AlignToAngle(
+    public AlignToAngle( /// este é o comando que usa a classe PID para alinhar o angulo do robo em relação ao um alvo
             Telemetry telemetry, DoubleSupplier target, MecanumDrive chassi, DoubleSupplier distanceSupplier, PID pid, double alvo, double shortincrement, double largeIncrement) {
         this.target = target;
         this.chassis = chassi;
@@ -39,11 +39,13 @@ public class AlignToAngle extends Command {
     }
 
     @Override
+    /// na inicialização o comando reseta o valor do PID
     public void initialize() {
         pid.reset();
     }
 
     @Override
+    /// durante a execução o comando usa o resultado gerado pela class PID e transforma em potencias para o movimento de rotação
     public void execute() {
         if (distanceSupplier.getAsDouble() < shortIncrementDistance)
             alvo = shotincrement;
@@ -57,6 +59,7 @@ public class AlignToAngle extends Command {
     }
 
     @Override
+    /// na finalização do comando ele para totalmente o potenica do motor
     public void end(boolean interrupted) {
         chassis.drive(0, 0, 0);
     }

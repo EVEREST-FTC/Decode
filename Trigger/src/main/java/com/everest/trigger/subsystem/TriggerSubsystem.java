@@ -97,4 +97,9 @@ public class TriggerSubsystem extends SubsystemBase {
                                 &&(hasArtifact.getAsBoolean()))
                 );
     }
+
+    @Override
+    public void periodic() {
+    telemetry.addData("timelaunch",timeLaunch);
+    }
 }

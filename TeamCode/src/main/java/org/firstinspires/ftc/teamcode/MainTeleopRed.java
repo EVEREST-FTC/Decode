@@ -13,6 +13,7 @@ public class MainTeleopRed extends LinearOpMode {
                 .hardwareMap(hardwareMap)
                 .team(EnumTeam.SOLO_RED_FAR)
                 .gamepad1(gamepad1)
+                .gamepad2(gamepad2)
                 .telemetry(telemetry)
                 .build()
                 .defineMainRoutine();

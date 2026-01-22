@@ -72,20 +72,23 @@ public class AutonomousOptimized implements RobotContainer {
         new SequentialCommandGroup(
                 new InstantCommand(chassis::resetIMU),
                 obelisk(),
-                chassis.strafeToLinearHeading(-4,-8,-23.5,50),/// mira 1
-
+                new ParallelRaceGroup(
+                        counting(),
+                        chassis.strafeToLinearHeading(0,-8,-22.2,50)///mira 1
+                ),
                 firstLaunch(),
+
                 chassis.strafeToLinearHeading(10,-27.7,90,50),/// coleta 1
-                chassis.strafeToLinearHeading(29,-27.7,90,15),
+                chassis.strafeToLinearHeading(29,-27.7,90,10),
 
                 new ParallelRaceGroup(
                         counting(),
-                        chassis.strafeToLinearHeading(0,-8,-23.5,50)///mira 2
+                        chassis.strafeToLinearHeading(0,-8,-22.2,50)///mira 2
                 ),
                 autoLaunch(),
 
                 chassis.strafeToLinearHeading(5,-50,90,50),/// coleta 2
-                chassis.strafeToLinearHeading(29,-50,90,15),
+                chassis.strafeToLinearHeading(29,-50,90,10),
 
                 new ParallelRaceGroup(
                         counting(),
@@ -100,9 +103,12 @@ public class AutonomousOptimized implements RobotContainer {
                 new SequentialCommandGroup(
                         new InstantCommand(chassis::resetIMU),
                         obelisk(),
-                        chassis.strafeToLinearHeading(4,-8,23.5,50),/// mira 1
+                        new ParallelRaceGroup(
+                                counting(),
+                                chassis.strafeToLinearHeading(0,-8,22.2,50)///mira 1
+                        ),
 
-                        firstLaunch(),
+                        autoLaunch(),
 
                         chassis.strafeToLinearHeading(-10,-27.7,-90,50),/// coleta 1
                         chassis.strafeToLinearHeading(-31,-27.7,-90,10),
@@ -257,7 +263,7 @@ public class AutonomousOptimized implements RobotContainer {
         return new SequentialCommandGroup(
                 new WaitCommand(0.5, Constants.robotTimer),
                 new RepeatCommand(
-                        new InstantCommand(()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts()))
+                        new InstantCommand(()->triggerSubsystem.setLastTarget(3) /*()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts())*/)
                 ),
                 new WaitCommand(5, Constants.robotTimer)
         );
@@ -274,7 +280,7 @@ public class AutonomousOptimized implements RobotContainer {
         )
                 .antesDe(new InstantCommand(()->isAiming=true))
                 .ateQUe(triggerSubsystem::contLaunchTimes)
-                .espere(7,Constants.robotTimer)
+                .espere(5,Constants.robotTimer)
                 .antesDe( new InstantCommand(triggerSubsystem::resetTimeLaunch))
                 .depois(new InstantCommand(()->isAiming=false));
 
@@ -317,13 +323,13 @@ public class AutonomousOptimized implements RobotContainer {
     }
     protected void outtakeRoutine(){
         subsystemOuttake.setDefaultCommand(
-                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, 800.0).ateQUe(()->
+                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, 810).ateQUe(()->
                         (!isAiming&&
                                 !isSending)||
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         subsystemSarcofogo.isSending()&&
                                         !subsystemOuttake.hasArtifact())));
-        new Trigger(()->!subsystemOuttake.hasArtifact()).and(()->isSending).onTrue(new LaunchCommand(subsystemOuttake, -0.2).ateQUe(subsystemOuttake::hasArtifact));
+        new Trigger(()->!subsystemOuttake.hasArtifact()).and(()->isSending).whileTrue(new LaunchCommand(subsystemOuttake, -0.1));
     }
 
     protected void flagRoutine(){
@@ -338,9 +344,12 @@ public class AutonomousOptimized implements RobotContainer {
 
 
        intake.setDefaultCommand(new CommandIntake(intake, (team==EnumTeam.SOLO_BLUE_FAR||team==EnumTeam.SOLO_RED_FAR)?
-               0.5:
-               INTAKE_POWER_CLOSE
+               0.7:
+              INTAKE_POWER_CLOSE
                ));
+        new Trigger(()->triggerSubsystem.getTimeLaunch()==2).whileTrue(new CommandIntake(intake,1.5));
+        new Trigger(()->triggerSubsystem.getTimeLaunch()==1).whileTrue(new CommandIntake(intake,0.29));
+
        //mudança importante: lei de morgan
         new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).and( subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake, 0.25));
 
@@ -355,7 +364,7 @@ public class AutonomousOptimized implements RobotContainer {
                         ),
                         ()->Moment.select(triggerSubsystem.artifactMoment()&&isSending)
                 ));
-        new Trigger(()->!isSending).toggleOnTrue(new com.example.sarcofogo.Command(subsystemSarcofogo,0, Moment.UNACTIVE));
+        new Trigger(()->!isSending).whileTrue(new com.example.sarcofogo.Command(subsystemSarcofogo,0, Moment.UNACTIVE));
 
         new Trigger(()->isSending).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
     }

@@ -72,6 +72,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .target(limelight::getTx)
                 .distance(limelight::getfrontal)
                 .gamepad1(gamepad1)
+                .gamepad2(gamepad2)
                 .chassis(chassis)
                 .build()
                 .defineMainRoutine();
@@ -101,6 +102,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
 
         OuttakeContainer.builder()
                 .gamepad1(gamepad1)
+                .gamepad2(gamepad2)
                 .distance(limelight::getfrontal)
                 .hasArtifact(outtake::hasArtifact)
                 .subsystem(outtake)

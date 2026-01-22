@@ -139,6 +139,11 @@ public class Constants {
         public static final double LAST_INTAKE_POWER = 0.75;
         public static final double CLOSE_LAST_INTAKE_POWER = 0.85;
 
+        public static final int Intake_Reduction = 5;
+
+        private static final double tickConversion = 28;
+        public static double REVERSE_TICK_CONVERSION = tickConversion/Intake_Reduction;
+
 
     }
 
