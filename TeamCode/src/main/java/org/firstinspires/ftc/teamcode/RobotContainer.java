@@ -129,12 +129,12 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .artifactMoment(triggerSubsystem::artifactMoment)
                 .flagSubsystem(flagSubsystem)
                 .build()
-                .defineMainRoutine()
-        ;
+                .defineMainRoutine();
 
         TriggerContainer.builder()
                 .hasArtifact(outtake::hasArtifact)
-                .gamepad(gamepad1)
+                .gamepad1(gamepad1)
+                .gamepad2(gamepad2)
                 .triggerSubsystem(triggerSubsystem)
                 .velocityVerifier(outtake::atSetpoint)
                 .limelightAcceptance(limelight::isValid)

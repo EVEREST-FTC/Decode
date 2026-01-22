@@ -17,7 +17,8 @@ import lombok.Builder;
 @Builder
 public class TriggerContainer implements RobotContainer {
     private final TriggerSubsystem triggerSubsystem;
-    private final Gamepad gamepad;
+    private final Gamepad gamepad1;
+    private final Gamepad gamepad2;
     private final BooleanSupplier velocityVerifier;
     private final BooleanSupplier limelightAcceptance;
     public final  BooleanSupplier hasArtifact;
@@ -25,12 +26,19 @@ public class TriggerContainer implements RobotContainer {
     private final Runnable resetMemory;
     @Override
     public void mainRoutine() {
-        new Trigger(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
+        new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
                         new RepeatCommand(
                                 triggerSubsystem.launch(resetMemory)
                                         .ateQUe(()->!hasArtifact.getAsBoolean()).
                                         antesDe(conditionalCommand())
                         ).finalmente(triggerSubsystem::resetTimeLaunch));
+        new Trigger(()->gamepad2.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
+                new RepeatCommand(
+                        triggerSubsystem.launch(resetMemory)
+                                .ateQUe(()->!hasArtifact.getAsBoolean()).
+                                antesDe(new ConditionalCommand(()->velocityVerifier.getAsBoolean()
+                                        &&hasArtifact.getAsBoolean()))
+                ).finalmente(triggerSubsystem::resetTimeLaunch));
 
     }
     private Command conditionalCommand(){

@@ -44,7 +44,7 @@ public class ChassisContainer implements RobotContainer {
         new Trigger(()->gamepad1.y).or(()->gamepad2.y).toggleOnTrue(new UpRobot(chassis));
 
         /// ação com conjunto de comandos ativado no momento de lançamento
-        new Trigger(()->gamepad1.left_trigger> GAMEPAD_AIM_TRIGGER).or(()->gamepad2.left_trigger> GAMEPAD_AIM_TRIGGER).whileTrue(
+        new Trigger(()->gamepad1.left_trigger> GAMEPAD_AIM_TRIGGER).whileTrue(
                 new AlignToAngle(chassis.telemetry, target, chassis,
                         distance,
                         chassis.getPid(),

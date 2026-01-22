@@ -14,7 +14,7 @@ public class Constants {
     public static Clock robotTimer = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
     @Setter
     @Getter
-    private static com.everest.constants.Pattern matchPattern = Pattern.NONE;
+    private static com.everest.constants.Pattern matchPattern = Pattern.BOTTOM;
     /// Constantes do piloto]
     public static class ControllerConstants{
         public static double CHASSIS_LIMIT_POWER = 1.0;
