@@ -24,6 +24,7 @@ public class TriggerContainer implements RobotContainer {
     public final  BooleanSupplier hasArtifact;
     public final BooleanSupplier translationalSetpoint;
     private final Runnable resetMemory;
+    private final Runnable resetOuttake;
     @Override
     public void mainRoutine() {
         new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
@@ -31,14 +32,20 @@ public class TriggerContainer implements RobotContainer {
                                 triggerSubsystem.launch(resetMemory)
                                         .ateQUe(()->!hasArtifact.getAsBoolean()).
                                         antesDe(conditionalCommand())
-                        ).finalmente(triggerSubsystem::resetTimeLaunch));
+                        ).finalmente(()->{
+                            triggerSubsystem.resetTimeLaunch();
+                            resetOuttake.run();
+                        }));
         new Trigger(()->gamepad2.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
                 new RepeatCommand(
                         triggerSubsystem.launch(resetMemory)
                                 .ateQUe(()->!hasArtifact.getAsBoolean()).
                                 antesDe(new ConditionalCommand(()->velocityVerifier.getAsBoolean()
                                         &&hasArtifact.getAsBoolean()))
-                ).finalmente(triggerSubsystem::resetTimeLaunch));
+                ).finalmente(()->{
+                    triggerSubsystem.resetTimeLaunch();
+                    resetOuttake.run();
+                }));
 
     }
     private Command conditionalCommand(){

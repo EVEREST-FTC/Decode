@@ -28,6 +28,7 @@ public class TriggerSubsystem extends SubsystemBase {
     Servo ServoLG, ServoRG;
     Telemetry telemetry;
     double lastLeft, lastRight;
+
     @Getter
     int timeLaunch = 0;
     @Getter
@@ -51,6 +52,9 @@ public class TriggerSubsystem extends SubsystemBase {
     }
     public void resetTimeLaunch(){
         timeLaunch = 0;
+    }
+    public boolean gatetime(){
+        return timeLaunch == 0;
     }
 
 

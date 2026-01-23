@@ -348,7 +348,7 @@ public class AutonomousOptimized implements RobotContainer {
               INTAKE_POWER_CLOSE
                ));
         new Trigger(()->triggerSubsystem.getTimeLaunch()==2).whileTrue(new CommandIntake(intake,1.5));
-        new Trigger(()->triggerSubsystem.getTimeLaunch()==1).whileTrue(new CommandIntake(intake,0.36));
+        new Trigger(()->triggerSubsystem.getTimeLaunch()==1).whileTrue(new CommandIntake(intake,0.3));
 
        //mudança importante: lei de morgan
         new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).and( subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake, 0.25));

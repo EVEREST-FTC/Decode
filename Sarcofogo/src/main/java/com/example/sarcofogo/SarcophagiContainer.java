@@ -14,7 +14,8 @@ import lombok.Builder;
 
 @Builder
 public class SarcophagiContainer implements com.everest.constants.meta.RobotContainer {
-    private final Gamepad gamepad;
+    private final Gamepad gamepad1;
+    private final Gamepad gamepad2;
     private final SubsystemSarcofogo subsystemSarcofogo;
     private final FlagSubsystem flagSubsystem;
     private final BooleanSupplier hasArtifact;
@@ -32,11 +33,14 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
                                 SarcofogoInitialPosition, Moment.KEEP)),
                         Map.entry(Moment.SEND, new Command(subsystemSarcofogo,50, Moment.SEND).ateQUe(()->!artifactMoment.getAsBoolean()))
                 ),
-                ()->Moment.select(artifactMoment.getAsBoolean()&&gamepad.left_trigger>GAMEPAD_AIM_TRIGGER)
+                ()->Moment.select(artifactMoment.getAsBoolean()&&
+                        (gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER||gamepad2.left_trigger>GAMEPAD_AIM_TRIGGER))
         ));
 
-        new Trigger(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
-        new Trigger(()->gamepad.b).toggleOnFalse(new Command(subsystemSarcofogo,0, Moment.UNACTIVE));
+        new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER)
+                .or(()->gamepad2.left_trigger>GAMEPAD_AIM_TRIGGER).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
+        new Trigger(()->gamepad1.b)
+                .or(()->gamepad2.b).toggleOnFalse(new Command(subsystemSarcofogo,0, Moment.UNACTIVE));
         flagSubsystem.setDefaultCommand(
                 new CommandBandeira(flagSubsystem, 0)
         );

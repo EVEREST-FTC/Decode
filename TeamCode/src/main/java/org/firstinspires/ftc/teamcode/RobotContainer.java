@@ -82,6 +82,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .subsystemGate(gate)
                 .hasArtifact(outtake::hasArtifact)
                 .gamepad(gamepad1)
+                .timelaunch(triggerSubsystem::gatetime)
                 .sensorSarcophagi(sarcophagi::getsensorSarcofogo)
                 .sarcophagiMoment(sarcophagi::isSending)
                 .isUnactive(sarcophagi::isUnactive)
@@ -91,11 +92,14 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
         IntakeContainer.builder()
                 .gamepad(gamepad1)
                 .hasArtifact(outtake::hasArtifact)
+                .ArtifactComplete(outtake::noDebounceArtifacts)
                 .subsytemIntake(intake)
                 .isUnactive(sarcophagi::isUnactive)
-                .intakeMoment(triggerSubsystem::intakeTimePower)
+                .intakeMoment(outtake::newintakemomente)
+                .oneSent(outtake::oneSent)
                 .sarcophagiMoment(sarcophagi::isSending)
                 .distance(limelight::getfrontal)
+                .velocityVerifier(outtake::atSetpoint)
                 .build()
                 .defineMainRoutine();
 
@@ -123,7 +127,8 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
 
         SarcophagiContainer.builder()
                 .subsystemSarcofogo(sarcophagi)
-                .gamepad(gamepad1)
+                .gamepad1(gamepad1)
+                .gamepad2(gamepad2)
                 .hasArtifact(outtake::hasArtifact)
                 .ArtifactComplete(outtake::noDebounceArtifacts)
                 .artifactMoment(triggerSubsystem::artifactMoment)
@@ -140,6 +145,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .limelightAcceptance(limelight::isValid)
                 .translationalSetpoint(chassis::atSetpoint)
                 .resetMemory(sarcophagi::resetmemore)
+                .resetOuttake(outtake::resetTimeLaunch)
                 .build()
                 .defineMainRoutine();
     }

@@ -22,6 +22,7 @@ public class GateContainer implements RobotContainer {
     private final BooleanSupplier sarcophagiMoment;
     private final BooleanSupplier sensorSarcophagi;
     private final BooleanSupplier isUnactive;
+    private final BooleanSupplier timelaunch;
 
     @Override
     public void mainRoutine() {
@@ -43,7 +44,7 @@ public class GateContainer implements RobotContainer {
                                 Map.entry(State.OPENED, new Command(subsystemGate,GateOpenPosition)),
                                 Map.entry(State.BOTTOM_SELECTION, new Command(subsystemGate, GateClosePosition))
                         ),
-                        ()->State.selector(hasArtifact.getAsBoolean(),
+                        ()->State.selector(hasArtifact.getAsBoolean() && timelaunch.getAsBoolean(),
                                 gamepad.left_trigger>GAMEPAD_AIM_TRIGGER,
                                 isUnactive.getAsBoolean())
                 )

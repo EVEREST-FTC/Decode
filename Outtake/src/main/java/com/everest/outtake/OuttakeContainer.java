@@ -4,6 +4,7 @@ import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TR
 
 import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
+import com.everest.CommandBased.util.InstantCommand;
 import com.everest.constants.Constants;
 import com.everest.constants.Pattern;
 import com.everest.outtake.command.AutoLime3A;
@@ -40,5 +41,6 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
         new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 0.5));
         new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 0.8));
         new Trigger(()->!hasArtifact.getAsBoolean()).and(()->!isUnactive.getAsBoolean()).whileTrue(new LaunchCommand(subsystem, -0.2));
+
     }
 }

@@ -4,6 +4,7 @@ import static com.everest.constants.Constants.robotTimer;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
+import com.everest.constants.Constants;
 import com.everest.constants.Constants.ElevatorConstants;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -21,14 +23,19 @@ public class SubsystemOuttake extends SubsystemBase {
     private final Telemetry telemetry;
     private double memoryRight = 0;
     private double memoryLeft = 0;
-
-    private double memoryOuttake = 0;
     @Getter
     private double targetVelocity = 0;
 
     private double lastSeenRight = 0,
+
     lastSeenLeft = 0;
-    private final double admissibleSeconds = 0.5;
+
+    boolean lastTimeLaunch = false;
+
+    int timeLaunch = 0;
+
+    double admissibleSeconds = 0.7;
+
 
 
     private final RevColorSensorV3 ColorSensorL, ColorSensorR, sensorGateLeft, sensorGateRight;
@@ -57,6 +64,7 @@ public class SubsystemOuttake extends SubsystemBase {
     public double distanceSensorR(){
         return (ColorSensorR.getDistance(DistanceUnit.MM));
     }
+
 
 
     public boolean getDistanceLeft(){
@@ -107,6 +115,17 @@ public class SubsystemOuttake extends SubsystemBase {
         return noDebounceArtifacts() >2;
     }
 
+    public int newTimeLaunch() {
+        if (!hasArtifact() && lastTimeLaunch){
+            timeLaunch ++;
+        }
+        lastTimeLaunch = hasArtifact();
+        return timeLaunch;
+    }
+    public void resetTimeLaunch(){
+        timeLaunch = 0;
+    }
+
     public void brake(){
         rightEngine.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftEngine.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -123,17 +142,25 @@ public class SubsystemOuttake extends SubsystemBase {
             return false;
         return Math.abs(velocity-targetVelocity)<10;
     }
+
+    public boolean newintakemomente(){
+        return newTimeLaunch() >= 2;
+    }
+    public boolean oneSent(){ return newTimeLaunch() >=1;}
     public boolean atSetpoint(){
         return rightSetpoint()&&leftSetpoint();
     }
 
     public boolean hasArtifact(){
-        return distanceSensorR() < 50 || distanceSensorL() < 50;
+        return distanceSensorR() < 69.75 || distanceSensorL() < 69.75;
     }
 
     @Override
     public void periodic() {
-
+        telemetry.addData("artifacts",artifacts());
+        telemetry.addData("hasArtifact",hasArtifact());
+        telemetry.addData("contagem",newTimeLaunch());
+        telemetry.addData("intakemomente",newintakemomente());
 
     }
 

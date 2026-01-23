@@ -21,7 +21,11 @@ public class SubsytemIntake extends SubsystemBase {
         Mintake.setVelocityPIDFCoefficients(10, 3, 0, 0);
     }
     public void startIntake(double power){
-        Mintake.setVelocity(power*MAX_RPM/Constants.IntakeConstants.REVERSE_TICK_CONVERSION);
+        Mintake.setVelocity(power*MAX_RPM*Constants.IntakeConstants.REVERSE_TICK_CONVERSION);
+    }
+    public double getIntakevelocit(){
+        double velocidade = Mintake.getVelocity();
+        return velocidade/ Constants.IntakeConstants.REVERSE_TICK_CONVERSION;
     }
     public void Braker(){
         Mintake.setPower(0);
@@ -30,6 +34,6 @@ public class SubsytemIntake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("velociadeintake",Mintake.getVelocity());
+        telemetry.addData("velociadeintake",getIntakevelocit());
     }
 }
