@@ -251,7 +251,7 @@ public class AutonomousOptimized implements RobotContainer {
                     triggerSubsystem.setLastTarget(3);
                     triggerSubsystem.resetTimeLaunch();
                     isSending = true;
-                }))
+                })).espere(6,Constants.robotTimer)
                 .ateQUe(triggerSubsystem::contLaunchTimes)
                 .depois(new InstantCommand(()->{
                     isAiming = false;
@@ -344,14 +344,17 @@ public class AutonomousOptimized implements RobotContainer {
 
 
        intake.setDefaultCommand(new CommandIntake(intake, (team==EnumTeam.SOLO_BLUE_FAR||team==EnumTeam.SOLO_RED_FAR)?
-               0.7:
+               0.04:
               INTAKE_POWER_CLOSE
                ));
-        new Trigger(()->triggerSubsystem.getTimeLaunch()==2).whileTrue(new CommandIntake(intake,1.5));
-        new Trigger(()->triggerSubsystem.getTimeLaunch()==1).whileTrue(new CommandIntake(intake,0.3));
+        new Trigger(()->triggerSubsystem.getTimeLaunch()==2).and(()->!subsystemOuttake.hasArtifact()).and(subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake,0.05));
+        new Trigger(()->triggerSubsystem.getTimeLaunch()==1).and(()->!subsystemOuttake.hasArtifact()).and(subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake,0.02));
+
+        new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).or(()->subsystemOuttake.artifacts()==3)
+                .whileTrue(new CommandIntake(intake, 0));
 
        //mudança importante: lei de morgan
-        new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).and( subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake, 0.25));
+      /*  new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).and( subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake, 0.25));*/
 
     }
     protected void sarcophagiRoutine(){

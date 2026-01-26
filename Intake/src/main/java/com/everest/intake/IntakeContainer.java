@@ -47,6 +47,11 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
 
         new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(hasArtifact).and(velocityVerifier).or(()->ArtifactComplete.getAsDouble()==3).or(()->gamepad.y)
                 .whileTrue(new CommandIntake(subsytemIntake, 0));
+        new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(()->!hasArtifact.getAsBoolean()).whileTrue(
+                new CommandIntake(subsytemIntake, 0.04)
+        );
+
+        new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(()->gamepad.right_stick_button).whileTrue(new CommandIntake(subsytemIntake, LAST_INTAKE_POWER));
 
 
 

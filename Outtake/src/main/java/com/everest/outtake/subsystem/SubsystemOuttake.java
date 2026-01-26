@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import lombok.Getter;
@@ -35,6 +36,8 @@ public class SubsystemOuttake extends SubsystemBase {
     int timeLaunch = 0;
 
     double admissibleSeconds = 0.7;
+    double lastTimeCurrent = 0;
+    double lastCurrent = 0;
 
 
 
@@ -111,9 +114,6 @@ public class SubsystemOuttake extends SubsystemBase {
         int center = hasArtifact()?1:0;
         return left+right+center;
     }
-    public boolean flagmomente(){
-        return noDebounceArtifacts() >2;
-    }
 
     public int newTimeLaunch() {
         if (!hasArtifact() && lastTimeLaunch){
@@ -152,15 +152,17 @@ public class SubsystemOuttake extends SubsystemBase {
     }
 
     public boolean hasArtifact(){
-        return distanceSensorR() < 69.75 || distanceSensorL() < 69.75;
+        return distanceSensorR() < 55 || distanceSensorL() < 55;
     }
-
     @Override
     public void periodic() {
         telemetry.addData("artifacts",artifacts());
         telemetry.addData("hasArtifact",hasArtifact());
         telemetry.addData("contagem",newTimeLaunch());
         telemetry.addData("intakemomente",newintakemomente());
+        telemetry.addData("motor current", (leftEngine.getCurrent(CurrentUnit.MILLIAMPS)-lastCurrent)/(robotTimer.getTime())-lastTimeCurrent);
+        lastCurrent = leftEngine.getCurrent(CurrentUnit.MILLIAMPS);
+        lastTimeCurrent = robotTimer.getTime();
 
     }
 

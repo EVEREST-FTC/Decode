@@ -78,6 +78,7 @@ public class TriggerSubsystem extends SubsystemBase {
         setPositionL(leftInitialPosition);
         setPositionR(rightInitialPosition);
     }
+
     public Command launch(Runnable sarcophagi){
         return new TriggerCommand(
                 this,
@@ -90,8 +91,10 @@ public class TriggerSubsystem extends SubsystemBase {
     public Command launch(BooleanSupplier hasArtifact,
                           BooleanSupplier motorPower){
         return new TriggerCommand(
+
                 this,
                 targetLeftPosition,
+
                 targetRightPosition,
                 ()->{}
         ).ateQUe(()->!hasArtifact.getAsBoolean()).

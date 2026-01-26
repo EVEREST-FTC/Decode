@@ -95,7 +95,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .ArtifactComplete(outtake::noDebounceArtifacts)
                 .subsytemIntake(intake)
                 .isUnactive(sarcophagi::isUnactive)
-                .intakeMoment(outtake::newintakemomente)
+                .intakeMoment(triggerSubsystem::intakeTimePower)
                 .oneSent(outtake::oneSent)
                 .sarcophagiMoment(sarcophagi::isSending)
                 .distance(limelight::getfrontal)

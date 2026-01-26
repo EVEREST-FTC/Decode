@@ -21,12 +21,12 @@ import lombok.Setter;
 
 @Getter
 public class SubsystemSarcofogo extends SubsystemBase {
-    private Servo ServoSarcofogo;
-    private RevColorSensorV3 SensorSarcofogo;
-    private Telemetry telemetry;
+    private final Servo ServoSarcofogo;
+    private final RevColorSensorV3 SensorSarcofogo;
+    private final Telemetry telemetry;
     double position;
     @Setter
-    private Moment moment = Moment.KEEP;
+    private Moment moment = Moment.UNACTIVE;
 
     private int memore;
     public SubsystemSarcofogo(HardwareMap hardwareMap, Telemetry telemetry){
