@@ -117,5 +117,10 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                 team.getShortIncrement(),team.getLargeIncrement()
         );
     }
+
+    @Override
+    public void periodic() {
+        telemetry.addData("erro",pid.getError());
+    }
 }
 

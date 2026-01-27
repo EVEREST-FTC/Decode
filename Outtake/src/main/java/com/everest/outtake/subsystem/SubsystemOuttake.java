@@ -68,7 +68,9 @@ public class SubsystemOuttake extends SubsystemBase {
         return (ColorSensorR.getDistance(DistanceUnit.MM));
     }
 
+    public void telemetri(float nome, float texto ){
 
+    }
 
     public boolean getDistanceLeft(){
         if (sensorGateLeft.getDistance(DistanceUnit.MM)< 34) {

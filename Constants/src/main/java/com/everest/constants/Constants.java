@@ -32,8 +32,8 @@ public class Constants {
         public static final double KI = 0.08;///0.0.045
 
         public static final double KD = 0;
-        public static final double KP_TELEOP = 0.0276;
-        public static final double KI_TELEOP = 0.023;///0.0.045
+        public static final double KP_TELEOP = 0.0376; ///0.0276
+        public static final double KI_TELEOP = 0.029;///0.023
 
         public static final double KD_TELEOP = 0;
         ///
@@ -100,7 +100,7 @@ public class Constants {
         public static final double GATE_MIN_ANGLE = 0;
 
 
-        public static final double GateClosePosition = 70;
+        public static final double GateClosePosition = 65;
         public static final double GateOpenPosition = 0;
     }
     /// Constantes da flag (bandeira)
@@ -134,7 +134,7 @@ public class Constants {
     }
     /// Constantes do intake
     public static class IntakeConstants{
-        public static final double INTAKE_POWER = 0.02;/// 1.1
+        public static final double INTAKE_POWER = 0.027;/// 0.02
         public static final double INTAKE_POWER_CLOSE = 0.03;
         public static final double LAST_INTAKE_POWER = 0.05;
         public static final double CLOSE_LAST_INTAKE_POWER = 0.07;

@@ -9,6 +9,8 @@ import com.everest.constants.Constants;
 import com.everest.constants.Constants.CameraConstants;
 import com.everest.outtake.subsystem.SubsystemOuttake;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.function.Supplier;
 
 public class AutoLime3A extends Command {
@@ -16,7 +18,7 @@ public class AutoLime3A extends Command {
     final SubsystemOuttake subsystem;
     final double far, close, normal;
     public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem) {
-        this(distanceSupplier, subsystem, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION);
+        this(distanceSupplier, subsystem, FAR_POWER_LAUNCHER_CONVERSION,  CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION);
     }
     public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal) {
         this.distanceSupplier = distanceSupplier;
@@ -46,6 +48,7 @@ public class AutoLime3A extends Command {
             velocity*=normal;
 
         subsystem.setVelocity(velocity);
+
     }
 
     @Override

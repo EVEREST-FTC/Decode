@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import static com.everest.constants.Constants.CameraConstants.shortIncrementDistance;
 import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
 import static com.everest.constants.Constants.GateConstants.GateClosePosition;
 import static com.everest.constants.Constants.GateConstants.GateOpenPosition;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_CLOSE;
+import static com.everest.constants.Constants.IntakeConstants.LAST_INTAKE_POWER;
 import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.POWER_LAUNCHER_CONVERSION;
@@ -74,28 +76,31 @@ public class AutonomousOptimized implements RobotContainer {
                 obelisk(),
                 new ParallelRaceGroup(
                         counting(),
-                        chassis.strafeToLinearHeading(0,-8,-22.2,50)///mira 1
+                        chassis.strafeToLinearHeading(0,-8,-20.3,50)///mira 1
                 ),
                 firstLaunch(),
 
-                chassis.strafeToLinearHeading(10,-27.7,90,50),/// coleta 1
-                chassis.strafeToLinearHeading(29,-27.7,90,10),
+                chassis.strafeToLinearHeading(12,-27.7,90,50),/// coleta 1
+                chassis.strafeToLinearHeading(30,-27.7,90,10),
 
                 new ParallelRaceGroup(
                         counting(),
-                        chassis.strafeToLinearHeading(0,-8,-22.2,50)///mira 2
+                        chassis.strafeToLinearHeading(0,-8,-20,50)///mira 2
                 ),
                 autoLaunch(),
 
-                chassis.strafeToLinearHeading(5,-50,90,50),/// coleta 2
-                chassis.strafeToLinearHeading(29,-50,90,10),
+                chassis.strafeToLinearHeading(12,-51,90,50),/// coleta 2
+                chassis.strafeToLinearHeading(30,-51,90,10),
 
                 new ParallelRaceGroup(
                         counting(),
-                        chassis.strafeToLinearHeading(0,-8,-23.5,50)///mira 3
+                        chassis.strafeToLinearHeading(0,-8,-23,50)///mira 3
                 ),
                 autoLaunch(),
-                chassis.strafeToLinearHeading(10,-28.3,0,50)/// final*/
+                chassis.strafeToLinearHeading(10,-28.3,0,50)/// final*/,,
+
+
+
         ).schedule();
     }
     public void farBlueComplete(){
@@ -108,7 +113,7 @@ public class AutonomousOptimized implements RobotContainer {
                                 chassis.strafeToLinearHeading(0,-8,22.2,50)///mira 1
                         ),
 
-                        autoLaunch(),
+                        firstLaunch(),
 
                         chassis.strafeToLinearHeading(-10,-27.7,-90,50),/// coleta 1
                         chassis.strafeToLinearHeading(-31,-27.7,-90,10),
@@ -251,7 +256,7 @@ public class AutonomousOptimized implements RobotContainer {
                     triggerSubsystem.setLastTarget(3);
                     triggerSubsystem.resetTimeLaunch();
                     isSending = true;
-                })).espere(6,Constants.robotTimer)
+                })).espere(10,Constants.robotTimer)
                 .ateQUe(triggerSubsystem::contLaunchTimes)
                 .depois(new InstantCommand(()->{
                     isAiming = false;
@@ -280,7 +285,7 @@ public class AutonomousOptimized implements RobotContainer {
         )
                 .antesDe(new InstantCommand(()->isAiming=true))
                 .ateQUe(triggerSubsystem::contLaunchTimes)
-                .espere(5,Constants.robotTimer)
+                .espere(7,Constants.robotTimer)
                 .antesDe( new InstantCommand(triggerSubsystem::resetTimeLaunch))
                 .depois(new InstantCommand(()->isAiming=false));
 
@@ -340,22 +345,40 @@ public class AutonomousOptimized implements RobotContainer {
                 new CommandBandeira(flagSubsystem,90)
         );*/
     }
+
+
     protected void intakeRoutine(){
 
 
        intake.setDefaultCommand(new CommandIntake(intake, (team==EnumTeam.SOLO_BLUE_FAR||team==EnumTeam.SOLO_RED_FAR)?
-               0.04:
+               INTAKE_POWER:
               INTAKE_POWER_CLOSE
                ));
-        new Trigger(()->triggerSubsystem.getTimeLaunch()==2).and(()->!subsystemOuttake.hasArtifact()).and(subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake,0.05));
-        new Trigger(()->triggerSubsystem.getTimeLaunch()==1).and(()->!subsystemOuttake.hasArtifact()).and(subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake,0.02));
+       /* new Trigger(()->triggerSubsystem.getTimeLaunch()==2).and(()->!subsystemOuttake.hasArtifact()).and(subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake,0.05));
+        new Trigger(()->triggerSubsystem.getTimeLaunch()==1).and(()->!subsystemOuttake.hasArtifact()).and(subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake,0.02));*/
 
         new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).or(()->subsystemOuttake.artifacts()==3)
                 .whileTrue(new CommandIntake(intake, 0));
 
+       /* new Trigger(()->!subsystemOuttake.hasArtifact()).and(()->isAiming)*//*.and(()->!triggerSubsystem.intakeTimePower())*//*
+                .whileTrue( new SequentialCommandGroup(
+                        new ParallelRaceGroup(
+                            new CommandIntake(intake, -0.01),
+                            new WaitCommand(1,Constants.robotTimer)
+                        ),
+                        new CommandIntake(intake, INTAKE_POWER))
+                );*/
+
+
        //mudança importante: lei de morgan
       /*  new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).and( subsystemOuttake::atSetpoint).whileTrue(new CommandIntake(intake, 0.25));*/
 
+        /*new Trigger(triggerSubsystem::intakeTimePower)
+                .and(()->isAiming)
+                .and(subsystemOuttake::hasArtifact)
+                .and(()->subLime.getfrontal()>shortIncrementDistance)
+                .whileTrue(
+                        new CommandIntake(intake, LAST_INTAKE_POWER));*/
     }
     protected void sarcophagiRoutine(){
         subsystemSarcofogo.setDefaultCommand(
