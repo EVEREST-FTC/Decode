@@ -134,7 +134,7 @@ public class Constants {
     }
     /// Constantes do intake
     public static class IntakeConstants{
-        public static final double INTAKE_POWER = 0.027;/// 0.02
+        public static final double INTAKE_POWER = 0.025;/// 0.02
         public static final double INTAKE_POWER_CLOSE = 0.03;
         public static final double LAST_INTAKE_POWER = 0.05;
         public static final double CLOSE_LAST_INTAKE_POWER = 0.07;

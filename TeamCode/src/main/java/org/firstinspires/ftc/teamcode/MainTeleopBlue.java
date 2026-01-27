@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class MainTeleopBlue extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+        CommandScheduler.getInstance().cancelAll();
         RobotContainer.builder()
                 .hardwareMap(hardwareMap)
                 .team(EnumTeam.SOLO_BLUE_FAR)
@@ -22,10 +23,14 @@ public class MainTeleopBlue extends LinearOpMode {
 
         while (opModeIsActive()) {
             CommandScheduler.getInstance().run();
+            telemetry.addData("Comandos", CommandScheduler.getInstance().m_scheduledCommands.size());
             telemetry.update();
 
         }
         //limpa o singleton no requerimento de stop
-        if(isStopRequested())CommandScheduler.getInstance().cancelAll();
+        if(isStopRequested()){
+            CommandScheduler.getInstance().cancelAll();
+            CommandScheduler.getInstance().unregisterAllSubsystems();
+        }
     }
 }

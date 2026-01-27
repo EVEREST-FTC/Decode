@@ -110,11 +110,12 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                         velConstraint(velocity)));
     }
     public Command mirar(EnumTeam team, DoubleSupplier tx, DoubleSupplier distance){
-        return new AlignToAngle(telemetry,
-                tx, this,
+        return new AlignToAngle(telemetry, tx, this,
                 distance,
-                this.getPid(),team.getIncrement(),
-                team.getShortIncrement(),team.getLargeIncrement()
+                this.getPid(),
+                team.getIncrement(),
+                team.getShortIncrement(),
+                team.getLargeIncrement()
         );
     }
 

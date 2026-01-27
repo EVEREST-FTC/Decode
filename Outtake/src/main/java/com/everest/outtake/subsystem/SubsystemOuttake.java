@@ -136,13 +136,13 @@ public class SubsystemOuttake extends SubsystemBase {
         double velocity = Math.abs(rightEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<10;
+        return Math.abs(velocity-targetVelocity)<20;
     }
     private boolean leftSetpoint(){
         double velocity =  Math.abs(leftEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<10;
+        return Math.abs(velocity-targetVelocity)<20;
     }
 
     public boolean newintakemomente(){
