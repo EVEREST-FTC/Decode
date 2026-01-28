@@ -8,8 +8,8 @@ import com.everest.CommandBased.util.InstantCommand;
 import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "BLUELONGE")
-public class BlueFar extends AutonomousOptimized{
+@Autonomous(name = "BLUE_LONGE_FALCONS")
+public class BlueFarFalcons extends AutonomousOptimized{
 
     @Override
     protected void route() {
@@ -32,9 +32,11 @@ public class BlueFar extends AutonomousOptimized{
                                 chassis.strafeToLinearHeading(0,-8,23.5,50)///mira 2
                         ),
                         autoLaunch(),
+/*
 
                         chassis.strafeToLinearHeading(-5,-50,-90,50),/// coleta 2
                         chassis.strafeToLinearHeading(-31,-50,-90,10),
+*/
 
                         /*new ParallelRaceGroup(
                                 counting(),

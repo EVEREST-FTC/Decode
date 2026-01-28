@@ -1,6 +1,9 @@
 package com.everest.outtake;
 
 import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
+import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
+import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
+import static com.everest.constants.Constants.PlatformConstants.POWER_LAUNCHER_CONVERSION;
 
 import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
@@ -12,6 +15,7 @@ import com.everest.outtake.command.LaunchCommand;
 import com.everest.outtake.subsystem.SubsystemOuttake;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
@@ -30,10 +34,12 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
 
     private final BooleanSupplier hasArtifact;
     private final BooleanSupplier isUnactive;
+
     @Override
     public void mainRoutine() {
         subsystem.setDefaultCommand(
-                new AutoLime3A(distance, subsystem).ateQUe(()->
+                new AutoLime3A(distance, subsystem, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION)
+                .ateQUe(()->
                         gamepad1.left_trigger<=GAMEPAD_AIM_TRIGGER||
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         sarcophagiMoment.getAsBoolean()&&

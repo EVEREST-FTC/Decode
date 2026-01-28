@@ -5,9 +5,10 @@ import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.util.InstantCommand;
 import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 /// Utilizacao do subssitema autonomo, criando so recursos necessarios para sua rotina
-@Autonomous(name = "REDLONGE")
-public class RedFar extends AutonomousOptimized {
+@Autonomous(name = "RED_LONGE_FALCONS")
+public class RedFarFalcons extends AutonomousOptimized {
 
     public void route(){
 
@@ -25,19 +26,19 @@ public class RedFar extends AutonomousOptimized {
 
                 new ParallelRaceGroup(
                         counting(),
-                        chassis.strafeToLinearHeading(0,-8,-20,50)///mira 2
+                        chassis.strafeToLinearHeading(0,-8,-20,40)///mira 2
                 ),
                 autoLaunch(),
 
-                chassis.strafeToLinearHeading(12,-51,90,50),/// coleta 2
-                chassis.strafeToLinearHeading(32,-51,90,13),
+               /* chassis.strafeToLinearHeading(12,-51,90,50),/// coleta 2
+                chassis.strafeToLinearHeading(32,-51,90,13),*/
 
                 /*new ParallelRaceGroup(
                         counting(),
                         chassis.strafeToLinearHeading(0,-8,-23,50)///mira 3
                 ),*/
                 /*autoLaunch(),*/
-                chassis.strafeToLinearHeading(10,-28.3,0,50)/// final*/,,
+                chassis.strafeToLinearHeading(10,-28.3,0,40)/// final*/,,
 
 
 

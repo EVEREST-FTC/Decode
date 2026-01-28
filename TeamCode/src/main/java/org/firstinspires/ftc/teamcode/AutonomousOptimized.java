@@ -74,9 +74,10 @@ public abstract class AutonomousOptimized extends LinearOpMode
     @Override
     public void runOpMode(){
         team = getTeam();
-        CommandScheduler.getInstance().cancelAll();
-        mainRoutine();
+        CommandScheduler.getInstance().reset();
         waitForStart();
+
+        mainRoutine();
 
         while (opModeIsActive()) {
             CommandScheduler.getInstance().run();
@@ -84,10 +85,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
             telemetry.update();
         }
         //limpa o singleton no requerimento de stop
-        if(isStopRequested()){
-            CommandScheduler.getInstance().cancelAll();
-            CommandScheduler.getInstance().unregisterAllSubsystems();
-        }
+        CommandScheduler.getInstance().reset();
     }
 
     protected MecanumDrive chassis;
@@ -144,7 +142,10 @@ public abstract class AutonomousOptimized extends LinearOpMode
     public Command firstLaunch(){
 
         return new ParallelCommandGroup(
-                new InstantCommand(()->intakeTime = false),
+                new SequentialCommandGroup(
+                        new WaitCommand(3.5, Constants.robotTimer),
+                        new InstantCommand(()->intakeTime = true)
+                ),
                 aim(),
                 new RepeatCommand(
                         triggerSubsystem.launch(subsystemSarcofogo::resetmemore)
@@ -157,8 +158,8 @@ public abstract class AutonomousOptimized extends LinearOpMode
                     triggerSubsystem.setLastTarget(3);
                     triggerSubsystem.resetTimeLaunch();
                     isSending = true;
-                    intakeAddPower = 0.005;
-                })).espere(7,Constants.robotTimer)
+                    intakeAddPower = 0;
+                })).espere(8,Constants.robotTimer)
                 .ateQUe(triggerSubsystem::contLaunchTimes)
                 .depois(new InstantCommand(()->{
                     isAiming = false;
@@ -188,7 +189,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
                 ),
                 new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry),
                 new SequentialCommandGroup(
-                        new WaitCommand(3, new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS)),
+                        new WaitCommand(4, Constants.robotTimer),
                         new InstantCommand(()->intakeTime = true)
                 )
         )
@@ -223,7 +224,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
     }
     protected void outtakeRoutine(){
         subsystemOuttake.setDefaultCommand(
-                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, 810).ateQUe(()->
+                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, 805).ateQUe(()->
                         (!isAiming&&
                                 !isSending)||
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
@@ -254,7 +255,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
                 .and(()->!subsystemOuttake.hasArtifact())
                 .and(()->subLime.getfrontal()>shortIncrementDistance)
                 .whileTrue(
-                        new CommandIntake(intake, 0.08));
+                        new CommandIntake(intake, 0.04));
     }
     protected void sarcophagiRoutine(){
         subsystemSarcofogo.setDefaultCommand(
@@ -274,7 +275,8 @@ public abstract class AutonomousOptimized extends LinearOpMode
         BooleanSupplier triggerCondition = () ->
                 subLime.isValid()
                         && subsystemOuttake.atSetpoint()
-                        && subsystemOuttake.hasArtifact();
+                        && subsystemOuttake.hasArtifact()
+                ;
         return new ConditionalCommand(triggerCondition);
     }
     protected Command aim(){

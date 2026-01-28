@@ -28,17 +28,17 @@ public class Constants {
     }
     ///RELATIVO AO PID da limelight
     public static class GyroConstants{
-        public static final double KP = 0.02405;
-        public static final double KI = 0.08;///0.0.045
+        public static final double KP = 0.02;
+        public static final double KI = 0.035;///0.0.045
 
         public static final double KD = 0;
-        public static final double KP_TELEOP = 0.0376; ///0.0276
-        public static final double KI_TELEOP = 0.029;///0.023
+        public static final double KP_TELEOP = 0.0163; ///0.0276
+        public static final double KI_TELEOP = 0.0299;///0.023
 
-        public static final double KD_TELEOP = 0;
+        public static final double KD_TELEOP = 0.0015;
         ///
         public static final double PID_MAX = 0.5;
-        public static final double iRange = 5;
+        public static final double iRange = 6.5;
 
         public static final double ADMISSIBLE_ERROR = 1.0;
     }
@@ -62,7 +62,8 @@ public class Constants {
         public static final double DELTA_HEIGHT = TARGET_HEIGHT - CAMERA_HEIGHT + 0.45;
         public static final double TAG_RELATIVE_HEIGHT = TARGET_HEIGHT - CAMERA_HEIGHT;
         public static final double G = 9.81;
-        public static final double MAX_HEIGHT = 0.9;
+        /// Define a altura maxima do projetil
+        public static final double MAX_HEIGHT = 0.9; ///0.9
         public static final double initialAngle = 15;
         public static final double shortIncrementDistance = 1.79;
         public static final double largeIncrementDistance = 2.6;
@@ -78,9 +79,9 @@ public class Constants {
     }
     /// Constantes da plataforma de lancamento
     public static class PlatformConstants{
-        public static final double FAR_POWER_LAUNCHER_CONVERSION = 780.5;
-        public static final double POWER_LAUNCHER_CONVERSION = 784.3; ///750
-        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 840;
+        public static final double FAR_POWER_LAUNCHER_CONVERSION = 810; /// 780.5
+        public static final double POWER_LAUNCHER_CONVERSION = 810; /// 784
+        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 840;///840
 
         public static final double MAX_RPM = 6000;
         public static double CONVERSION_FACTOR = 2.4;
@@ -134,9 +135,9 @@ public class Constants {
     }
     /// Constantes do intake
     public static class IntakeConstants{
-        public static final double INTAKE_POWER = 0.025;/// 0.02
+        public static final double INTAKE_POWER = 0.022;/// 0.025
         public static final double INTAKE_POWER_CLOSE = 0.03;
-        public static final double LAST_INTAKE_POWER = 0.05;
+        public static final double LAST_INTAKE_POWER = 0.05;/// 0.05
         public static final double CLOSE_LAST_INTAKE_POWER = 0.07;
 
         public static final int Intake_Reduction = 5;

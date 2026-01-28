@@ -64,4 +64,9 @@ public class AlignToAngle extends Command {
     public void end(boolean interrupted) {
         chassis.drive(0, 0, 0);
     }
+
+    @Override
+    public boolean isFinished() {
+        return pid.atSetpoint();
+    }
 }

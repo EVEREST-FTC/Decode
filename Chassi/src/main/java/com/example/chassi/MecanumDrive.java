@@ -21,6 +21,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.util.function.DoubleSupplier;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.flogger.Flogger;
 
 public final class MecanumDrive extends com.example.chassi.roadrunner.lib.MecanumDrive {
 

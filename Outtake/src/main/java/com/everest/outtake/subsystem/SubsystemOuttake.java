@@ -4,7 +4,6 @@ import static com.everest.constants.Constants.robotTimer;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
-import com.everest.constants.Constants;
 import com.everest.constants.Constants.ElevatorConstants;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,12 +11,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class SubsystemOuttake extends SubsystemBase {
     private final DcMotorEx rightEngine, leftEngine;
@@ -35,11 +33,10 @@ public class SubsystemOuttake extends SubsystemBase {
 
     int timeLaunch = 0;
 
-    double admissibleSeconds = 0.7;
-    double lastTimeCurrent = 0;
-    double lastCurrent = 0;
-
-
+    double admissibleSeconds = 0.2;
+    @Getter
+            @Setter
+    double power;
 
     private final RevColorSensorV3 ColorSensorL, ColorSensorR, sensorGateLeft, sensorGateRight;
     public SubsystemOuttake(HardwareMap hardwareMap, Telemetry telemetry){
@@ -51,8 +48,8 @@ public class SubsystemOuttake extends SubsystemBase {
         sensorGateLeft = hardwareMap.get(RevColorSensorV3.class,"SensorgateLeft");
         sensorGateRight = hardwareMap.get(RevColorSensorV3.class,"SensorgateRight");
         this.telemetry = telemetry;
-        leftEngine.setVelocityPIDFCoefficients(10, 6, 0, 0);
-        rightEngine.setVelocityPIDFCoefficients(10, 6, 0, 0);
+        leftEngine.setVelocityPIDFCoefficients(9, 6, 0, 0);
+        rightEngine.setVelocityPIDFCoefficients(9, 6, 0, 0);
         CommandScheduler.getInstance().registerSubsystem(this);
     }
     public void setVelocity(double velocity){
@@ -68,40 +65,36 @@ public class SubsystemOuttake extends SubsystemBase {
         return (ColorSensorR.getDistance(DistanceUnit.MM));
     }
 
-    public void telemetri(float nome, float texto ){
-
-    }
-
     public boolean getDistanceLeft(){
-        if (sensorGateLeft.getDistance(DistanceUnit.MM)< 34) {
+        if (sensorGateLeft.getDistance(DistanceUnit.MM)< 50) {
             memoryLeft++;
             lastSeenLeft = robotTimer.getTime();
         }
         double deltaT = robotTimer.getTime()-lastSeenLeft;
         if(deltaT>admissibleSeconds) memoryLeft = 0;
-        return memoryLeft > 8;
+        return memoryLeft > 10;
     }
     public boolean noDebounceLeft(){
         if (sensorGateLeft.getDistance(DistanceUnit.MM)< 34) {
             memoryLeft++;
         }
-        return memoryLeft > 8;
+        return memoryLeft > 10;
     }
 
     public boolean getDistanceRight(){
-        if (sensorGateRight.getDistance(DistanceUnit.MM)< 34) {
+        if (sensorGateRight.getDistance(DistanceUnit.MM)< 30) {
             memoryRight++;
             lastSeenRight = robotTimer.getTime();
         }
         double deltaT = robotTimer.getTime()-lastSeenRight;
         if(deltaT>admissibleSeconds) memoryRight = 0;
-        return memoryRight > 5;
+        return memoryRight > 10;
     }
     public boolean noDebounceRight(){
-        if (sensorGateRight.getDistance(DistanceUnit.MM)< 34) {
+        if (sensorGateRight.getDistance(DistanceUnit.MM)< 30) {
             memoryRight++;
         }
-        return memoryRight > 8;
+        return memoryRight > 10;
     }
 
     public  int artifacts(){
@@ -126,6 +119,8 @@ public class SubsystemOuttake extends SubsystemBase {
     }
     public void resetTimeLaunch(){
         timeLaunch = 0;
+        memoryLeft = 0;
+        memoryRight = 0;
     }
 
     public void brake(){
@@ -136,13 +131,18 @@ public class SubsystemOuttake extends SubsystemBase {
         double velocity = Math.abs(rightEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<20;
+        return Math.abs(velocity-targetVelocity)<30;
     }
     private boolean leftSetpoint(){
         double velocity =  Math.abs(leftEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<20;
+        return Math.abs(velocity-targetVelocity)<30;
+    }
+    private boolean diferenceSetpoint(){
+        double velocityL=  Math.abs(leftEngine.getVelocity());
+        double velocityR = Math.abs(rightEngine.getVelocity());
+        return  Math.abs(velocityR - velocityL)<30;
     }
 
     public boolean newintakemomente(){
@@ -150,22 +150,24 @@ public class SubsystemOuttake extends SubsystemBase {
     }
     public boolean oneSent(){ return newTimeLaunch() >=1;}
     public boolean atSetpoint(){
-        return rightSetpoint()&&leftSetpoint();
+        return rightSetpoint()&&leftSetpoint()&&diferenceSetpoint();
     }
 
     public boolean hasArtifact(){
         return distanceSensorR() < 55 || distanceSensorL() < 55;
     }
+
+
     @Override
     public void periodic() {
-        telemetry.addData("artifacts",artifacts());
-        telemetry.addData("hasArtifact",hasArtifact());
-        telemetry.addData("contagem",newTimeLaunch());
-        telemetry.addData("intakemomente",newintakemomente());
-        telemetry.addData("motor current", (leftEngine.getCurrent(CurrentUnit.MILLIAMPS)-lastCurrent)/(robotTimer.getTime())-lastTimeCurrent);
-        lastCurrent = leftEngine.getCurrent(CurrentUnit.MILLIAMPS);
-        lastTimeCurrent = robotTimer.getTime();
+        telemetry.addData("targetVelocity", targetVelocity);
+        telemetry.addData("real velocity", rightEngine.getVelocity());
 
+        telemetry.addData("rightSetpoint", rightSetpoint());
+        telemetry.addData("leftSetpoint ", leftSetpoint());
+
+
+        telemetry.addData("Dist R", sensorGateRight.getDistance(DistanceUnit.MM));
+        telemetry.addData("Dist L ", sensorGateLeft.getDistance(DistanceUnit.MM));
     }
-
 }
