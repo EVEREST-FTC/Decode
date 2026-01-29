@@ -47,7 +47,8 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 team,
                 KP_TELEOP,
                 KI_TELEOP,
-                KD_TELEOP);
+                KD_TELEOP
+                );
         SubsystemGate gate = new SubsystemGate(hardwareMap,
                 telemetry);
         SubsystemSarcofogo sarcophagi = new SubsystemSarcofogo(hardwareMap,
@@ -110,15 +111,18 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .distance(limelight::getfrontal)
                 .hasArtifact(outtake::hasArtifact)
                 .subsystem(outtake)
+                .atsetponitcahssi(chassis::atSetpoint)
                 .sarcophagiMoment(sarcophagi::isSending)
                 .isUnactive(sarcophagi::isUnactive)
                 .build()
                 .defineMainRoutine();
 
+
         PlatformContainer.builder()
                 .gamepad(gamepad1)
                 .subsystemCalibrator(platform)
                 .distance(limelight::getfrontal)
+                .sarcophagiMoment(sarcophagi::isSending)
                 .hasArtifact(outtake::hasArtifact)
                 .telemetry(telemetry)
                 .build()

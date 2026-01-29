@@ -31,6 +31,7 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
     private final SubsystemOuttake subsystem;
 
     private final BooleanSupplier sarcophagiMoment;
+    private final BooleanSupplier atsetponitcahssi;
 
     private final BooleanSupplier hasArtifact;
     private final BooleanSupplier isUnactive;
@@ -38,14 +39,14 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
     @Override
     public void mainRoutine() {
         subsystem.setDefaultCommand(
-                new AutoLime3A(distance, subsystem, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION)
+                new AutoLime3A(distance, subsystem, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION,atsetponitcahssi.getAsBoolean())
                 .ateQUe(()->
                         gamepad1.left_trigger<=GAMEPAD_AIM_TRIGGER||
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         sarcophagiMoment.getAsBoolean()&&
                                         !hasArtifact.getAsBoolean())));
-        new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 0.5));
-        new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 0.8));
+        new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 4800));
+        new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 3642));
         new Trigger(()->!hasArtifact.getAsBoolean()).and(()->!isUnactive.getAsBoolean()).whileTrue(new LaunchCommand(subsystem, -0.2));
 
     }

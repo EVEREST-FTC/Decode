@@ -32,15 +32,17 @@ public class Constants {
         public static final double KI = 0.035;///0.0.045
 
         public static final double KD = 0;
-        public static final double KP_TELEOP = 0.0163; ///0.0276
-        public static final double KI_TELEOP = 0.0299;///0.023
+        public static final double KP_TELEOP = 0.0267; ///0.0276
+        public static final double KI_TELEOP = 0.035;///0.0.0299
 
-        public static final double KD_TELEOP = 0.0015;
+        public static final double KD_TELEOP = 0;///0.0015
         ///
         public static final double PID_MAX = 0.5;
         public static final double iRange = 6.5;
 
-        public static final double ADMISSIBLE_ERROR = 1.0;
+        public static final double ADMISSIBLE_ERROR = 1;
+
+        public static final double SHORT_ADMISSIBLE_ERROR = 2.5;
     }
     ///Relativo ao modelo de lancador
     public static class LauncherControllerConstants{
@@ -63,7 +65,7 @@ public class Constants {
         public static final double TAG_RELATIVE_HEIGHT = TARGET_HEIGHT - CAMERA_HEIGHT;
         public static final double G = 9.81;
         /// Define a altura maxima do projetil
-        public static final double MAX_HEIGHT = 0.9; ///0.9
+        public static final double MAX_HEIGHT = 0.8; ///0.1
         public static final double initialAngle = 15;
         public static final double shortIncrementDistance = 1.79;
         public static final double largeIncrementDistance = 2.6;
@@ -79,9 +81,9 @@ public class Constants {
     }
     /// Constantes da plataforma de lancamento
     public static class PlatformConstants{
-        public static final double FAR_POWER_LAUNCHER_CONVERSION = 810; /// 780.5
-        public static final double POWER_LAUNCHER_CONVERSION = 810; /// 784
-        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 840;///840
+        public static final double FAR_POWER_LAUNCHER_CONVERSION = 670; /// 780.5 /// 845
+        public static final double POWER_LAUNCHER_CONVERSION = 715; /// 784 /// 845
+        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 790;///840
 
         public static final double MAX_RPM = 6000;
         public static double CONVERSION_FACTOR = 2.4;
@@ -91,7 +93,7 @@ public class Constants {
         public static final double INITIAL_POSITION = 0.3857;
 
         public static final double PLATFORM_MAX_ANGLE = 55;
-        public static final double PLATFORM_MIN_ANGLE = 45;
+        public static final double PLATFORM_MIN_ANGLE = 35;
     }
     /// Constantes do gate
     public static class GateConstants{
@@ -116,7 +118,7 @@ public class Constants {
 
         public static double SARCOFOGO_MAX_SERVO_ANGLE = 280;
 
-        public static final double SARCOFOGO_MAX_ANGLE = 90;
+        public static final double SARCOFOGO_MAX_ANGLE = 170;
         public static final double SARCOFOGO_MIN_ANGLE = 0;
 
 
@@ -135,7 +137,9 @@ public class Constants {
     }
     /// Constantes do intake
     public static class IntakeConstants{
-        public static final double INTAKE_POWER = 0.022;/// 0.025
+        public static final double INTAKE_POWER_NORMAL = 0.04;
+
+        public static final double INTAKE_POWER = 0.016;/// 0.025
         public static final double INTAKE_POWER_CLOSE = 0.03;
         public static final double LAST_INTAKE_POWER = 0.05;/// 0.05
         public static final double CLOSE_LAST_INTAKE_POWER = 0.07;

@@ -10,6 +10,7 @@ import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_CLOSE;
 import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
+import static com.everest.constants.Constants.PlatformConstants.POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.SarcofagoConstants.SarcofogoInitialPosition;
 
 import com.everest.CommandBased.compositions.ParallelCommandGroup;
@@ -195,7 +196,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
         )
                 .antesDe(new InstantCommand(()->isAiming=true))
                 .ateQUe(triggerSubsystem::contLaunchTimes)
-                .espere(7,Constants.robotTimer)
+                .espere(9,Constants.robotTimer)
                 .antesDe( new InstantCommand(triggerSubsystem::resetTimeLaunch))
                 .depois(new InstantCommand(()->isAiming=false))
                 .depois(new InstantCommand(()->intakeTime=false))
@@ -224,7 +225,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
     }
     protected void outtakeRoutine(){
         subsystemOuttake.setDefaultCommand(
-                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, 805).ateQUe(()->
+                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION,chassis.atSetpoint()).ateQUe(()->
                         (!isAiming&&
                                 !isSending)||
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
@@ -263,7 +264,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
                         Map.ofEntries(
                                 Map.entry(Moment.KEEP, new com.example.sarcofogo.Command(subsystemSarcofogo,
                                         SarcofogoInitialPosition, Moment.KEEP)),
-                                Map.entry(Moment.SEND, new com.example.sarcofogo.Command(subsystemSarcofogo,50, Moment.SEND).ateQUe(()->!triggerSubsystem.artifactMoment()))
+                                Map.entry(Moment.SEND, new com.example.sarcofogo.Command(subsystemSarcofogo,100 , Moment.SEND).ateQUe(()->!triggerSubsystem.artifactMoment()))
                         ),
                         ()->Moment.select(triggerSubsystem.artifactMoment()&&isSending)
                 ));

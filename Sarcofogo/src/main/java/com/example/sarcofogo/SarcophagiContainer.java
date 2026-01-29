@@ -40,7 +40,7 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
                         Map.ofEntries(
                                 Map.entry(Moment.KEEP, new Command(subsystemSarcofogo,
                                         SarcofogoInitialPosition, Moment.KEEP)),
-                                Map.entry(Moment.SEND, new Command(subsystemSarcofogo,50, Moment.SEND).ateQUe(()->!artifactMoment.getAsBoolean())),
+                                Map.entry(Moment.SEND, new Command(subsystemSarcofogo,160, Moment.SEND).ateQUe(()->!artifactMoment.getAsBoolean())),
                                 Map.entry(Moment.UNACTIVE, new Command(subsystemSarcofogo,0, Moment.UNACTIVE))
                         ),
                         ()->{

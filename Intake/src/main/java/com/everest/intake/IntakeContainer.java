@@ -5,6 +5,7 @@ import static com.everest.constants.Constants.CameraConstants.shortIncrementDist
 import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
 import static com.everest.constants.Constants.IntakeConstants.CLOSE_LAST_INTAKE_POWER;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER;
+import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_NORMAL;
 import static com.everest.constants.Constants.IntakeConstants.LAST_INTAKE_POWER;
 
 import com.everest.CommandBased.compositions.ParallelCommandGroup;
@@ -39,45 +40,28 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
     private final DoubleSupplier ArtifactComplete;
     @Override
     public void mainRoutine() {
+       // new Trigger(()->!(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER)).whileTrue(new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL));
+        /// normal do lançamento
         subsytemIntake.setDefaultCommand(
-                new CommandIntake(subsytemIntake, INTAKE_POWER));
+                new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL).antesDe(new ConditionalCommand(()->!(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER))));
 
 
+        /// velocidade mais baixa pro sarcofago
         new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).whileTrue(new CommandIntake(subsytemIntake, 0.2));
 
+        /// parada pra lançamento
         new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(hasArtifact).and(velocityVerifier).or(()->ArtifactComplete.getAsDouble()==3).or(()->gamepad.y)
                 .whileTrue(new CommandIntake(subsytemIntake, 0));
+
+        /// ta lancando e nao tem artefato no outtake
         new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(()->!hasArtifact.getAsBoolean()).whileTrue(
-                new CommandIntake(subsytemIntake, 0.04)
+                new CommandIntake(subsytemIntake, INTAKE_POWER)
         );
 
+        /// acelerar manual
         new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(()->gamepad.right_stick_button).whileTrue(new CommandIntake(subsytemIntake, LAST_INTAKE_POWER));
 
-
-
-        /*new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).whileTrue(
-                new SequentialCommandGroup(
-                        new ParallelRaceGroup(
-                                new WaitCommand(5,Constants.robotTimer),
-                                new RepeatCommand(
-                                        new CommandIntake(subsytemIntake, INTAKE_POWER)
-                                                .antesDe(new ConditionalCommand(hasArtifact)
-                                                )
-                                )
-
-                        ),
-                        new CommandIntake(subsytemIntake, LAST_INTAKE_POWER)
-                )
-
-        );*/
-
-
-
-
-        /// longe
-
-
-        //TODO: tirar os numeros hardcoded
+        /// potencia lançamento
         new Trigger(intakeMoment)
                 .and(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER)
                 .and(()->!hasArtifact.getAsBoolean())

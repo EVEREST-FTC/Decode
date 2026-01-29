@@ -16,13 +16,19 @@ import java.util.function.Supplier;
 public class AutoLime3A extends Command {
     final Supplier<Double>distanceSupplier;
     final SubsystemOuttake subsystem;
+
+
+
     final double far, close, normal;
     double power;
 
+    boolean atsetpoint;
+
     double velocity;
-    public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal) {
+    public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal, boolean atsetpoint) {
         this.distanceSupplier = distanceSupplier;
         this.subsystem = subsystem;
+        this.atsetpoint = atsetpoint;
         this.far = far;
         this.close = close;
         this.normal = normal;
@@ -39,6 +45,12 @@ public class AutoLime3A extends Command {
             power = far;
         else
             power = normal;
+
+    }
+
+    @Override
+    public void execute() {
+        double distance = distanceSupplier.get();
         subsystem.setPower(power);
         double Vy = Math.sqrt(2 * Constants.CameraConstants.G * Constants.CameraConstants.MAX_HEIGHT);
 
@@ -48,13 +60,12 @@ public class AutoLime3A extends Command {
         double vx = distance / t;
         velocity = Math.sqrt(Vy*Vy + vx*vx);
         velocity*=power;
-    }
 
-    @Override
-    public void execute() {
+        if (!atsetpoint){
+            subsystem.setVelocity(velocity);
+        }
 
 
-        subsystem.setVelocity(velocity);
 
     }
 

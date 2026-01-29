@@ -54,7 +54,7 @@ public class AlignToAngle extends Command {
         else
             alvo = greatIncrement;
 
-        double angle = pid.calculate(alvo, target.getAsDouble());
+        double angle = pid.calculate(alvo, target.getAsDouble(),distanceSupplier.getAsDouble());
         chassis.drive(0, 0, angle);
         telemetry.addData("alvo",alvo);
     }

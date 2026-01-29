@@ -54,6 +54,8 @@ public class SubsystemOuttake extends SubsystemBase {
     }
     public void setVelocity(double velocity){
         velocity *= ElevatorConstants.REVERSE_TICK_CONVERSION ;
+
+
         targetVelocity = velocity;
         rightEngine.setVelocity(-velocity);
         leftEngine.setVelocity(-velocity);
@@ -131,13 +133,13 @@ public class SubsystemOuttake extends SubsystemBase {
         double velocity = Math.abs(rightEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<30;
+        return Math.abs(velocity-targetVelocity)<11;
     }
     private boolean leftSetpoint(){
         double velocity =  Math.abs(leftEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<30;
+        return Math.abs(velocity-targetVelocity)<11;
     }
     private boolean diferenceSetpoint(){
         double velocityL=  Math.abs(leftEngine.getVelocity());

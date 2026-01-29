@@ -14,6 +14,8 @@ public class PID {
     private double sum;
     private double lastTime;
     private double lastErro;
+    private double distance;
+
 
     public PID(double kp, double ki, double kd) {
         KP = kp;
@@ -36,11 +38,12 @@ public class PID {
 
     }
 
-    public double calculate(double target, double measurement){
+    public double calculate(double target, double measurement, double Distance){
         double error = (target-measurement);
         double dt = timer.time() - lastTime;
         double derro = error - lastErro;
         double derivativo = 0;
+        distance = Distance;
         if(Math.abs(error)<Constants.GyroConstants.iRange) {
             sum += error * dt;
             derivativo = derro/dt;
@@ -54,6 +57,11 @@ public class PID {
         return lastErro;
     }
     public boolean atSetpoint(){
-        return Math.abs(getError())< Constants.GyroConstants.ADMISSIBLE_ERROR;
+        if (lastErro == 0)
+            return false;
+        else if (distance < Constants.CameraConstants.shortIncrementDistance)
+            return Math.abs(getError())< Constants.GyroConstants.SHORT_ADMISSIBLE_ERROR;
+        else
+            return Math.abs(getError())< Constants.GyroConstants.ADMISSIBLE_ERROR;
     }
 }
