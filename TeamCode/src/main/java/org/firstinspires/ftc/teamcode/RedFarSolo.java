@@ -32,7 +32,7 @@ public class RedFarSolo extends AutonomousOptimized {
                             ),
                             autoLaunch(),
                             chassis.strafeToLinearHeading(12,-50,90,30),/// coleta 2
-                            chassis.strafeToLinearHeading(32,-50,90,8),
+                            chassis.strafeToLinearHeading(34,-50,90,8),
                             chassis.strafeToLinearHeading(31,-61,0,30)/// final
                     ).antesDe(new ConditionalCommand(()->Constants.getMatchPattern().ordinal() == 0)),
 
@@ -46,7 +46,7 @@ public class RedFarSolo extends AutonomousOptimized {
                             ),
                             autoLaunch(),
                             chassis.strafeToLinearHeading(12,-28,90,30),/// coleta 1
-                            chassis.strafeToLinearHeading(32,-28,90,8),
+                            chassis.strafeToLinearHeading(34,-28,90,8),
                             chassis.strafeToLinearHeading(10,-28.3,0,30)/// final
                     ).antesDe(new ConditionalCommand(()->Constants.getMatchPattern().ordinal() == 1)),
 
@@ -60,7 +60,7 @@ public class RedFarSolo extends AutonomousOptimized {
                             ),
                             autoLaunch(),
                             chassis.strafeToLinearHeading(12,-27.5,90,30),/// coleta 1
-                            chassis.strafeToLinearHeading(32,-27.5,90,8),
+                            chassis.strafeToLinearHeading(34,-27.5,90,8),
                             chassis.strafeToLinearHeading(10,-28.3,0,30)/// final
                     ).antesDe(new ConditionalCommand(()->Constants.getMatchPattern().ordinal() == 2))
                 )

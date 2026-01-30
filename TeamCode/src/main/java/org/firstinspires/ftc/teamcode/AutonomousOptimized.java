@@ -10,7 +10,9 @@ import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_CLOSE;
 import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
+import static com.everest.constants.Constants.PlatformConstants.PLATFORM_MIN_ANGLE;
 import static com.everest.constants.Constants.PlatformConstants.POWER_LAUNCHER_CONVERSION;
+import static com.everest.constants.Constants.SarcofagoConstants.SARCOPHAGI_SEND_POSITION;
 import static com.everest.constants.Constants.SarcofagoConstants.SarcofogoInitialPosition;
 
 import com.everest.CommandBased.compositions.ParallelCommandGroup;
@@ -34,6 +36,7 @@ import com.everest.outtake.command.AutoLime3A;
 import com.everest.outtake.command.LaunchCommand;
 import com.everest.outtake.subsystem.SubsystemOuttake;
 import com.everest.plataform.command.AutoLime3AC;
+import com.everest.plataform.command.CalibratorCommand;
 import com.everest.plataform.subsystem.SubsystemCalibrator;
 import com.everest.trigger.subsystem.TriggerSubsystem;
 import com.example.chassi.MecanumDrive;
@@ -64,11 +67,14 @@ public abstract class AutonomousOptimized extends LinearOpMode
     @Override
     public void mainRoutine() {
         initSubsystems();
+        //Triggers
         outtakeRoutine();
         flagRoutine();
         gateRoutine();
         intakeRoutine();
         sarcophagiRoutine();
+        platformRoutine();
+        //scheduled
         route();
     }
 
@@ -100,8 +106,8 @@ public abstract class AutonomousOptimized extends LinearOpMode
     protected FlagSubsystem flagSubsystem;
     private boolean isAiming;
     private boolean isSending;
-    private double intakeAddPower;
     private boolean intakeTime;
+    private double outtakeAddPower;
     private void initSubsystems(){
         chassis = new MecanumDrive(hardwareMap,
                 telemetry,
@@ -144,7 +150,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
 
         return new ParallelCommandGroup(
                 new SequentialCommandGroup(
-                        new WaitCommand(3.5, Constants.robotTimer),
+                        new WaitCommand(4.5, Constants.robotTimer),
                         new InstantCommand(()->intakeTime = true)
                 ),
                 aim(),
@@ -152,20 +158,19 @@ public abstract class AutonomousOptimized extends LinearOpMode
                         triggerSubsystem.launch(subsystemSarcofogo::resetmemore)
                                 .ateQUe(()->!subsystemOuttake.hasArtifact()).
                                 antesDe(conditionalCommand())
-                ),
-                new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry)
+                )
             ).antesDe(new InstantCommand(()->   {
                     isAiming=true;
                     triggerSubsystem.setLastTarget(3);
                     triggerSubsystem.resetTimeLaunch();
                     isSending = true;
-                    intakeAddPower = 0;
+                    outtakeAddPower = 10;
                 })).espere(8,Constants.robotTimer)
                 .ateQUe(triggerSubsystem::contLaunchTimes)
                 .depois(new InstantCommand(()->{
                     isAiming = false;
                     isSending = false;
-                    intakeAddPower = 0;
+                    outtakeAddPower = 0;
                     intakeTime = false;
                 }));
 
@@ -188,7 +193,6 @@ public abstract class AutonomousOptimized extends LinearOpMode
                                 .ateQUe(()->!subsystemOuttake.hasArtifact()).
                                 antesDe(conditionalCommand())
                 ),
-                new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry),
                 new SequentialCommandGroup(
                         new WaitCommand(4, Constants.robotTimer),
                         new InstantCommand(()->intakeTime = true)
@@ -202,6 +206,15 @@ public abstract class AutonomousOptimized extends LinearOpMode
                 .depois(new InstantCommand(()->intakeTime=false))
                 .depois(new InstantCommand(()->triggerSubsystem.resetPosition()));
 
+    }
+
+    protected void platformRoutine(){
+        subsystemCalibrator.setDefaultCommand(
+                new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry)
+        );
+        new Trigger(subsystemSarcofogo::isSending).and(()->!subsystemOuttake.hasArtifact()).whileTrue(
+                new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE)
+        );
     }
 
 
@@ -225,7 +238,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
     }
     protected void outtakeRoutine(){
         subsystemOuttake.setDefaultCommand(
-                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION,chassis.atSetpoint()).ateQUe(()->
+                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, 750,chassis.atSetpoint(), ()->outtakeAddPower).ateQUe(()->
                         (!isAiming&&
                                 !isSending)||
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
@@ -245,8 +258,8 @@ public abstract class AutonomousOptimized extends LinearOpMode
 
 
        intake.setDefaultCommand(new CommandIntake(intake, (team==EnumTeam.SOLO_BLUE_FAR||team==EnumTeam.SOLO_RED_FAR)?
-               INTAKE_POWER + intakeAddPower :
-              INTAKE_POWER_CLOSE + intakeAddPower
+               INTAKE_POWER:
+              INTAKE_POWER_CLOSE
                ));
         new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).or(()->subsystemOuttake.artifacts()==3)
                 .whileTrue(new CommandIntake(intake, 0));
@@ -264,7 +277,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
                         Map.ofEntries(
                                 Map.entry(Moment.KEEP, new com.example.sarcofogo.Command(subsystemSarcofogo,
                                         SarcofogoInitialPosition, Moment.KEEP)),
-                                Map.entry(Moment.SEND, new com.example.sarcofogo.Command(subsystemSarcofogo,100 , Moment.SEND).ateQUe(()->!triggerSubsystem.artifactMoment()))
+                                Map.entry(Moment.SEND, new com.example.sarcofogo.Command(subsystemSarcofogo,SARCOPHAGI_SEND_POSITION , Moment.SEND).ateQUe(()->!triggerSubsystem.artifactMoment()))
                         ),
                         ()->Moment.select(triggerSubsystem.artifactMoment()&&isSending)
                 ));

@@ -2,7 +2,6 @@ package com.everest.plataform;
 
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.plataform.command.AutoLime3AC;
-import com.everest.plataform.command.CalibratorCommand;
 import com.everest.plataform.subsystem.SubsystemCalibrator;
 import com.qualcomm.robotcore.hardware.Gamepad;
 

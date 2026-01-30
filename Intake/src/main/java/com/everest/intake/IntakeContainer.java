@@ -45,6 +45,9 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
         subsytemIntake.setDefaultCommand(
                 new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL).antesDe(new ConditionalCommand(()->!(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER))));
 
+        new Trigger(()->gamepad.y).toggleOnTrue(
+                new CommandIntake(subsytemIntake, 0)
+        );
 
         /// velocidade mais baixa pro sarcofago
         new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).whileTrue(new CommandIntake(subsytemIntake, 0.2));

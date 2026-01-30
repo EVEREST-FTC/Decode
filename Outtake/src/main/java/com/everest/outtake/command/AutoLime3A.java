@@ -11,6 +11,7 @@ import com.everest.outtake.subsystem.SubsystemOuttake;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 public class AutoLime3A extends Command {
@@ -20,11 +21,16 @@ public class AutoLime3A extends Command {
 
 
     final double far, close, normal;
+    DoubleSupplier increment;
     double power;
 
     boolean atsetpoint;
 
     double velocity;
+    public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal, boolean atsetpoint, DoubleSupplier increment) {
+        this(distanceSupplier, subsystem, far, close, normal, atsetpoint);
+        this.increment = increment;
+    }
     public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal, boolean atsetpoint) {
         this.distanceSupplier = distanceSupplier;
         this.subsystem = subsystem;
@@ -59,11 +65,13 @@ public class AutoLime3A extends Command {
 
         double vx = distance / t;
         velocity = Math.sqrt(Vy*Vy + vx*vx);
-        velocity*=power;
+        velocity*=(power+increment.getAsDouble());
 
-        if (!atsetpoint){
+        subsystem.setVelocity(velocity);
+
+        /*if (!atsetpoint){
             subsystem.setVelocity(velocity);
-        }
+        }*/
 
 
 

@@ -15,50 +15,58 @@ public class BlueFarSolo extends AutonomousOptimized{
 
     @Override
     protected void route() {
-        new ParallelCommandGroup(
+
                 new SequentialCommandGroup(
                         new InstantCommand(chassis::resetIMU),
                         obelisk(),
                         new ParallelRaceGroup(
                                 counting(),
-                                chassis.strafeToLinearHeading(0,-8,22.2,30)///mira 1
+                                chassis.strafeToLinearHeading(0,-8,22.2,15)///mira 1
                         ),
                         firstLaunch(),
-                        new  ParallelRaceGroup(
-                            new SequentialCommandGroup(
-                                    chassis.strafeToLinearHeading(-10,-27.7,-90,30),/// coleta 1
-                                    chassis.strafeToLinearHeading(-31,-27.7,-90,10)
-                            ).antesDe(new ConditionalCommand(()-> Constants.getMatchPattern().ordinal() == 1)),
-
-
-                            new SequentialCommandGroup(
-                                    chassis.strafeToLinearHeading(-5,-50,-90,30),/// coleta 2
-                                    chassis.strafeToLinearHeading(-31,-50,-90,10)
-                            ).antesDe(new ConditionalCommand(()-> Constants.getMatchPattern().ordinal() == 2)),
-
-                            new SequentialCommandGroup(
-                                    chassis.strafeToLinearHeading(-5,-73.4,-90,30),/// coleta 3
-                                    chassis.strafeToLinearHeading(-31,-73.4,-90,10)
-                            ).antesDe(new ConditionalCommand(()-> Constants.getMatchPattern().ordinal() == 3))
-                        ),
-
-
 
                         new ParallelRaceGroup(
-                                counting(),
-                                chassis.strafeToLinearHeading(0,-8,23.5,50)///mira 2
-                        ),
-                        autoLaunch(),
+                                new SequentialCommandGroup(
+                                        chassis.strafeToLinearHeading(-12,-27,-90,30),/// coleta 1
+                                        chassis.strafeToLinearHeading(-32,-27,-90,8),
+                                        new ParallelRaceGroup(
+                                                counting(),
+                                                chassis.strafeToLinearHeading(0,-8,20,30)///mira 2
+                                        ),
+                                        autoLaunch(),
+                                        chassis.strafeToLinearHeading(-12,-50,-90,30),/// coleta 2
+                                        chassis.strafeToLinearHeading(-34,-50,-90,8),
+                                        chassis.strafeToLinearHeading(-31,-61,0,30)/// final
+                                ).antesDe(new ConditionalCommand(()->Constants.getMatchPattern().ordinal() == 0)),
 
+                                new SequentialCommandGroup(
+                                        chassis.strafeToLinearHeading(-12,-50.5,-90,30),/// coleta 2
+                                        chassis.strafeToLinearHeading(-32,-50.5,-90,8),
+                                        chassis.strafeToLinearHeading(-23,-50.5,-90,30),
+                                        new ParallelRaceGroup(
+                                                counting(),
+                                                chassis.strafeToLinearHeading(0,-8,20,30)///mira 2
+                                        ),
+                                        autoLaunch(),
+                                        chassis.strafeToLinearHeading(-12,-28,-90,30),/// coleta 1
+                                        chassis.strafeToLinearHeading(-34,-28,-90,8),
+                                        chassis.strafeToLinearHeading(-10,-28.3,0,30)/// final
+                                ).antesDe(new ConditionalCommand(()->Constants.getMatchPattern().ordinal() == 1)),
 
-                        chassis.strafeToLinearHeading(-10,-28.3,0,30)/// final*/
-
-
-
-
-
-                ),
-                new RepeatCommand(new InstantCommand(subsystemOuttake::artifacts))
+                                new SequentialCommandGroup(
+                                        chassis.strafeToLinearHeading(-12,-75,-90,30),/// coleta 3
+                                        chassis.strafeToLinearHeading(-32,-75,-90,8),
+                                        chassis.strafeToLinearHeading(-22,-75,-90,30),
+                                        new ParallelRaceGroup(
+                                                counting(),
+                                                chassis.strafeToLinearHeading(0,-8,20,30)///mira 2
+                                        ),
+                                        autoLaunch(),
+                                        chassis.strafeToLinearHeading(-12,-27.5,-90,30),/// coleta 1
+                                        chassis.strafeToLinearHeading(-34,-27.5,-90,8),
+                                        chassis.strafeToLinearHeading(-10,-28.3,0,30)/// final
+                                ).antesDe(new ConditionalCommand(()->Constants.getMatchPattern().ordinal() == 2))
+                        )
         ).schedule();
     }
 

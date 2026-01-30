@@ -81,9 +81,9 @@ public class Constants {
     }
     /// Constantes da plataforma de lancamento
     public static class PlatformConstants{
-        public static final double FAR_POWER_LAUNCHER_CONVERSION = 670; /// 780.5 /// 845
-        public static final double POWER_LAUNCHER_CONVERSION = 715; /// 784 /// 845
-        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 790;///840
+        public static final double FAR_POWER_LAUNCHER_CONVERSION = 690; /// 780.5 /// 845
+        public static final double POWER_LAUNCHER_CONVERSION = 735; /// 784 /// 845
+        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 820;///840
 
         public static final double MAX_RPM = 6000;
         public static double CONVERSION_FACTOR = 2.4;
@@ -120,6 +120,7 @@ public class Constants {
 
         public static final double SARCOFOGO_MAX_ANGLE = 170;
         public static final double SARCOFOGO_MIN_ANGLE = 0;
+        public static final double SARCOPHAGI_SEND_POSITION = 130;
 
 
         public static final double SarcofogoInitialPosition = 10;
