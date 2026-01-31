@@ -31,8 +31,8 @@ public class RedFarSolo extends AutonomousOptimized {
                                     chassis.strafeToLinearHeading(0,-8,-20,30)///mira 2
                             ),
                             autoLaunch(),
-                            chassis.strafeToLinearHeading(12,-50,90,30),/// coleta 2
-                            chassis.strafeToLinearHeading(34,-50,90,8),
+                            chassis.strafeToLinearHeading(12,-51,90,30),/// coleta 2
+                            chassis.strafeToLinearHeading(34,-51,90,8),
                             chassis.strafeToLinearHeading(31,-61,0,30)/// final
                     ).antesDe(new ConditionalCommand(()->Constants.getMatchPattern().ordinal() == 0)),
 

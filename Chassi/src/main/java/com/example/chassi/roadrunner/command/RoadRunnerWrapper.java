@@ -15,8 +15,10 @@ public class RoadRunnerWrapper extends Command {
     Function<MecanumDrive, TrajectoryActionBuilder> action;
     Action runningAction;
     final TelemetryPacket telemetryPacket;
-    public RoadRunnerWrapper(MecanumDrive subsystem, Function<MecanumDrive, TrajectoryActionBuilder> action) {
+    private final Pose2d lastPose;
+    public RoadRunnerWrapper(MecanumDrive subsystem, Function<MecanumDrive, TrajectoryActionBuilder> action, Pose2d lastPose) {
         this.subsystem = subsystem;
+        this.lastPose = lastPose;
         this.telemetryPacket = new TelemetryPacket();
         this.action = action;
         addRequirements(subsystem);
@@ -34,6 +36,10 @@ public class RoadRunnerWrapper extends Command {
                 .run(telemetryPacket);
     }
 
+    @Override
+    public void end(boolean interrupted) {
+        subsystem.setLastPose(lastPose);
+    }
 
     @Override
     public boolean isFinished() {

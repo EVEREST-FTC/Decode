@@ -109,9 +109,10 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     public Command strafeToLinearHeading(double x, double y, double angulo, int velocity){
         return new RoadRunnerWrapper(this,
                 c->c.actionBuilder(
-                        this.localizer.getPose()).strafeToLinearHeading(
+                        getLastPose()).strafeToLinearHeading(
                         new Vector2d(y,x), Math.toRadians(angulo),
-                        velConstraint(velocity)));
+                        velConstraint(velocity)),
+                        new Pose2d(new Vector2d(y,x), Math.toRadians(angulo)));
     }
     public Command mirar(EnumTeam team, DoubleSupplier tx, DoubleSupplier distance){
         return new AlignToAngle(telemetry, tx, this,

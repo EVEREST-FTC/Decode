@@ -38,6 +38,7 @@ public class AutoLime3A extends Command {
         this.far = far;
         this.close = close;
         this.normal = normal;
+        increment = ()->0;
         addRequirements(subsystem);
     }
 

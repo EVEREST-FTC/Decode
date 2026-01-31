@@ -53,9 +53,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Config
 public class MecanumDrive extends SubsystemBase{
+    @Getter
+    @Setter
+    private Pose2d lastPose;
     public static class Params {
         // IMU orientation
         // TODO: fill in these values based on
@@ -250,6 +254,7 @@ public class MecanumDrive extends SubsystemBase{
         localizer = new ThreeDeadWheelLocalizer(hardwareMap,PARAMS.inPerTick,pose);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
+        setLastPose(pose);
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {

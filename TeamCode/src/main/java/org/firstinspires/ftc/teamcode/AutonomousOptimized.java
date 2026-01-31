@@ -238,7 +238,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
     }
     protected void outtakeRoutine(){
         subsystemOuttake.setDefaultCommand(
-                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, 750,chassis.atSetpoint(), ()->outtakeAddPower).ateQUe(()->
+                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION,chassis.atSetpoint(),()->outtakeAddPower).ateQUe(()->
                         (!isAiming&&
                                 !isSending)||
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
