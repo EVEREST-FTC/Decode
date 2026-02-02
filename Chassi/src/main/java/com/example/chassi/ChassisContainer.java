@@ -51,7 +51,7 @@ public class ChassisContainer implements RobotContainer {
                         team.getIncrement(),
                         team.getShortIncrement(),
                         team.getLargeIncrement()
-                )
+                ).ateQUe(chassis::atSetpoint)
         );
 
         chassis.setDefaultCommand(

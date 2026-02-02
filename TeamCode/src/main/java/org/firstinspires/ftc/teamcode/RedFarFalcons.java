@@ -8,10 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 /// Utilizacao do subssitema autonomo, criando so recursos necessarios para sua rotina
 @Autonomous(name = "RED_LONGE_FALCONS")
-public class RedFarFalcons extends AutonomousOptimized {
+public class RedFarFalcons extends AutonomousDefinitions {
 
     public void route(){
-
         new SequentialCommandGroup(
                 new InstantCommand(chassis::resetIMU),
                 obelisk(),
@@ -44,6 +43,9 @@ public class RedFarFalcons extends AutonomousOptimized {
 
         ).schedule();
     }
+
+    @Override
+    protected void structurePaths() {}
 
     @Override
     protected EnumTeam getTeam() {

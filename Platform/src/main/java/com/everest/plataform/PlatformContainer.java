@@ -1,7 +1,10 @@
 package com.everest.plataform;
 
+import static com.everest.constants.Constants.PlatformConstants.PLATFORM_MIN_ANGLE;
+
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.plataform.command.AutoLime3AC;
+import com.everest.plataform.command.CalibratorCommand;
 import com.everest.plataform.subsystem.SubsystemCalibrator;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -21,10 +24,14 @@ public class PlatformContainer implements com.everest.constants.meta.RobotContai
     private final Supplier<Double> distance;
     private final Supplier<Boolean> hasArtifact;
 
+
     private final Telemetry telemetry;
     @Override
     public void mainRoutine() {
         subsystemCalibrator.setDefaultCommand(new AutoLime3AC(distance,subsystemCalibrator,telemetry));
+        new Trigger(sarcophagiMoment).and(()->!hasArtifact.get()).whileTrue(
+                new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE)
+        );
     }
 
 }

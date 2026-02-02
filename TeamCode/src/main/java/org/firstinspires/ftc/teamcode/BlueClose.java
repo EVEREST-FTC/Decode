@@ -9,8 +9,11 @@ import com.everest.constants.Constants;
 import com.everest.constants.Pattern;
 import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
+@Disabled
 @Autonomous(name = "BLUEPERTO")
-public class BlueClose extends AutonomousOptimized{
+public class BlueClose extends AutonomousDefinitions {
     @Override
     protected void route() {
         new SequentialCommandGroup(
@@ -57,6 +60,9 @@ public class BlueClose extends AutonomousOptimized{
 
         ).schedule();
     }
+
+    @Override
+    protected void structurePaths() {}
 
     @Override
     protected EnumTeam getTeam() {

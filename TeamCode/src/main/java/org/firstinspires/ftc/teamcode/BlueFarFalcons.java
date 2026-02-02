@@ -9,7 +9,7 @@ import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name = "BLUE_LONGE_FALCONS")
-public class BlueFarFalcons extends AutonomousOptimized{
+public class BlueFarFalcons extends AutonomousDefinitions {
 
     @Override
     protected void route() {
@@ -47,6 +47,11 @@ public class BlueFarFalcons extends AutonomousOptimized{
                 ),
                 new RepeatCommand(new InstantCommand(subsystemOuttake::artifacts))
         ).schedule();
+    }
+
+    @Override
+    protected void structurePaths() {
+
     }
 
     @Override

@@ -26,19 +26,19 @@ public class Constants {
 
         public static final double GAMEPAD_AIM_TRIGGER = 0.9;
     }
-    ///RELATIVO AO PID da limelight
+    ///RELATIVO AO PID do chassi com fornecimento da limelight
     public static class GyroConstants{
-        public static final double KP = 0.02;
-        public static final double KI = 0.035;///0.0.045
+        public static final double KP = 0.015;///0.02
+        public static final double KI =  0.032;///0.0.035
 
-        public static final double KD = 0;
-        public static final double KP_TELEOP = 0.0267; ///0.0276
-        public static final double KI_TELEOP = 0.035;///0.0.0299
+        public static final double KD = 0.002;
+        public static final double KP_TELEOP = 0.018; ///0.0267
+        public static final double KI_TELEOP = 0.038;///0.0.035
 
-        public static final double KD_TELEOP = 0;///0.0015
+        public static final double KD_TELEOP = 0.0018;///0.0015
         ///
         public static final double PID_MAX = 0.5;
-        public static final double iRange = 6.5;
+        public static final double iRange = 7;
 
         public static final double ADMISSIBLE_ERROR = 1;
 
@@ -120,7 +120,7 @@ public class Constants {
 
         public static final double SARCOFOGO_MAX_ANGLE = 170;
         public static final double SARCOFOGO_MIN_ANGLE = 0;
-        public static final double SARCOPHAGI_SEND_POSITION = 130;
+        public static final double SARCOPHAGI_SEND_POSITION = 140;
 
 
         public static final double SarcofogoInitialPosition = 10;

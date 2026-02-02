@@ -25,7 +25,6 @@ import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
 import com.everest.CommandBased.util.InstantCommand;
 import com.everest.CommandBased.util.WaitCommand;
-import com.everest.constants.ClockAdapter;
 import com.everest.constants.Constants;
 import com.everest.constants.Pattern;
 import com.everest.constants.meta.EnumTeam;
@@ -48,21 +47,28 @@ import com.example.sarcofogo.FlagSubsystem;
 import com.example.sarcofogo.Moment;
 import com.example.sarcofogo.SubsystemSarcofogo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
 
 /// Em testes: passando a responsabilidade dos comandos mais básicos para seus subssitemas, de modo que
 /// possam ser reaproveitados em outros containers
-public abstract class AutonomousOptimized extends LinearOpMode
+public abstract class AutonomousDefinitions extends LinearOpMode
         implements RobotContainer {
     protected EnumTeam team;
+    private final HashMap<Pattern, Command> paths = new HashMap<>();
 
 
     protected abstract void route();
     protected abstract EnumTeam getTeam();
+    protected abstract void structurePaths();
+    protected Command getPath(Pattern pattern){
+        return paths.get(pattern);
+    }
+    protected void addPath(Pattern pattern, Command command){
+        paths.put(pattern, command);
+    }
 
     @Override
     public void mainRoutine() {
@@ -74,7 +80,9 @@ public abstract class AutonomousOptimized extends LinearOpMode
         intakeRoutine();
         sarcophagiRoutine();
         platformRoutine();
-        //scheduled
+        //initialize hashmap with paths
+        structurePaths();
+        //schedule action
         route();
     }
 
@@ -140,7 +148,6 @@ public abstract class AutonomousOptimized extends LinearOpMode
         return new SequentialCommandGroup(
                 new InstantCommand(()->subLime.pipelineSwitch(2)),
                 new InstantCommand(()->
-                        /*Constants.setMatchPattern(Pattern.BOTTOM)*/
                         Constants.setMatchPattern(Pattern.getById(subLime.getTagId()))
                 ),
                 new InstantCommand(()->subLime.pipelineSwitch(team.getPipeline())));
@@ -164,7 +171,7 @@ public abstract class AutonomousOptimized extends LinearOpMode
                     triggerSubsystem.setLastTarget(3);
                     triggerSubsystem.resetTimeLaunch();
                     isSending = true;
-                    outtakeAddPower = 10;
+                    outtakeAddPower = 17;
                 })).espere(8,Constants.robotTimer)
                 .ateQUe(triggerSubsystem::contLaunchTimes)
                 .depois(new InstantCommand(()->{

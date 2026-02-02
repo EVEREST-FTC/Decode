@@ -6,10 +6,11 @@ import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.util.InstantCommand;
 import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+@Disabled
 @Autonomous(name = "REDPERTO")
-public class RedClose extends AutonomousOptimized{
-
+public class RedClose extends AutonomousDefinitions {
     @Override
     protected void route() {
         new ParallelCommandGroup(
@@ -41,6 +42,9 @@ public class RedClose extends AutonomousOptimized{
         ).schedule();
 
     }
+
+    @Override
+    protected void structurePaths() {}
 
     @Override
     protected EnumTeam getTeam() {
