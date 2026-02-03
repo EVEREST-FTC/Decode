@@ -11,9 +11,15 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class SubsytemIntake extends SubsystemBase {
     DcMotorEx Mintake;
     Telemetry telemetry;
+    @Getter
+    @Setter
+    private boolean isActive = true;
     public SubsytemIntake(HardwareMap hardwareMap, Telemetry telemetry){
         Mintake = hardwareMap.get(DcMotorEx.class,"Mintake");
         this.telemetry = telemetry;

@@ -21,4 +21,9 @@ public class CommandIntake extends Command {
         subsytemIntake.startIntake(0);
         subsytemIntake.Braker();
     }
+
+    @Override
+    public boolean isFinished() {
+        return !subsytemIntake.isActive();
+    }
 }

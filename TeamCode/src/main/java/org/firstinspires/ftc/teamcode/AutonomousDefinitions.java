@@ -1,13 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
+import static com.everest.constants.Constants.CameraConstants.largeIncrementDistance;
 import static com.everest.constants.Constants.CameraConstants.shortIncrementDistance;
+import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
 import static com.everest.constants.Constants.GateConstants.GateClosePosition;
 import static com.everest.constants.Constants.GateConstants.GateOpenPosition;
 import static com.everest.constants.Constants.GyroConstants.KD;
 import static com.everest.constants.Constants.GyroConstants.KI;
 import static com.everest.constants.Constants.GyroConstants.KP;
+import static com.everest.constants.Constants.IntakeConstants.CLOSE_LAST_INTAKE_POWER;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_CLOSE;
+import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_NORMAL;
+import static com.everest.constants.Constants.IntakeConstants.LAST_INTAKE_POWER;
 import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.PLATFORM_MIN_ANGLE;
@@ -52,23 +57,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /// Em testes: passando a responsabilidade dos comandos mais básicos para seus subssitemas, de modo que
 /// possam ser reaproveitados em outros containers
 public abstract class AutonomousDefinitions extends LinearOpMode
         implements RobotContainer {
     protected EnumTeam team;
-    private final HashMap<Pattern, Command> paths = new HashMap<>();
+    @Getter
+    @Setter
+    private Command path;
 
 
     protected abstract void route();
     protected abstract EnumTeam getTeam();
     protected abstract void structurePaths();
-    protected Command getPath(Pattern pattern){
-        return paths.get(pattern);
-    }
-    protected void addPath(Pattern pattern, Command command){
-        paths.put(pattern, command);
-    }
 
     @Override
     public void mainRoutine() {
@@ -157,7 +161,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
 
         return new ParallelCommandGroup(
                 new SequentialCommandGroup(
-                        new WaitCommand(4.5, Constants.robotTimer),
+                        new WaitCommand(3, Constants.robotTimer),
                         new InstantCommand(()->intakeTime = true)
                 ),
                 aim(),
@@ -171,14 +175,15 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                     triggerSubsystem.setLastTarget(3);
                     triggerSubsystem.resetTimeLaunch();
                     isSending = true;
-                    outtakeAddPower = 17;
-                })).espere(8,Constants.robotTimer)
+                    outtakeAddPower = 0;
+                })).espere(9,Constants.robotTimer)
                 .ateQUe(triggerSubsystem::contLaunchTimes)
                 .depois(new InstantCommand(()->{
                     isAiming = false;
                     isSending = false;
                     outtakeAddPower = 0;
                     intakeTime = false;
+                    triggerSubsystem.resetPosition();
                 }));
 
     }
@@ -265,16 +270,22 @@ public abstract class AutonomousDefinitions extends LinearOpMode
 
 
        intake.setDefaultCommand(new CommandIntake(intake, (team==EnumTeam.SOLO_BLUE_FAR||team==EnumTeam.SOLO_RED_FAR)?
-               INTAKE_POWER:
+               INTAKE_POWER :
               INTAKE_POWER_CLOSE
                ));
         new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).or(()->subsystemOuttake.artifacts()==3)
                 .whileTrue(new CommandIntake(intake, 0));
+        new Trigger(()->!isAiming).whileTrue(new CommandIntake(intake,INTAKE_POWER_NORMAL));
 
         new Trigger(()->intakeTime || triggerSubsystem.intakeTimePower())
                 .and(()->isAiming)
                 .and(()->!subsystemOuttake.hasArtifact())
-                .and(()->subLime.getfrontal()>shortIncrementDistance)
+                .and(()->subLime.getfrontal()<shortIncrementDistance)
+                .whileTrue(
+                        new CommandIntake(intake, 0.08));
+        new Trigger(()->intakeTime || triggerSubsystem.intakeTimePower())
+                .and(()->isAiming)
+                .and(()->!subsystemOuttake.hasArtifact())
                 .whileTrue(
                         new CommandIntake(intake, 0.04));
     }

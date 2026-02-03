@@ -12,8 +12,10 @@ import com.everest.CommandBased.compositions.ParallelCommandGroup;
 import com.everest.CommandBased.compositions.ParallelRaceGroup;
 import com.everest.CommandBased.compositions.RepeatCommand;
 import com.everest.CommandBased.compositions.SequentialCommandGroup;
+import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
+import com.everest.CommandBased.util.InstantCommand;
 import com.everest.CommandBased.util.WaitCommand;
 import com.everest.constants.Constants;
 import com.everest.intake.Command.CommandIntake;
@@ -43,10 +45,15 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
        // new Trigger(()->!(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER)).whileTrue(new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL));
         /// normal do lançamento
         subsytemIntake.setDefaultCommand(
-                new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL).antesDe(new ConditionalCommand(()->!(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER))));
+                new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL).antesDe(new ConditionalCommand(()->!(gamepad.left_trigger>GAMEPAD_AIM_TRIGGER&&subsytemIntake.isActive()))));
 
         new Trigger(()->gamepad.y).toggleOnTrue(
-                new CommandIntake(subsytemIntake, 0)
+                new Command() {
+                    @Override
+                    public void initialize() {
+                        subsytemIntake.setActive(false);
+                    }
+                }.finalmente(()-> subsytemIntake.setActive(true))
         );
 
         /// velocidade mais baixa pro sarcofago

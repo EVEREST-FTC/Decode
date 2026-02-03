@@ -3,10 +3,12 @@ package com.example.chassi;
 import static com.everest.constants.Constants.ElevatorConstants;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.definition.CommandScheduler;
+import com.everest.constants.Constants;
 import com.everest.constants.Constants.ControllerConstants;
 import com.everest.constants.meta.EnumTeam;
 import com.example.chassi.command.AlignToAngle;
@@ -115,6 +117,17 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                         velConstraint(velocity)),
                         new Pose2d(new Vector2d(y,x), Math.toRadians(angulo)));
     }
+    public Command splineToLinearHeading(double x, double y, double angulo, double initialTangent, double finalTangent, int velocity){
+        return new RoadRunnerWrapper(this,
+                c->c.actionBuilder(
+                        getLastPose())
+                        .setTangent(Math.toRadians(initialTangent))
+                        .splineToLinearHeading(
+                        new Pose2d(new Vector2d(y,x), Math.toRadians(angulo)),
+                        Math.toRadians(finalTangent),
+                        velConstraint(velocity)),
+                new Pose2d(new Vector2d(y,x), Math.toRadians(angulo)));
+    }
     public Command mirar(EnumTeam team, DoubleSupplier tx, DoubleSupplier distance){
         return new AlignToAngle(telemetry, tx, this,
                 distance,
@@ -128,6 +141,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
     @Override
     public void periodic() {
         telemetry.addData("erro",pid.getError());
+        telemetry.addData("pattern", Constants.getMatchPattern().toString());
     }
 }
 

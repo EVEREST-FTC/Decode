@@ -47,10 +47,10 @@ public class Constants {
     ///Relativo ao modelo de lancador
     public static class LauncherControllerConstants{
         public static final double DISTANCE_RANGE = 1.5;
-        public static final double PID_INCREMENT_BLUE = -3;
+        public static final double PID_INCREMENT_BLUE = -1.5;//-1.5
 
-        public static final double PID_LONG_INCREMENT_BLUE = -1;
-        public static final double PID_SHORT_INCREMENT_BLUE = -6;
+        public static final double PID_LONG_INCREMENT_BLUE = -2;//-2
+        public static final double PID_SHORT_INCREMENT_BLUE =  -6;//-6
         public static final double PID_SHORT_INCREMENT_RED = -10;
 
         public static final double PID_LONG_INCREMENT_RED = -5.1;
