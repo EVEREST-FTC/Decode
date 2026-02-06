@@ -19,7 +19,7 @@ public class BlueFarFalcons extends AutonomousDefinitions {
                         obelisk(),
                         new ParallelRaceGroup(
                                 counting(),
-                                chassis.strafeToLinearHeading(0,-8,22.2,50)///mira 1
+                                chassis.strafeToLinearHeading(0,-8,22.2,15)///mira 1
                         ),
 
                         firstLaunch(),

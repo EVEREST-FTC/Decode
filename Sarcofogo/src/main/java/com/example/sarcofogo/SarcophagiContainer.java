@@ -25,17 +25,6 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
     private final BooleanSupplier artifactMoment;
     @Override
     public void mainRoutine() {
-       /*subsystemSarcofogo.setDefaultCommand(
-                new SelectCommand<>(
-                Map.ofEntries(
-                        Map.entry(Moment.KEEP, new Command(subsystemSarcofogo,
-                                SarcofogoInitialPosition, Moment.KEEP)),
-                        Map.entry(Moment.SEND, new Command(subsystemSarcofogo,50, Moment.SEND).ateQUe(()->!artifactMoment.getAsBoolean())),
-                        Map.entry(Moment.UNACTIVE, new Command(subsystemSarcofogo,0, Moment.UNACTIVE))
-                ),
-                ()->Moment.select(artifactMoment.getAsBoolean()&&
-                        (gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER||gamepad2.left_trigger>GAMEPAD_AIM_TRIGGER))
-        ));*/
         subsystemSarcofogo.setDefaultCommand(
                 new SelectCommand<>(
                         Map.ofEntries(

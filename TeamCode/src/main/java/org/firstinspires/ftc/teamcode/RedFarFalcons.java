@@ -16,7 +16,7 @@ public class RedFarFalcons extends AutonomousDefinitions {
                 obelisk(),
                 new ParallelRaceGroup(
                         counting(),
-                        chassis.strafeToLinearHeading(0,-8,-20.3,30)///mira 1
+                        chassis.strafeToLinearHeading(0,-8,-20.3,15)///mira 1
                 ),
                 firstLaunch(),
 

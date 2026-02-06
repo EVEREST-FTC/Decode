@@ -42,6 +42,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
 
     @Override
     public void mainRoutine() {
+        /// subsitemas iniciados
         MecanumDrive chassis = new MecanumDrive(hardwareMap,
                 telemetry,
                 team,
@@ -68,6 +69,8 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 team,
                 chassis::getYaw
                 );
+
+        /// comandos onciiados
         ChassisContainer.builder()
                 .team(team)
                 .target(limelight::getTx)

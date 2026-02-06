@@ -120,6 +120,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
     private boolean isSending;
     private boolean intakeTime;
     private double outtakeAddPower;
+    private double intakeAddPower  = 1;
     private void initSubsystems(){
         chassis = new MecanumDrive(hardwareMap,
                 telemetry,
@@ -170,12 +171,13 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                                 .ateQUe(()->!subsystemOuttake.hasArtifact()).
                                 antesDe(conditionalCommand())
                 )
-            ).antesDe(new InstantCommand(()->   {
+        ).antesDe(new InstantCommand(()->   {
                     isAiming=true;
                     triggerSubsystem.setLastTarget(3);
                     triggerSubsystem.resetTimeLaunch();
                     isSending = true;
                     outtakeAddPower = 0;
+                    intakeAddPower = 2;
                 })).espere(9,Constants.robotTimer)
                 .ateQUe(triggerSubsystem::contLaunchTimes)
                 .depois(new InstantCommand(()->{
@@ -256,7 +258,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         subsystemSarcofogo.isSending()&&
                                         !subsystemOuttake.hasArtifact())));
-        new Trigger(()->!subsystemOuttake.hasArtifact()).and(subsystemSarcofogo::isSending).whileTrue(new LaunchCommand(subsystemOuttake, -0.1));
+        new Trigger(()->!subsystemOuttake.hasArtifact()).and(()->isSending).whileTrue(new LaunchCommand(subsystemOuttake, -0.1));
     }
 
     protected void flagRoutine(){
@@ -269,10 +271,10 @@ public abstract class AutonomousDefinitions extends LinearOpMode
     protected void intakeRoutine(){
 
 
-       intake.setDefaultCommand(new CommandIntake(intake, (team==EnumTeam.SOLO_BLUE_FAR||team==EnumTeam.SOLO_RED_FAR)?
-               INTAKE_POWER :
-              INTAKE_POWER_CLOSE
-               ));
+        intake.setDefaultCommand(new CommandIntake(intake, (team==EnumTeam.SOLO_BLUE_FAR||team==EnumTeam.SOLO_RED_FAR)?
+                INTAKE_POWER *intakeAddPower:
+                INTAKE_POWER_CLOSE
+        ));
         new Trigger(subsystemOuttake::hasArtifact).and(()->isAiming).or(()->subsystemOuttake.artifacts()==3)
                 .whileTrue(new CommandIntake(intake, 0));
         new Trigger(()->!isAiming).whileTrue(new CommandIntake(intake,INTAKE_POWER_NORMAL));

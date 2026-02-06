@@ -18,14 +18,13 @@ public class Command extends com.everest.CommandBased.definition.Command {
 
     @Override
     public void execute() {
-        subsystemSarcofogo.setPositionGate(alvo);
+        subsystemSarcofogo.setPosition(alvo);
         subsystemSarcofogo.setMoment(moment);
     }
 
     @Override
     public void end(boolean interrupted) {
        subsystemSarcofogo.resetPosiiton();
-
     }
 
 }

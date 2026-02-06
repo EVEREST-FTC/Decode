@@ -8,7 +8,6 @@ import static com.everest.constants.Constants.SarcofagoConstants.SarcofogoInitia
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
-import com.everest.constants.Constants;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -48,12 +47,12 @@ public class SubsystemSarcofogo extends SubsystemBase {
     }
 
 
-    public void setPositionGate(double alvo){
+    public void setPosition(double alvo){
         position = limiter(alvo)/SARCOFOGO_MAX_SERVO_ANGLE;
         ServoSarcofogo.setPosition(1 - position);
     }
     public void resetPosiiton(){
-        setPositionGate(SarcofogoInitialPosition);
+        setPosition(SarcofogoInitialPosition);
     }
     private double limiter(double angle){
         if(angle> SARCOFOGO_MAX_ANGLE)
@@ -65,5 +64,8 @@ public class SubsystemSarcofogo extends SubsystemBase {
     }
     public boolean isUnactive(){return moment == Moment.UNACTIVE; }
 
+    public SarcofagoCommand set(double position){
+        return new SarcofagoCommand(this, position);
+    }
 
 }
