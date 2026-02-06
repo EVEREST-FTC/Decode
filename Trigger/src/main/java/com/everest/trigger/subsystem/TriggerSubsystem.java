@@ -107,6 +107,6 @@ public class TriggerSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-    telemetry.addData("timelaunch",timeLaunch);
+    /*telemetry.addData("timelaunch",timeLaunch);*/
     }
 }

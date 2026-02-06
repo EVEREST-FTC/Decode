@@ -24,7 +24,7 @@ public class Constants {
 
         public static final double DEAD_ZONE_MIN = 0.01;
 
-        public static final double GAMEPAD_AIM_TRIGGER = 0.9;
+        public static final double GAMEPAD_AIM_TRIGGER = 0.7;
     }
     ///RELATIVO AO PID do chassi com fornecimento da limelight
     public static class GyroConstants{
@@ -38,7 +38,7 @@ public class Constants {
         public static final double KD_TELEOP = 0.0018;///0.0015
         ///
         public static final double PID_MAX = 0.5;
-        public static final double iRange = 7;
+        public static final double iRange = 10;
 
         public static final double ADMISSIBLE_ERROR = 1;
 
@@ -81,9 +81,9 @@ public class Constants {
     }
     /// Constantes da plataforma de lancamento
     public static class PlatformConstants{
-        public static final double FAR_POWER_LAUNCHER_CONVERSION = 690; /// 780.5 /// 845
-        public static final double POWER_LAUNCHER_CONVERSION = 735; /// 784 /// 845
-        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 820;///840
+        public static final double FAR_POWER_LAUNCHER_CONVERSION = 690; /// 690
+        public static final double POWER_LAUNCHER_CONVERSION = 735; /// 735
+        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 820;///820
 
         public static final double MAX_RPM = 6000;
         public static double CONVERSION_FACTOR = 2.4;

@@ -44,7 +44,7 @@ public class AutoLime3A extends Command {
 
     @Override
     public void initialize() {
-
+        /// definição de que posição ele está no momento de icialização
         double distance = distanceSupplier.get();
         if(distance< Constants.LauncherControllerConstants.DISTANCE_RANGE)
             power = close;
@@ -57,6 +57,7 @@ public class AutoLime3A extends Command {
 
     @Override
     public void execute() {
+        /// cauculo durante a execução do comando
         double distance = distanceSupplier.get();
         subsystem.setPower(power);
         double Vy = Math.sqrt(2 * Constants.CameraConstants.G * Constants.CameraConstants.MAX_HEIGHT);
@@ -80,6 +81,7 @@ public class AutoLime3A extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        /// parada dos motores
         subsystem.setVelocity(0);
         subsystem.brake();
     }

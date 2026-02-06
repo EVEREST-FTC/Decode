@@ -140,8 +140,9 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
 
     @Override
     public void periodic() {
-        telemetry.addData("erro",pid.getError());
-        telemetry.addData("pattern", Constants.getMatchPattern().toString());
+        telemetry.addData("Chassi-erro",pid.getError());
+        telemetry.addData("Chassi-pattern", Constants.getMatchPattern().toString());
+       /* telemetry.addData("Chassi-atSetpoint", atSetpoint());*/
     }
 }
 

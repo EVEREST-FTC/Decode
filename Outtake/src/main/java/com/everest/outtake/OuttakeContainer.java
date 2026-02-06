@@ -38,6 +38,8 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
 
     @Override
     public void mainRoutine() {
+
+        /// Comando comum que utiliza a camera par lançamento
         subsystem.setDefaultCommand(
                 new AutoLime3A(distance, subsystem, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION,atsetponitcahssi.getAsBoolean())
                 .ateQUe(()->
@@ -45,8 +47,11 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         sarcophagiMoment.getAsBoolean()&&
                                         !hasArtifact.getAsBoolean())));
+        /// modo manual de seguraça em caso de a camera não identifique
         new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 4800));
         new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 3642));
+
+        /// momento de acionamento do sarcofogo
         new Trigger(()->!hasArtifact.getAsBoolean()).and(()->!isUnactive.getAsBoolean()).whileTrue(new LaunchCommand(subsystem, -0.2));
 
     }

@@ -36,8 +36,9 @@ public final class SubsystemCalibrator extends SubsystemBase {
 
     }
     public void setPositionL(double alvo){
-        angle = alvo;
+
         double servoPosition = limiter(alvo);
+        angle = servoPosition;
         servoPosition = (servoPosition/ PLATFORM_MAX_SERVO_ANGLE)* CONVERSION_FACTOR;
         ServoRC.setPosition(servoPosition);
         ServoLC.setPosition(servoPosition);
@@ -52,8 +53,8 @@ public final class SubsystemCalibrator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("graus", angle);
-        telemetry.addData("time scan", (robotTimer.getTime() - lastTime)*1000.0);
-        lastTime = robotTimer.getTime();
+        telemetry.addData("Plataform-angulo", angle);
+        /*telemetry.addData("time scan", (robotTimer.getTime() - lastTime)*1000.0);
+        lastTime = robotTimer.getTime();*/
     }
 }

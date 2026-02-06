@@ -28,7 +28,10 @@ public class PlatformContainer implements com.everest.constants.meta.RobotContai
     private final Telemetry telemetry;
     @Override
     public void mainRoutine() {
+        /// comando padrão que utiliza a camera
         subsystemCalibrator.setDefaultCommand(new AutoLime3AC(distance,subsystemCalibrator,telemetry));
+
+        /// momento em que o sarcofogo é ativado, a plataforma vai para a posição minima
         new Trigger(sarcophagiMoment).and(()->!hasArtifact.get()).whileTrue(
                 new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE)
         );

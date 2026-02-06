@@ -162,14 +162,18 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("targetVelocity", targetVelocity);
-        telemetry.addData("real velocity", rightEngine.getVelocity());
+        telemetry.addData("outtake-targetVelocity", targetVelocity);
+       /* telemetry.addData("outtake-atsetpoint", atSetpoint());
+        telemetry.addData("outtake-hasArtifact", hasArtifact());*/
+
+
+        /*telemetry.addData("real velocity", rightEngine.getVelocity());
 
         telemetry.addData("rightSetpoint", rightSetpoint());
         telemetry.addData("leftSetpoint ", leftSetpoint());
 
 
         telemetry.addData("Dist R", sensorGateRight.getDistance(DistanceUnit.MM));
-        telemetry.addData("Dist L ", sensorGateLeft.getDistance(DistanceUnit.MM));
+        telemetry.addData("Dist L ", sensorGateLeft.getDistance(DistanceUnit.MM));*/
     }
 }
