@@ -137,12 +137,26 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                 team.getLargeIncrement()
         );
     }
+    public Command mirar(DoubleSupplier tx, DoubleSupplier distance){
+        return new AlignToAngle(telemetry, tx, this,
+                distance,
+                this.getPid(),
+                0,
+                0,
+                0
+        );
+    }
+
+    public void setPose(Pose2d pose){
+        localizer.setPose(pose);
+    }
 
     @Override
     public void periodic() {
+        updatePoseEstimate();
         telemetry.addData("Chassi-erro",pid.getError());
         telemetry.addData("Chassi-pattern", Constants.getMatchPattern().toString());
-       /* telemetry.addData("Chassi-atSetpoint", atSetpoint());*/
+        telemetry.addData("chassis position", localizer.getPose().position.toString());
     }
 }
 

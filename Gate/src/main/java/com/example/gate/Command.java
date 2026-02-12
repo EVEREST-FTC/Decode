@@ -4,18 +4,23 @@ package com.example.gate;
 
 public class Command extends com.everest.CommandBased.definition.Command {
     private final SubsystemGate subsystemGate;
-    private final double alvo;
-    public Command(SubsystemGate subsystemGate, double alvo) {
+    private final double OpenPower,ClosePower;
+    public Command(SubsystemGate subsystemGate, double OpenPower, double closePower) {
         this.subsystemGate = subsystemGate;
-        this.alvo = alvo;
+        this.OpenPower = OpenPower;
+        ClosePower = closePower;
         addRequirements(subsystemGate);
 
     }
 
     @Override
     public void execute() {
-        subsystemGate.setPositionGate(alvo);
+        subsystemGate.SetPowerGate(OpenPower);
 
     }
 
+    @Override
+    public void end(boolean interrupted) {
+        subsystemGate.SetPowerGate(ClosePower);
+    }
 }

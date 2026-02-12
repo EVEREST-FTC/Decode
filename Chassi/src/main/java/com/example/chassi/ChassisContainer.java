@@ -54,6 +54,14 @@ public class ChassisContainer implements RobotContainer {
                 ).ateQUe(chassis::atSetpoint)
         );
 
+        new Trigger(()->gamepad1.left_bumper).whileTrue(
+                new Drive(
+                        chassis,
+                        () -> (chassis.DeadZone(gamepad1.right_stick_x+gamepad2.right_stick_x)+
+                                Math.signum(gamepad1.right_stick_x+gamepad2.right_stick_x)*(gamepad1.right_trigger+gamepad2.right_trigger))*ControllerConstants.CHASSIS_LIMIT_POWER_TURN,
+                        () -> chassis.DeadZone(gamepad1.left_stick_x+gamepad2.left_stick_x) * ControllerConstants.CHASSIS_REDUCTION,
+                        () -> chassis.DeadZone(gamepad1.left_stick_y+gamepad2.left_stick_y) * ControllerConstants.CHASSIS_REDUCTION));
+
         chassis.setDefaultCommand(
                 new Drive(
                         chassis,

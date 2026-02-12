@@ -1,5 +1,6 @@
 package com.everest.plataform;
 
+import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
 import static com.everest.constants.Constants.PlatformConstants.PLATFORM_MIN_ANGLE;
 
 import com.everest.CommandBased.essentials.Trigger;
@@ -28,13 +29,17 @@ public class PlatformContainer implements com.everest.constants.meta.RobotContai
     private final Telemetry telemetry;
     @Override
     public void mainRoutine() {
-        /// comando padrão que utiliza a camera
-        subsystemCalibrator.setDefaultCommand(new AutoLime3AC(distance,subsystemCalibrator,telemetry));
 
-        /// momento em que o sarcofogo é ativado, a plataforma vai para a posição minima
+        subsystemCalibrator.setDefaultCommand(new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE));
+
+        /// comando padrão que utiliza a camera
+        new Trigger(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(new AutoLime3AC(distance,subsystemCalibrator,telemetry));
+
+
+       /* /// momento em que o sarcofogo é ativado, a plataforma vai para a posição minima
         new Trigger(sarcophagiMoment).and(()->!hasArtifact.get()).whileTrue(
                 new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE)
-        );
+        );*/
     }
 
 }

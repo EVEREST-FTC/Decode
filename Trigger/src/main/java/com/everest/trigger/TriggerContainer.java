@@ -6,6 +6,7 @@ import com.everest.CommandBased.compositions.RepeatCommand;
 import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
+import com.everest.CommandBased.util.InstantCommand;
 import com.everest.constants.meta.RobotContainer;
 import com.everest.trigger.subsystem.TriggerSubsystem;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -32,10 +33,10 @@ public class TriggerContainer implements RobotContainer {
                                 triggerSubsystem.launch(resetMemory)
                                         .ateQUe(()->!hasArtifact.getAsBoolean()).
                                         antesDe(conditionalCommand())
-                        ).finalmente(()->{
+                        ).antesDe(new InstantCommand(()->{
                             triggerSubsystem.resetTimeLaunch();
                             resetOuttake.run();
-                        }));
+                        })));
         new Trigger(()->gamepad2.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
                 new RepeatCommand(
                         triggerSubsystem.launch(resetMemory)

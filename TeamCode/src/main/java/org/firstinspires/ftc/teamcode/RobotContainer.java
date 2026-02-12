@@ -90,6 +90,9 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .sensorSarcophagi(sarcophagi::getsensorSarcofogo)
                 .sarcophagiMoment(sarcophagi::isSending)
                 .isUnactive(sarcophagi::isUnactive)
+                .velocityVerifier(outtake::atSetpoint)
+                .limelightAcceptance(limelight::isValid)
+                .translationalSetpoint(chassis::atSetpoint)
                 .build()
                 .defineMainRoutine();
 

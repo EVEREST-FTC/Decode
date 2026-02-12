@@ -5,6 +5,7 @@ import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUN
 import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.POWER_LAUNCHER_CONVERSION;
 
+import com.everest.CommandBased.compositions.RepeatCommand;
 import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.InstantCommand;
@@ -47,6 +48,7 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
                                 (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         sarcophagiMoment.getAsBoolean()&&
                                         !hasArtifact.getAsBoolean())));
+        new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(new RepeatCommand(new InstantCommand(subsystem::resetmemore)));
         /// modo manual de seguraça em caso de a camera não identifique
         new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 4800));
         new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 3642));

@@ -1,18 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import static com.everest.constants.Constants.CameraConstants.largeIncrementDistance;
 import static com.everest.constants.Constants.CameraConstants.shortIncrementDistance;
-import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
-import static com.everest.constants.Constants.GateConstants.GateClosePosition;
-import static com.everest.constants.Constants.GateConstants.GateOpenPosition;
+import static com.everest.constants.Constants.GateConstants.GATE_OPEN_POWER;
+import static com.everest.constants.Constants.GateConstants.GATE_CLOSE_POWER;
 import static com.everest.constants.Constants.GyroConstants.KD;
 import static com.everest.constants.Constants.GyroConstants.KI;
 import static com.everest.constants.Constants.GyroConstants.KP;
-import static com.everest.constants.Constants.IntakeConstants.CLOSE_LAST_INTAKE_POWER;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_CLOSE;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_NORMAL;
-import static com.everest.constants.Constants.IntakeConstants.LAST_INTAKE_POWER;
 import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.PLATFORM_MIN_ANGLE;
@@ -53,7 +49,6 @@ import com.example.sarcofogo.Moment;
 import com.example.sarcofogo.SubsystemSarcofogo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
@@ -237,17 +232,15 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         subsystemGate.setDefaultCommand(
                 new SelectCommand<>(
                         Map.ofEntries(
-                                Map.entry(State.CLOSED, new com.example.gate.Command(subsystemGate, GateClosePosition)),
-                                Map.entry(State.OPENED, new com.example.gate.Command(subsystemGate,GateOpenPosition)),
-                                Map.entry(State.BOTTOM_SELECTION, new com.example.gate.Command(subsystemGate, GateClosePosition))
+                                Map.entry(State.CLOSED, new com.example.gate.Command(subsystemGate, GATE_OPEN_POWER,GATE_CLOSE_POWER)),
+                                Map.entry(State.OPENED, new com.example.gate.Command(subsystemGate, GATE_CLOSE_POWER,GATE_CLOSE_POWER)),
+                                Map.entry(State.BOTTOM_SELECTION, new com.example.gate.Command(subsystemGate, GATE_OPEN_POWER,GATE_CLOSE_POWER))
                         ),
-                        ()->State.selector(subsystemOuttake.hasArtifact(),
-                                isSending,
-                                subsystemSarcofogo.isUnactive())
+                        ()->State.selector(subsystemOuttake.hasArtifact())
                 )
         );
         new Trigger(subsystemSarcofogo::isSending).whileTrue(
-                new com.example.gate.Command(subsystemGate, GateClosePosition)
+                new com.example.gate.Command(subsystemGate, GATE_OPEN_POWER,GATE_CLOSE_POWER)
         );
     }
     protected void outtakeRoutine(){

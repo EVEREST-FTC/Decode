@@ -1,5 +1,6 @@
 package com.example.limelightcentral;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
 import com.everest.constants.Constants;
@@ -9,7 +10,13 @@ import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 public class Subsystem extends SubsystemBase {
@@ -27,7 +34,6 @@ public class Subsystem extends SubsystemBase {
         telemetry.setMsTransmissionInterval(11);
 
         limelight3A.pipelineSwitch(team.getPipeline());
-
 
         CommandScheduler.getInstance().registerSubsystem(this);
     }
@@ -52,6 +58,19 @@ public class Subsystem extends SubsystemBase {
         return latestResult.getTx();
     }
 
+
+    public Optional<Pose3D> getBotPoseFieldPerspective(){
+        List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
+        if (Tags.isEmpty())
+            return Optional.empty();
+        return Optional.of(Tags.get(0).getRobotPoseFieldSpace());
+    }
+    public Optional<Pose3D> getBotPoseTargetPerspective(){
+        List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
+        if (Tags.isEmpty())
+            return Optional.empty();
+        return Optional.of(Tags.get(0).getRobotPoseTargetSpace());
+    }
     public int getTagId(){
         List<LLResultTypes.FiducialResult> Tags = limelight3A.getLatestResult().getFiducialResults();
             if (Tags.isEmpty())
@@ -66,6 +85,6 @@ public class Subsystem extends SubsystemBase {
     @Override
     public void periodic() {
         limelight3A.updateRobotOrientation(angle.getAsDouble());
-
+        telemetry.addData("frontal", getfrontal());
     }
 }

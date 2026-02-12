@@ -18,6 +18,7 @@ public class Constants {
     /// Constantes do piloto]
     public static class ControllerConstants{
         public static double CHASSIS_LIMIT_POWER = 1.0;
+        public static double CHASSIS_REDUCTION = CHASSIS_LIMIT_POWER / 2;
         public static double CHASSIS_LIMIT_POWER_TURN = 0.5;
         public static final double CHASSIS_MIN_LIMIT_POWER_TURN = 0.5;
 
@@ -103,8 +104,8 @@ public class Constants {
         public static final double GATE_MIN_ANGLE = 0;
 
 
-        public static final double GateClosePosition = 65;
-        public static final double GateOpenPosition = 0;
+        public static final double GATE_OPEN_POWER = 1;
+        public static final double GATE_CLOSE_POWER = 0;
     }
     /// Constantes da flag (bandeira)
     public static class FlagConstants{
@@ -138,7 +139,7 @@ public class Constants {
     }
     /// Constantes do intake
     public static class IntakeConstants{
-        public static final double INTAKE_POWER_NORMAL = 0.04;
+        public static final double INTAKE_POWER_NORMAL = 0.03; ///0.04
 
         public static final double INTAKE_POWER = 0.016;/// 0.025
         public static final double INTAKE_POWER_CLOSE = 0.03;

@@ -48,6 +48,10 @@ public class SubsystemOuttake extends SubsystemBase {
         sensorGateLeft = hardwareMap.get(RevColorSensorV3.class,"SensorgateLeft");
         sensorGateRight = hardwareMap.get(RevColorSensorV3.class,"SensorgateRight");
         this.telemetry = telemetry;
+
+        leftEngine.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
         leftEngine.setVelocityPIDFCoefficients(9, 6, 0, 0);
         rightEngine.setVelocityPIDFCoefficients(9, 6, 0, 0);
         CommandScheduler.getInstance().registerSubsystem(this);
@@ -121,9 +125,13 @@ public class SubsystemOuttake extends SubsystemBase {
     }
     public void resetTimeLaunch(){
         timeLaunch = 0;
+
+    }
+    public void resetmemore(){
         memoryLeft = 0;
         memoryRight = 0;
     }
+
 
     public void brake(){
         rightEngine.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -133,13 +141,13 @@ public class SubsystemOuttake extends SubsystemBase {
         double velocity = Math.abs(rightEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<11;
+        return Math.abs(velocity-targetVelocity)<20;
     }
     private boolean leftSetpoint(){
         double velocity =  Math.abs(leftEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<11;
+        return Math.abs(velocity-targetVelocity)<20;
     }
     private boolean diferenceSetpoint(){
         double velocityL=  Math.abs(leftEngine.getVelocity());
@@ -163,17 +171,18 @@ public class SubsystemOuttake extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData("outtake-targetVelocity", targetVelocity);
-       /* telemetry.addData("outtake-atsetpoint", atSetpoint());
-        telemetry.addData("outtake-hasArtifact", hasArtifact());*/
+        telemetry.addData("outtake-hasArtifact", hasArtifact());
+        telemetry.addData("outtake-atsetpoint", atSetpoint());
 
 
-        /*telemetry.addData("real velocity", rightEngine.getVelocity());
+        telemetry.addData("real velocity right", rightEngine.getVelocity());
+        telemetry.addData("real velocity left", leftEngine.getVelocity());
 
         telemetry.addData("rightSetpoint", rightSetpoint());
         telemetry.addData("leftSetpoint ", leftSetpoint());
 
 
         telemetry.addData("Dist R", sensorGateRight.getDistance(DistanceUnit.MM));
-        telemetry.addData("Dist L ", sensorGateLeft.getDistance(DistanceUnit.MM));*/
+        telemetry.addData("Dist L ", sensorGateLeft.getDistance(DistanceUnit.MM));
     }
 }

@@ -13,7 +13,7 @@ public class RedFarFalcons extends AutonomousDefinitions {
     public void route(){
         new SequentialCommandGroup(
                 new InstantCommand(chassis::resetIMU),
-                obelisk(),
+                /*obelisk(),*/
                 new ParallelRaceGroup(
                         counting(),
                         chassis.strafeToLinearHeading(0,-8,-20.3,15)///mira 1

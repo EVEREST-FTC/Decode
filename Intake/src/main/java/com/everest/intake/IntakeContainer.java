@@ -45,7 +45,7 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
        // new Trigger(()->!(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER)).whileTrue(new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL));
         /// normal do lançamento
         subsytemIntake.setDefaultCommand(
-                new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL).antesDe(new ConditionalCommand(()->!(gamepad.left_trigger>GAMEPAD_AIM_TRIGGER&&subsytemIntake.isActive()))));
+                new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL));
 
         new Trigger(()->gamepad.y).toggleOnTrue(
                 new Command() {
@@ -55,23 +55,20 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
                     }
                 }.finalmente(()-> subsytemIntake.setActive(true))
         );
-
+/*
         /// velocidade mais baixa pro sarcofago
-        new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).whileTrue(new CommandIntake(subsytemIntake, 0.2));
+        new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).whileTrue(new CommandIntake(subsytemIntake, 0.2));*/
+
 
         /// parada pra lançamento
-        new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(hasArtifact).and(velocityVerifier).or(()->ArtifactComplete.getAsDouble()==3).or(()->gamepad.y)
+        new Trigger(()->(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER&&hasArtifact.getAsBoolean())||ArtifactComplete.getAsDouble()==3)
                 .whileTrue(new CommandIntake(subsytemIntake, 0));
 
         /// ta lancando e nao tem artefato no outtake
-        new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(()->!hasArtifact.getAsBoolean()).whileTrue(
-                new CommandIntake(subsytemIntake, INTAKE_POWER)
-        );
 
         /// acelerar manual
-        new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).and(()->gamepad.right_stick_button).whileTrue(new CommandIntake(subsytemIntake, LAST_INTAKE_POWER));
 
-        /// potencia lançamento
+        /*/// potencia lançamento
         new Trigger(intakeMoment)
                 .and(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER)
                 .and(()->!hasArtifact.getAsBoolean())
@@ -84,6 +81,6 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
                 .and(()->!hasArtifact.getAsBoolean())
                 .and(()->distance.getAsDouble()<largeIncrementDistance)
                 .whileTrue(
-                        new CommandIntake(subsytemIntake,CLOSE_LAST_INTAKE_POWER));
+                        new CommandIntake(subsytemIntake,CLOSE_LAST_INTAKE_POWER));*/
     }
 }
