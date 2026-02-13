@@ -3,6 +3,7 @@ package com.example.gate;
 import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
 import static com.everest.constants.Constants.GateConstants.GATE_OPEN_POWER;
 import static com.everest.constants.Constants.GateConstants.GATE_CLOSE_POWER;
+import static com.everest.constants.Constants.GateConstants.GATE_SARCOFOGO_POWER;
 
 import com.everest.CommandBased.compositions.SelectCommand;
 import com.everest.CommandBased.essentials.Trigger;
@@ -36,9 +37,9 @@ public class GateContainer implements RobotContainer {
     @Override
     public void mainRoutine() {
         ///bloqueio pro sarcofago
-       /*new Trigger(sarcophagiMoment).whileTrue(
-                new Command(subsystemGate, GATE_CLOSE_POWER,GATE_OPEN_POWER)
-        );*/
+       new Trigger(sarcophagiMoment).whileTrue(
+                new Command(subsystemGate, GATE_SARCOFOGO_POWER,GATE_OPEN_POWER)
+        );
         /*new Trigger(hasArtifact).whileFalse(new Command(subsystemGate,GATE_OPEN_POWER,GATE_CLOSE_POWER));*/
 
 
@@ -51,15 +52,13 @@ public class GateContainer implements RobotContainer {
                 new SelectCommand<>(
                         Map.ofEntries(
                                 Map.entry(State.CLOSED, new Command(subsystemGate, GATE_OPEN_POWER,GATE_CLOSE_POWER)),
-                                Map.entry(State.OPENED, new Command(subsystemGate, GATE_CLOSE_POWER,GATE_OPEN_POWER))
+                                Map.entry(State.OPENED, new Command(subsystemGate, GATE_CLOSE_POWER,GATE_OPEN_POWER)),
+                                Map.entry(State.BOTTOM_SELECTION, new Command(subsystemGate,GATE_CLOSE_POWER,GATE_CLOSE_POWER))
                         ),
                         ()->State.selector(
-                                !hasArtifact.getAsBoolean()/*&&gamepad.left_trigger<=GAMEPAD_AIM_TRIGGER )||
-                                (gamepad.left_trigger>GAMEPAD_AIM_TRIGGER
-                                && limelightAcceptance.getAsBoolean()
-                                &&velocityVerifier.getAsBoolean()
-                                &&!hasArtifact.getAsBoolean())*/
-                        )
+                                !hasArtifact.getAsBoolean(),
+                                gamepad.left_trigger>GAMEPAD_AIM_TRIGGER,
+                                isUnactive.getAsBoolean())
                 )
         );
     }

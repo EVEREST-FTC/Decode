@@ -4,6 +4,7 @@ import static com.everest.constants.Constants.robotTimer;
 
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
+import com.everest.constants.Constants;
 import com.everest.constants.Constants.ElevatorConstants;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -72,35 +73,35 @@ public class SubsystemOuttake extends SubsystemBase {
     }
 
     public boolean getDistanceLeft(){
-        if (sensorGateLeft.getDistance(DistanceUnit.MM)< 50) {
+        if (sensorGateLeft.getDistance(DistanceUnit.MM)< Constants.OuttakeConstants.ACTIVE_MIN_CONT_LEFT_SENSOR) {
             memoryLeft++;
             lastSeenLeft = robotTimer.getTime();
         }
         double deltaT = robotTimer.getTime()-lastSeenLeft;
         if(deltaT>admissibleSeconds) memoryLeft = 0;
-        return memoryLeft > 10;
+        return memoryLeft > Constants.OuttakeConstants.MAX_MEMORE_CONT;
     }
     public boolean noDebounceLeft(){
-        if (sensorGateLeft.getDistance(DistanceUnit.MM)< 34) {
+        if (sensorGateLeft.getDistance(DistanceUnit.MM)< Constants.OuttakeConstants.ACTIVE_MIN_CONT_LEFT_SENSOR) {
             memoryLeft++;
         }
-        return memoryLeft > 10;
+        return memoryLeft > Constants.OuttakeConstants.MAX_MEMORE_CONT;
     }
 
     public boolean getDistanceRight(){
-        if (sensorGateRight.getDistance(DistanceUnit.MM)< 30) {
+        if (sensorGateRight.getDistance(DistanceUnit.MM)< Constants.OuttakeConstants.ACTIVE_MIN_CONT_RIGHT_SENSOR) {
             memoryRight++;
             lastSeenRight = robotTimer.getTime();
         }
         double deltaT = robotTimer.getTime()-lastSeenRight;
         if(deltaT>admissibleSeconds) memoryRight = 0;
-        return memoryRight > 10;
+        return memoryRight > Constants.OuttakeConstants.MAX_MEMORE_CONT;
     }
     public boolean noDebounceRight(){
-        if (sensorGateRight.getDistance(DistanceUnit.MM)< 30) {
+        if (sensorGateRight.getDistance(DistanceUnit.MM)< Constants.OuttakeConstants.ACTIVE_MIN_CONT_RIGHT_SENSOR) {
             memoryRight++;
         }
-        return memoryRight > 10;
+        return memoryRight > Constants.OuttakeConstants.MAX_MEMORE_CONT;
     }
 
     public  int artifacts(){
@@ -141,37 +142,35 @@ public class SubsystemOuttake extends SubsystemBase {
         double velocity = Math.abs(rightEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<20;
+        return Math.abs(velocity-targetVelocity)<Constants.OuttakeConstants.ADMISSIBLE_ERROR;
     }
     private boolean leftSetpoint(){
         double velocity =  Math.abs(leftEngine.getVelocity());
         if (velocity == 0 || targetVelocity == 0)
             return false;
-        return Math.abs(velocity-targetVelocity)<20;
+        return Math.abs(velocity-targetVelocity)<Constants.OuttakeConstants.ADMISSIBLE_ERROR;
     }
     private boolean diferenceSetpoint(){
         double velocityL=  Math.abs(leftEngine.getVelocity());
         double velocityR = Math.abs(rightEngine.getVelocity());
-        return  Math.abs(velocityR - velocityL)<30;
+        return  Math.abs(velocityR - velocityL)<Constants.OuttakeConstants.ADMISSIBLE_ERROR;
     }
 
-    public boolean newintakemomente(){
-        return newTimeLaunch() >= 2;
-    }
     public boolean oneSent(){ return newTimeLaunch() >=1;}
     public boolean atSetpoint(){
         return rightSetpoint()&&leftSetpoint()&&diferenceSetpoint();
     }
 
     public boolean hasArtifact(){
-        return distanceSensorR() < 55 || distanceSensorL() < 55;
+        return distanceSensorR() < Constants.OuttakeConstants.ACTIVE_MIN_CONT_OUT_SENSOR ||
+                distanceSensorL() < Constants.OuttakeConstants.ACTIVE_MIN_CONT_OUT_SENSOR;
     }
 
 
     @Override
     public void periodic() {
         telemetry.addData("outtake-targetVelocity", targetVelocity);
-        telemetry.addData("outtake-hasArtifact", hasArtifact());
+        /*telemetry.addData("outtake-hasArtifact", hasArtifact());
         telemetry.addData("outtake-atsetpoint", atSetpoint());
 
 
@@ -179,7 +178,7 @@ public class SubsystemOuttake extends SubsystemBase {
         telemetry.addData("real velocity left", leftEngine.getVelocity());
 
         telemetry.addData("rightSetpoint", rightSetpoint());
-        telemetry.addData("leftSetpoint ", leftSetpoint());
+        telemetry.addData("leftSetpoint ", leftSetpoint());*/
 
 
         telemetry.addData("Dist R", sensorGateRight.getDistance(DistanceUnit.MM));

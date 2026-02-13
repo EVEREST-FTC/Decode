@@ -58,6 +58,16 @@ public class Constants {
 
         public static final double PID_INCREMENT_RED = -6.4;
     }
+    public static class OuttakeConstants{
+        public static final double MAX_MEMORE_CONT = 10;
+        public static final double ACTIVE_MIN_CONT_LEFT_SENSOR = 34;
+        public static final double ACTIVE_MIN_CONT_RIGHT_SENSOR = 30;
+        public static final double ACTIVE_MIN_CONT_OUT_SENSOR = 55;
+
+        public static final double ADMISSIBLE_ERROR = 40;
+       ;
+
+    }
     /// Constantes da camera
     public static class CameraConstants{
         public static final double TARGET_HEIGHT = 0.75;
@@ -66,7 +76,7 @@ public class Constants {
         public static final double TAG_RELATIVE_HEIGHT = TARGET_HEIGHT - CAMERA_HEIGHT;
         public static final double G = 9.81;
         /// Define a altura maxima do projetil
-        public static final double MAX_HEIGHT = 0.8; ///0.1
+        public static final double MAX_HEIGHT = 0.8; ///0.8
         public static final double initialAngle = 15;
         public static final double shortIncrementDistance = 1.79;
         public static final double largeIncrementDistance = 2.6;
@@ -93,19 +103,14 @@ public class Constants {
 
         public static final double INITIAL_POSITION = 0.3857;
 
-        public static final double PLATFORM_MAX_ANGLE = 55;
+        public static final double PLATFORM_MAX_ANGLE = 60;
         public static final double PLATFORM_MIN_ANGLE = 35;
     }
     /// Constantes do gate
     public static class GateConstants{
-        public static double GATE_MAX_SERVO_ANGLE = 280;
-
-        public static final double GATE_MAX_ANGLE = 75;
-        public static final double GATE_MIN_ANGLE = 0;
-
-
-        public static final double GATE_OPEN_POWER = 1;
+        public static final double GATE_OPEN_POWER = 0.8;
         public static final double GATE_CLOSE_POWER = 0;
+        public static final double GATE_SARCOFOGO_POWER = -0.3;
     }
     /// Constantes da flag (bandeira)
     public static class FlagConstants{
@@ -119,9 +124,9 @@ public class Constants {
 
         public static double SARCOFOGO_MAX_SERVO_ANGLE = 280;
 
-        public static final double SARCOFOGO_MAX_ANGLE = 170;
+        public static final double SARCOFOGO_MAX_ANGLE = 100;
         public static final double SARCOFOGO_MIN_ANGLE = 0;
-        public static final double SARCOPHAGI_SEND_POSITION = 140;
+        public static final double SARCOPHAGI_SEND_POSITION = 80;
 
 
         public static final double SarcofogoInitialPosition = 10;

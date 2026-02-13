@@ -117,6 +117,14 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                         velConstraint(velocity)),
                         new Pose2d(new Vector2d(y,x), Math.toRadians(angulo)));
     }
+    public Command strafeToConstantHeading(double x, double y, int velocity){
+        return new RoadRunnerWrapper(this,
+                c->c.actionBuilder(
+                        getLastPose()).strafeToConstantHeading(
+                        new Vector2d(y,x),
+                        velConstraint(velocity)),
+                new Pose2d(new Vector2d(y,x), Math.toRadians(getYaw())));
+    }
     public Command splineToLinearHeading(double x, double y, double angulo, double initialTangent, double finalTangent, int velocity){
         return new RoadRunnerWrapper(this,
                 c->c.actionBuilder(
@@ -145,10 +153,6 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                 0,
                 0
         );
-    }
-
-    public void setPose(Pose2d pose){
-        localizer.setPose(pose);
     }
 
     @Override

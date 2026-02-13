@@ -34,7 +34,7 @@ public class BlueClose extends AutonomousDefinitions {
                         }
                 ),
                 chassis.strafeToLinearHeading(10,45,27,32),/// mira 1
-                firstLaunch(),
+                firstLaunch(3),
                 new WaitCommand(0.5,Constants.robotTimer),
                 chassis.strafeToLinearHeading(10,50,-90,15),/// coleta 1
                 chassis.strafeToLinearHeading(-17,50,-90,10),
@@ -42,7 +42,7 @@ public class BlueClose extends AutonomousDefinitions {
                         chassis.strafeToLinearHeading(10,45,32,32),/// mira 2
                         counting()
                 ),
-                autoLaunch(),
+                autoLaunch(3),
 
                 chassis.strafeToLinearHeading(10,75,-90,24),/// coleta 2
                 chassis.strafeToLinearHeading(-17,75,-90,10),
@@ -51,7 +51,7 @@ public class BlueClose extends AutonomousDefinitions {
                         chassis.strafeToLinearHeading(10,45,32,32),/// mira 3
                         counting()
                 ),
-                autoLaunch(),
+                autoLaunch(3),
 
                 chassis.strafeToLinearHeading(-11,60,0,32)/// final
 
