@@ -1,7 +1,12 @@
 package com.everest.constants;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.everest.CommandBased.definition.Clock;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+
 import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
@@ -10,11 +15,22 @@ import lombok.Setter;
 /// Constantes genéricas do robô, e alguns métodos estáticos auxiliares
 public class Constants {
 
+
     public static Clock clockSeconds = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
     public static Clock robotTimer = new ClockAdapter(new ElapsedTime(), TimeUnit.SECONDS);
-    @Setter
-    @Getter
-    private static com.everest.constants.Pattern matchPattern = Pattern.BOTTOM;
+    public static class AutoConstants{
+        @Setter
+        @Getter
+        private static com.everest.constants.Pattern matchPattern = Pattern.BOTTOM;
+
+        @Setter
+        @Getter
+        private static Pose2d autonomousFinalPose = new Pose2d(0, 0, 0);
+
+        public static final Pose2d aimingBlue = new Pose2d(0, 0, 0);
+        public static final Pose2d aimingRed = new Pose2d(0, 0, 0);
+    }
+
     /// Constantes do piloto]
     public static class ControllerConstants{
         public static double CHASSIS_LIMIT_POWER = 1.0;
@@ -59,7 +75,7 @@ public class Constants {
         public static final double PID_INCREMENT_RED = -6.4;
     }
     public static class OuttakeConstants{
-        public static final double MAX_MEMORE_CONT = 10;
+        public static final double MAX_MEMORE_CONT = 20;
         public static final double ACTIVE_MIN_CONT_LEFT_SENSOR = 34;
         public static final double ACTIVE_MIN_CONT_RIGHT_SENSOR = 30;
         public static final double ACTIVE_MIN_CONT_OUT_SENSOR = 55;
@@ -93,7 +109,7 @@ public class Constants {
     /// Constantes da plataforma de lancamento
     public static class PlatformConstants{
         public static final double FAR_POWER_LAUNCHER_CONVERSION = 690; /// 690
-        public static final double POWER_LAUNCHER_CONVERSION = 735; /// 735
+        public static final double POWER_LAUNCHER_CONVERSION = 690; /// 735
         public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 820;///820
 
         public static final double MAX_RPM = 6000;
@@ -104,7 +120,7 @@ public class Constants {
         public static final double INITIAL_POSITION = 0.3857;
 
         public static final double PLATFORM_MAX_ANGLE = 60;
-        public static final double PLATFORM_MIN_ANGLE = 35;
+        public static final double PLATFORM_MIN_ANGLE = 32;
     }
     /// Constantes do gate
     public static class GateConstants{

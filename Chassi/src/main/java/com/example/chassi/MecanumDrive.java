@@ -41,7 +41,7 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
                         double kp,
                         double ki,
                         double kd){
-        super(hardwareMap,new Pose2d(0,0,0));
+        super(hardwareMap, Constants.AutoConstants.getAutonomousFinalPose());
         /// estrutura de elevação
         MLeve = hardwareMap.get(DcMotorEx.class,"MLeve");
         MLeve.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -157,10 +157,13 @@ public final class MecanumDrive extends com.example.chassi.roadrunner.lib.Mecanu
 
     @Override
     public void periodic() {
-        updatePoseEstimate();
         telemetry.addData("Chassi-erro",pid.getError());
-        telemetry.addData("Chassi-pattern", Constants.getMatchPattern().toString());
+        telemetry.addData("Chassi-pattern", Constants.AutoConstants.getMatchPattern().toString());
         telemetry.addData("chassis position", localizer.getPose().position.toString());
+    }
+
+    public Pose2d getCurrentPose(){
+        return localizer.getPose();
     }
 }
 

@@ -24,7 +24,7 @@ public class BlueClose extends AutonomousDefinitions {
                         new Command() {
                             @Override
                             public void execute() {
-                                Constants.setMatchPattern(Pattern.getById(subLime.getTagId()));
+                                Constants.AutoConstants.setMatchPattern(Pattern.getById(subLime.getTagId()));
                             }
 
                             @Override

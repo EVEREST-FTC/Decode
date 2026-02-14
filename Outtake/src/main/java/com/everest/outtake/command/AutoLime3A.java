@@ -11,6 +11,7 @@ import com.everest.outtake.subsystem.SubsystemOuttake;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -22,16 +23,19 @@ public class AutoLime3A extends Command {
 
     final double far, close, normal;
     DoubleSupplier increment;
+    BooleanSupplier atsetpoint;
     double power;
 
-    boolean atsetpoint;
 
     double velocity;
-    public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal, boolean atsetpoint, DoubleSupplier increment) {
+
+    private BooleanSupplier endSarcophagiCondition = ()->false;
+
+    public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal, BooleanSupplier atsetpoint, DoubleSupplier increment) {
         this(distanceSupplier, subsystem, far, close, normal, atsetpoint);
         this.increment = increment;
     }
-    public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal, boolean atsetpoint) {
+    public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal, BooleanSupplier atsetpoint) {
         this.distanceSupplier = distanceSupplier;
         this.subsystem = subsystem;
         this.atsetpoint = atsetpoint;
@@ -41,24 +45,43 @@ public class AutoLime3A extends Command {
         increment = ()->0;
         addRequirements(subsystem);
     }
+    public AutoLime3A(Supplier<Double> distanceSupplier, SubsystemOuttake subsystem, double far, double close, double normal, BooleanSupplier atsetpoint, BooleanSupplier endSarcophagiCondition) {
+        this.distanceSupplier = distanceSupplier;
+        this.subsystem = subsystem;
+        this.atsetpoint = atsetpoint;
+        this.far = far;
+        this.close = close;
+        this.normal = normal;
+        increment = ()->0;
+        this.endSarcophagiCondition = endSarcophagiCondition;
+        addRequirements(subsystem);
+    }
 
     @Override
     public void initialize() {
         /// definição de que posição ele está no momento de icialização
+
+
+
+    }
+
+    @Override
+    public void execute() {
+        if(endSarcophagiCondition.getAsBoolean()){
+            subsystem.setVelocity(-100);
+            return;
+        }
+
         double distance = distanceSupplier.get();
+        boolean atSetpoint = atsetpoint.getAsBoolean();
         if(distance< Constants.LauncherControllerConstants.DISTANCE_RANGE)
             power = close;
         else if(distance> Constants.CameraConstants.largeIncrementDistance)
             power = far;
         else
             power = normal;
-
-    }
-
-    @Override
-    public void execute() {
         /// cauculo durante a execução do comando
-        double distance = distanceSupplier.get();
+
         subsystem.setPower(power);
         double Vy = Math.sqrt(2 * Constants.CameraConstants.G * Constants.CameraConstants.MAX_HEIGHT);
 
@@ -69,11 +92,13 @@ public class AutoLime3A extends Command {
         velocity = Math.sqrt(Vy*Vy + vx*vx);
         velocity*=(power+increment.getAsDouble());
 
-        subsystem.setVelocity(velocity);
 
-        /*if (!atsetpoint){
+
+        /*subsystem.setVelocity(velocity);*/
+
+        if (!atSetpoint){
             subsystem.setVelocity(velocity);
-        }*/
+        }
 
 
 
@@ -85,4 +110,6 @@ public class AutoLime3A extends Command {
         subsystem.setVelocity(0);
         subsystem.brake();
     }
+
+
 }

@@ -86,6 +86,8 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         structurePaths();
         //schedule action
         route();
+
+        Constants.AutoConstants.setAutonomousFinalPose(chassis.getCurrentPose());
     }
 
     @Override
@@ -95,6 +97,14 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         waitForStart();
 
         mainRoutine();
+
+        new Trigger(()->gamepad1.a).whileTrue(
+                chassis.strafeToLinearHeading(
+                        0,
+                        0,
+                        0,
+                        60)
+        );
 
         while (opModeIsActive()) {
             CommandScheduler.getInstance().run();
@@ -150,7 +160,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         return new SequentialCommandGroup(
                 new InstantCommand(()->subLime.pipelineSwitch(2)),
                 new InstantCommand(()->
-                        Constants.setMatchPattern(Pattern.getById(subLime.getTagId()))
+                        Constants.AutoConstants.setMatchPattern(Pattern.getById(subLime.getTagId()))
                 ),
                 new InstantCommand(()->subLime.pipelineSwitch(team.getPipeline())));
     }
@@ -171,13 +181,14 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                     isSending = true;
                     outtakeAddPower = 0;
 
-                })).espere(9,Constants.robotTimer)
+                })).espere(11,Constants.robotTimer)
                 .ateQUe(triggerSubsystem::contLaunchTimes)
                 .depois(new InstantCommand(()->{
                     isAiming = false;
                     isSending = false;
                     outtakeAddPower = 0;
                     triggerSubsystem.resetPosition();
+                    subsystemOuttake.resetmemore();
                 }));
 
     }
@@ -205,16 +216,20 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         )
                 .antesDe(new InstantCommand(()->{
                     isAiming=true;
-                    triggerSubsystem.setLastTarget(launchs);
+                    triggerSubsystem.setLastTarget(subsystemOuttake.noDebounceArtifacts());
                 }
                 ))
                 .ateQUe(triggerSubsystem::contLaunchTimes)
-                .espere(9,Constants.robotTimer)
+                .espere(5,Constants.robotTimer)
                 .antesDe( new InstantCommand(triggerSubsystem::resetTimeLaunch))
                 .depois(new InstantCommand(()->isAiming=false))
-                .depois(new InstantCommand(()->triggerSubsystem.resetPosition()));
+                .depois(new InstantCommand(()-> {
+                    triggerSubsystem.resetPosition();
+                    subsystemOuttake.resetmemore();}
+                ));
 
     }
+
 
     protected void platformRoutine(){
         subsystemCalibrator.setDefaultCommand(new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE));
@@ -230,8 +245,8 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                 new SelectCommand<>(
                         Map.ofEntries(
                                 Map.entry(State.CLOSED, new com.example.gate.Command(subsystemGate, GATE_OPEN_POWER,GATE_CLOSE_POWER)),
-                                Map.entry(State.OPENED, new com.example.gate.Command(subsystemGate, GATE_CLOSE_POWER,GATE_CLOSE_POWER)),
-                                Map.entry(State.BOTTOM_SELECTION, new com.example.gate.Command(subsystemGate, GATE_CLOSE_POWER,GATE_CLOSE_POWER))
+                                Map.entry(State.OPENED, new com.example.gate.Command(subsystemGate, GATE_CLOSE_POWER,GATE_OPEN_POWER)),
+                                Map.entry(State.BOTTOM_SELECTION, new com.example.gate.Command(subsystemGate,GATE_CLOSE_POWER,GATE_CLOSE_POWER))
                         ),
                         ()->State.selector(!subsystemOuttake.hasArtifact(),isAiming,subsystemSarcofogo.isUnactive())
                 )
@@ -242,10 +257,10 @@ public abstract class AutonomousDefinitions extends LinearOpMode
     }
     protected void outtakeRoutine(){
         subsystemOuttake.setDefaultCommand(
-                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION,chassis.atSetpoint(),()->outtakeAddPower).ateQUe(()->
+                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION,()->chassis.atSetpoint(),()->outtakeAddPower).ateQUe(()->
                         (!isAiming&&
                                 !isSending)||
-                                (Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
+                                (Constants.AutoConstants.getMatchPattern().equals(Pattern.BOTTOM)&&
                                         subsystemSarcofogo.isSending()&&
                                         !subsystemOuttake.hasArtifact())));
         new Trigger(()->!subsystemOuttake.hasArtifact()).and(()->isSending).whileTrue(new LaunchCommand(subsystemOuttake, -0.1));
@@ -293,4 +308,6 @@ public abstract class AutonomousDefinitions extends LinearOpMode
     protected Command aim(){
         return chassis.mirar(team, subLime::getTx, subLime::getfrontal);
     }
+
+
 }

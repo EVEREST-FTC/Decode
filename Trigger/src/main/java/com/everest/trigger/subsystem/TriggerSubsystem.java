@@ -68,7 +68,7 @@ public class TriggerSubsystem extends SubsystemBase {
     }
 
     public boolean artifactMoment(){
-        return Constants.getMatchPattern().ordinal() == timeLaunch;
+        return Constants.AutoConstants.getMatchPattern().ordinal() == timeLaunch;
     }
     public void incrementTImeLaunch(){
         timeLaunch++;
@@ -107,6 +107,6 @@ public class TriggerSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-    /*telemetry.addData("timelaunch",timeLaunch);*/
+    telemetry.addData("timelaunch",timeLaunch);
     }
 }

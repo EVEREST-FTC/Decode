@@ -105,5 +105,5 @@ public class BlueFarSolo extends AutonomousDefinitions {
                                                 )
                                         )
                                 )),
-                        Constants::getMatchPattern));
+                        Constants.AutoConstants::getMatchPattern));
 }}

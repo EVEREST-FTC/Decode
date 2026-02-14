@@ -99,7 +99,7 @@ public class RedFarSolo extends AutonomousDefinitions {
                                         )
                                 )
                         )),
-                Constants::getMatchPattern));
+                Constants.AutoConstants::getMatchPattern));
     }
 
     @Override

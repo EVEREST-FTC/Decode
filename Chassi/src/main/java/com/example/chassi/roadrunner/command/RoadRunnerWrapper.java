@@ -38,6 +38,7 @@ public class RoadRunnerWrapper extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        subsystem.drive(0,0,0);
         subsystem.setLastPose(lastPose);
     }
 

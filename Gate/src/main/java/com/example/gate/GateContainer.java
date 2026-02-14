@@ -37,7 +37,7 @@ public class GateContainer implements RobotContainer {
     @Override
     public void mainRoutine() {
         ///bloqueio pro sarcofago
-       new Trigger(sarcophagiMoment).whileTrue(
+       new Trigger(()->sarcophagiMoment.getAsBoolean()&&!hasArtifact.getAsBoolean()).whileTrue(
                 new Command(subsystemGate, GATE_SARCOFOGO_POWER,GATE_OPEN_POWER)
         );
         /*new Trigger(hasArtifact).whileFalse(new Command(subsystemGate,GATE_OPEN_POWER,GATE_CLOSE_POWER));*/

@@ -57,7 +57,7 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
         );
 
         /// velocidade mais baixa pro sarcofago
-        new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).whileTrue(new CommandIntake(subsytemIntake, 0.01));
+        new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).whileTrue(new CommandIntake(subsytemIntake, 0.01));///0.01
 
 
         /// parada pra lançamento

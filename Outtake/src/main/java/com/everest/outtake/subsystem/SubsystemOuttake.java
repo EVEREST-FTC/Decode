@@ -2,6 +2,10 @@ package com.everest.outtake.subsystem;
 
 import static com.everest.constants.Constants.robotTimer;
 
+import androidx.annotation.NonNull;
+
+import com.everest.CommandBased.compositions.RepeatCommand;
+import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
 import com.everest.constants.Constants;
@@ -11,6 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -38,6 +43,9 @@ public class SubsystemOuttake extends SubsystemBase {
     @Getter
             @Setter
     double power;
+
+    @Setter
+    private String name;
 
     private final RevColorSensorV3 ColorSensorL, ColorSensorR, sensorGateLeft, sensorGateRight;
     public SubsystemOuttake(HardwareMap hardwareMap, Telemetry telemetry){
@@ -170,18 +178,47 @@ public class SubsystemOuttake extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData("outtake-targetVelocity", targetVelocity);
-        /*telemetry.addData("outtake-hasArtifact", hasArtifact());
-        telemetry.addData("outtake-atsetpoint", atSetpoint());
 
-
-        telemetry.addData("real velocity right", rightEngine.getVelocity());
-        telemetry.addData("real velocity left", leftEngine.getVelocity());
-
-        telemetry.addData("rightSetpoint", rightSetpoint());
-        telemetry.addData("leftSetpoint ", leftSetpoint());*/
-
+        telemetry.addData("Dist outR", distanceSensorR());
+        telemetry.addData("Dist outL", distanceSensorL());
 
         telemetry.addData("Dist R", sensorGateRight.getDistance(DistanceUnit.MM));
         telemetry.addData("Dist L ", sensorGateLeft.getDistance(DistanceUnit.MM));
+
+        telemetry.addData("memoryLeft", memoryLeft);
+        telemetry.addData("memoryRight", memoryRight);
+
+        telemetry.addData("current outtake command", toString());
+    }
+
+    public Command waitDelay(double waitSeconds){
+        return new Command() {
+            private ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+
+            @Override
+            public void initialize() {
+                timer.reset();
+            }
+
+            @Override
+            public void execute() {
+                if (sensorGateLeft.getDistance(DistanceUnit.MM) < Constants.OuttakeConstants.ACTIVE_MIN_CONT_LEFT_SENSOR ||
+                        sensorGateRight.getDistance(DistanceUnit.MM) < Constants.OuttakeConstants.ACTIVE_MIN_CONT_RIGHT_SENSOR ||
+                        hasArtifact()
+                )
+                    timer.reset();
+            }
+
+            @Override
+            public boolean isFinished() {
+                return timer.time() > waitSeconds;
+            }
+        };
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return  name;
     }
 }

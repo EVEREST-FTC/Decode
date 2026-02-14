@@ -24,7 +24,7 @@ public enum State {
     }*/
 
     public static State selector(boolean hasArtifact, boolean isSending, boolean isUnactive){
-        if(Constants.getMatchPattern().equals(Pattern.BOTTOM)&&
+        if(Constants.AutoConstants.getMatchPattern().equals(Pattern.BOTTOM)&&
                 !isSending
                 &&
                 !isUnactive)
