@@ -256,14 +256,25 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         );
     }
     protected void outtakeRoutine(){
+
         subsystemOuttake.setDefaultCommand(
-                new AutoLime3A(subLime::getfrontal, subsystemOuttake, FAR_POWER_LAUNCHER_CONVERSION, CLOSE_POWER_LAUNCHER_CONVERSION, POWER_LAUNCHER_CONVERSION,()->chassis.atSetpoint(),()->outtakeAddPower).ateQUe(()->
-                        (!isAiming&&
-                                !isSending)||
-                                (Constants.AutoConstants.getMatchPattern().equals(Pattern.BOTTOM)&&
-                                        subsystemSarcofogo.isSending()&&
-                                        !subsystemOuttake.hasArtifact())));
-        new Trigger(()->!subsystemOuttake.hasArtifact()).and(()->isSending).whileTrue(new LaunchCommand(subsystemOuttake, -0.1));
+                new LaunchCommand(subsystemOuttake, -100)
+        );
+
+        new Trigger(()->isAiming).whileTrue(
+                new RepeatCommand(new InstantCommand(subsystemOuttake::resetmemore)));
+
+        new Trigger(()->isAiming).and(()->!(!subsystemOuttake.hasArtifact()&&isSending)).whileTrue(
+                new AutoLime3A(
+                        subLime::getfrontal,
+                        subsystemOuttake,
+                        FAR_POWER_LAUNCHER_CONVERSION+30,
+                        CLOSE_POWER_LAUNCHER_CONVERSION,
+                        POWER_LAUNCHER_CONVERSION+30,
+                        ()->chassis.atSetpoint(),
+                        ()->outtakeAddPower
+                )
+        );
     }
 
     protected void flagRoutine(){

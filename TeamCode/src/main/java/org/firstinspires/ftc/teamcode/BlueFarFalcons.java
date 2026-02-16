@@ -24,8 +24,8 @@ public class BlueFarFalcons extends AutonomousDefinitions {
 
                         firstLaunch(3),
 
-                        chassis.strafeToLinearHeading(-17,-28,90,60),/// coleta 1
-                        chassis.strafeToLinearHeading(-30,-28,90,7),
+                        chassis.strafeToLinearHeading(-17,-28,-90,60),/// coleta 1
+                        chassis.strafeToLinearHeading(-30,-28,-90,7),
 
                         new ParallelRaceGroup(
                                 counting(),

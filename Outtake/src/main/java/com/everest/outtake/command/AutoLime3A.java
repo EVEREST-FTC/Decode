@@ -1,15 +1,8 @@
 package com.everest.outtake.command;
 
-import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
-import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
-import static com.everest.constants.Constants.PlatformConstants.POWER_LAUNCHER_CONVERSION;
-
 import com.everest.CommandBased.definition.Command;
 import com.everest.constants.Constants;
-import com.everest.constants.Constants.CameraConstants;
 import com.everest.outtake.subsystem.SubsystemOuttake;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -57,20 +50,39 @@ public class AutoLime3A extends Command {
         addRequirements(subsystem);
     }
 
+
     @Override
     public void initialize() {
-        /// definição de que posição ele está no momento de icialização
 
+        double distance = distanceSupplier.get();
+        boolean atSetpoint = atsetpoint.getAsBoolean();
+        if(distance< Constants.LauncherControllerConstants.DISTANCE_RANGE)
+            power = close;
+        else if(distance> Constants.CameraConstants.largeIncrementDistance)
+            power = far;
+        else
+            power = normal;
+        /// cauculo durante a execução do comando
 
+        subsystem.setPower(power);
+        double Vy = Math.sqrt(2 * Constants.CameraConstants.G * Constants.CameraConstants.MAX_HEIGHT);
 
+        double t_num = Vy + Math.sqrt(Vy*Vy - 2 * Constants.CameraConstants.G * Constants.CameraConstants.DELTA_HEIGHT);
+        double t = t_num / Constants.CameraConstants.G;
+
+        double vx = distance / t;
+        velocity = Math.sqrt(Vy*Vy + vx*vx);
+        velocity*=(power+increment.getAsDouble());
+
+        subsystem.setVelocitys(velocity);
     }
 
     @Override
     public void execute() {
-        if(endSarcophagiCondition.getAsBoolean()){
+        /*if(endSarcophagiCondition.getAsBoolean()){
             subsystem.setVelocity(-100);
             return;
-        }
+        }*/
 
         double distance = distanceSupplier.get();
         boolean atSetpoint = atsetpoint.getAsBoolean();
@@ -95,21 +107,21 @@ public class AutoLime3A extends Command {
 
 
         /*subsystem.setVelocity(velocity);*/
-
-        if (!atSetpoint){
-            subsystem.setVelocity(velocity);
+        subsystem.brake();
+        if (!atSetpoint && Math.abs(velocity)>0){
+            subsystem.setVelocitys(velocity);
         }
 
 
 
     }
 
-    @Override
+    /*@Override
     public void end(boolean interrupted) {
         /// parada dos motores
         subsystem.setVelocity(0);
         subsystem.brake();
-    }
+    }*/
 
 
 }

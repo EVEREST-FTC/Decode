@@ -1,7 +1,5 @@
 package com.everest.outtake.command;
 
-import static com.everest.constants.Constants.PlatformConstants.MAX_RPM;
-
 import com.everest.CommandBased.definition.Command;
 import com.everest.outtake.subsystem.SubsystemOuttake;
 
@@ -21,7 +19,7 @@ public class LaunchCommand  extends Command {
 
     @Override
     public void execute() {
-        outtakeMotor.setVelocity(velocity);
+        outtakeMotor.setVelocitys(velocity);
     }
 
 }

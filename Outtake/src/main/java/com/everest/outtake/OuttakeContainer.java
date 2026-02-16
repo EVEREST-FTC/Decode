@@ -43,20 +43,25 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
 
         /// Comando comum que utiliza a camera par lançamento
         subsystem.setDefaultCommand(
-                new AutoLime3A(distance,
-                        subsystem,
-                        FAR_POWER_LAUNCHER_CONVERSION,
-                        CLOSE_POWER_LAUNCHER_CONVERSION,
-                        POWER_LAUNCHER_CONVERSION,
-                        atsetponitcahssi,
-                        ()-> !subsystem.hasArtifact()&&sarcophagiMoment.getAsBoolean()));
+                new LaunchCommand(subsystem, -100)
+               );
+
         new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(new RepeatCommand(new InstantCommand(subsystem::resetmemore)));
         /// modo manual de seguraça em caso de a camera não identifique
         new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 4800));
         new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 3642));
 
         /// momento de acionamento do sarcofogo
-      //  new Trigger(()->!hasArtifact.getAsBoolean()).and(sarcophagiMoment).whileTrue(new LaunchCommand(subsystem, -100));
+        /*new Trigger(()->!hasArtifact.getAsBoolean()).and(sarcophagiMoment).whileTrue(new LaunchCommand(subsystem, -100));
+*/
+        new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).and(()->!(!hasArtifact.getAsBoolean()&&sarcophagiMoment.getAsBoolean())).whileTrue(
+                new AutoLime3A(distance,
+                subsystem,
+                FAR_POWER_LAUNCHER_CONVERSION,
+                CLOSE_POWER_LAUNCHER_CONVERSION,
+                POWER_LAUNCHER_CONVERSION,
+                atsetponitcahssi
+                ));
 
     }
 }

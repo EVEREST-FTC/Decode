@@ -4,7 +4,6 @@ import static com.everest.constants.Constants.robotTimer;
 
 import androidx.annotation.NonNull;
 
-import com.everest.CommandBased.compositions.RepeatCommand;
 import com.everest.CommandBased.definition.Command;
 import com.everest.CommandBased.definition.CommandScheduler;
 import com.everest.CommandBased.essentials.SubsystemBase;
@@ -30,7 +29,7 @@ public class SubsystemOuttake extends SubsystemBase {
     private double memoryLeft = 0;
     @Getter
     private double targetVelocity = 0;
-
+    double targetVelocity_RPM;
     private double lastSeenRight = 0,
 
     lastSeenLeft = 0;
@@ -65,10 +64,9 @@ public class SubsystemOuttake extends SubsystemBase {
         rightEngine.setVelocityPIDFCoefficients(9, 6, 0, 0);
         CommandScheduler.getInstance().registerSubsystem(this);
     }
-    public void setVelocity(double velocity){
+    public void setVelocitys(double velocity){
+        targetVelocity_RPM = velocity;
         velocity *= ElevatorConstants.REVERSE_TICK_CONVERSION ;
-
-
         targetVelocity = velocity;
         rightEngine.setVelocity(-velocity);
         leftEngine.setVelocity(-velocity);
@@ -177,8 +175,8 @@ public class SubsystemOuttake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("outtake-targetVelocity", targetVelocity);
-
+        telemetry.addData("outtake-targetVelocity-RPM", targetVelocity_RPM);
+/*
         telemetry.addData("Dist outR", distanceSensorR());
         telemetry.addData("Dist outL", distanceSensorL());
 
@@ -186,9 +184,9 @@ public class SubsystemOuttake extends SubsystemBase {
         telemetry.addData("Dist L ", sensorGateLeft.getDistance(DistanceUnit.MM));
 
         telemetry.addData("memoryLeft", memoryLeft);
-        telemetry.addData("memoryRight", memoryRight);
+        telemetry.addData("memoryRight", memoryRight);*/
 
-        telemetry.addData("current outtake command", toString());
+        telemetry.addData("has artifact", hasArtifact());
     }
 
     public Command waitDelay(double waitSeconds){

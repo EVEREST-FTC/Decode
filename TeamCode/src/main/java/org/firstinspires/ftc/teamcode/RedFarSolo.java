@@ -41,7 +41,7 @@ public class RedFarSolo extends AutonomousDefinitions {
                                         chassis.strafeToLinearHeading(7,-81,-40,60)///mira 3
                                 ),
                                 autoLaunch(3),
-                                chassis.strafeToLinearHeading(17,-51,90,60),/// coleta 2
+                                chassis.strafeToLinearHeading(13,-51,90,60),/// coleta 2
                                 chassis.strafeToLinearHeading(30,-51,90,7),
                                 new ParallelRaceGroup(
                                         counting(),
@@ -86,7 +86,7 @@ public class RedFarSolo extends AutonomousDefinitions {
                                                 //chassis.strafeToLinearHeading(0,-8,-20,50)///mira 2
                                         ),
                                         autoLaunch(3),
-                                        chassis.splineToLinearHeading(17, -50.5,90,-90,90,60),/// coleta 2
+                                        chassis.splineToLinearHeading(13, -50.5,90,-90,90,60),/// coleta 2
                                         chassis.strafeToLinearHeading(30,-50.5,90,7),
                                         new ParallelRaceGroup(
                                                 counting(),
