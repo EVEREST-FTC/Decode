@@ -25,14 +25,8 @@ public class GateContainer implements RobotContainer {
     private final BooleanSupplier hasArtifact;
     private final Gamepad gamepad;
     private final BooleanSupplier sarcophagiMoment;
-    private final BooleanSupplier sensorSarcophagi;
     private final BooleanSupplier isUnactive;
-    private final BooleanSupplier timelaunch;
 
-
-    private final BooleanSupplier velocityVerifier;
-    private final BooleanSupplier limelightAcceptance;
-    public final BooleanSupplier translationalSetpoint;
 
     @Override
     public void mainRoutine() {

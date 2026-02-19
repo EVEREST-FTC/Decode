@@ -5,6 +5,8 @@ import com.everest.CommandBased.compositions.ParallelRaceGroup;
 import com.everest.CommandBased.compositions.RepeatCommand;
 import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.util.InstantCommand;
+import com.everest.CommandBased.util.WaitCommand;
+import com.everest.constants.Constants;
 import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -43,6 +45,7 @@ public class BlueFarFalcons extends AutonomousDefinitions {
                                 chassis.strafeToLinearHeading(0,-8,23.5,50)///mira 3
                         ),  
                         autoLaunch(),*/
+                        new WaitCommand(9, Constants.robotTimer),
                         chassis.strafeToLinearHeading(-10,-28.3,0,30)/// final*/
                 ),
                 new RepeatCommand(new InstantCommand(subsystemOuttake::artifacts))

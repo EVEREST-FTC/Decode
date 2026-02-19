@@ -40,18 +40,18 @@ public class BlueFarSolo extends AutonomousDefinitions {
                 new SelectCommand<>(
                         Map.ofEntries(
                                 Map.entry(Pattern.BOTTOM, new SequentialCommandGroup(
-                                        chassis.strafeToLinearHeading(-11,-27,-90,25),/// coleta 1
-                                        chassis.strafeToLinearHeading(-30,-27,-90,7),
+                                        chassis.strafeToLinearHeading(-17,-28,-90,60),/// coleta 1
+                                        chassis.strafeToLinearHeading(-30,-28,-90,7),
                                         new ParallelRaceGroup(
                                                 counting(),
                                                 chassis.strafeToLinearHeading(-7,-81,40,60)///mira 3
                                         ),
                                         autoLaunch(3),
-                                        chassis.strafeToLinearHeading(-13,-51,-90,60),/// coleta 2
+                                        chassis.strafeToLinearHeading(-10,-51,-90,40),/// coleta 2
                                         chassis.strafeToLinearHeading(-30,-51,-90,7),
                                         new ParallelRaceGroup(
                                                 counting(),
-                                                chassis.strafeToLinearHeading(-7,-81,40,60)///mira 3
+                                                chassis.strafeToLinearHeading(-4,-81,40,60)///mira 3
                                         ),
                                         autoLaunch(2),
                                         new ParallelCommandGroup(
@@ -60,16 +60,16 @@ public class BlueFarSolo extends AutonomousDefinitions {
                                         )
                                 )),
                                 Map.entry(Pattern.MID, new SequentialCommandGroup(
-                                        chassis.strafeToLinearHeading(-13,-50.5,-90,60),/// coleta 2
-                                        chassis.strafeToLinearHeading(-30,-50.5,-90,7),
-                                        chassis.strafeToLinearHeading(-23,-50.5,90,60),
+                                        chassis.strafeToLinearHeading(-13,-52.3,-90,60),/// coleta 2
+                                        chassis.strafeToLinearHeading(-30,-52.3,-90,7),
                                         new ParallelRaceGroup(
                                                 counting(),
-                                                chassis.strafeToLinearHeading(0,-8,-20,60)///mira 2
+                                                chassis.splineToLinearHeading(0, -8,18,90,-20,60)
+                                              ///mira 2
                                         ),
                                         autoLaunch(3),
-                                        chassis.strafeToLinearHeading(-17,-28,-90,60),/// coleta 1
-                                        chassis.strafeToLinearHeading(-30,-28,-90,7),
+                                        chassis.strafeToLinearHeading(-12,-28,-90,60),/// coleta 1
+                                        chassis.strafeToLinearHeading(-29,-28,-90,7),
                                         new ParallelRaceGroup(
                                                 counting(),
                                                 chassis.strafeToLinearHeading(0,-8,20,60)///mira 3
@@ -81,7 +81,7 @@ public class BlueFarSolo extends AutonomousDefinitions {
                                 )),
                                 Map.entry(
                                         Pattern.TOP, new SequentialCommandGroup(
-                                                chassis.strafeToLinearHeading(-17,-75,-90,60),/// coleta 3
+                                                chassis.strafeToLinearHeading(-13,-75,-90,60),/// coleta 3
                                                 chassis.strafeToLinearHeading(-30,-75,-90,7),
 
                                                 //  chassis.strafeToLinearHeading(22,-75,90,50),
@@ -92,11 +92,11 @@ public class BlueFarSolo extends AutonomousDefinitions {
                                                         //chassis.strafeToLinearHeading(0,-8,-20,50)///mira 2
                                                 ),
                                                 autoLaunch(3),
-                                                chassis.splineToLinearHeading(-13, -50.5,-90,90,-90,60),/// coleta 2
-                                                chassis.strafeToLinearHeading(-30,-50.5,90,7),
+                                                chassis.splineToLinearHeading(-13, -52.3,-90,90,-90,60),/// coleta 2
+                                                chassis.strafeToLinearHeading(-30,-52.3,-90,7),
                                                 new ParallelRaceGroup(
                                                         counting(),
-                                                        chassis.strafeToLinearHeading(0,-8,20,60)///mira 2
+                                                        chassis.strafeToLinearHeading(-10,-90,45,60)///mira 2
                                                 ),
                                                 autoLaunch(2),
                                                 new ParallelCommandGroup(

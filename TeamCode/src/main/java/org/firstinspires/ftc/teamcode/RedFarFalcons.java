@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.everest.CommandBased.compositions.ParallelRaceGroup;
 import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.util.InstantCommand;
+import com.everest.CommandBased.util.WaitCommand;
+import com.everest.constants.Constants;
 import com.everest.constants.meta.EnumTeam;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -13,7 +15,7 @@ public class RedFarFalcons extends AutonomousDefinitions {
     public void route(){
         new SequentialCommandGroup(
                 new InstantCommand(chassis::resetIMU),
-                /*obelisk(),*/
+                obelisk(),
                 new ParallelRaceGroup(
                         counting(),
                         chassis.strafeToLinearHeading(0,-8,-20.3,5)///mira 1
@@ -37,6 +39,7 @@ public class RedFarFalcons extends AutonomousDefinitions {
                         chassis.strafeToLinearHeading(0,-8,-23,50)///mira 3
                 ),*/
                 /*autoLaunch(),*/
+                new WaitCommand(9, Constants.robotTimer),
                 chassis.strafeToLinearHeading(10,-28.3,0,40)/// final*/,,
 
 

@@ -86,13 +86,8 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .subsystemGate(gate)
                 .hasArtifact(outtake::hasArtifact)
                 .gamepad(gamepad1)
-                .timelaunch(triggerSubsystem::gatetime)
-                .sensorSarcophagi(sarcophagi::getsensorSarcofogo)
                 .sarcophagiMoment(sarcophagi::isSending)
                 .isUnactive(sarcophagi::isUnactive)
-                .velocityVerifier(outtake::atSetpoint)
-                .limelightAcceptance(limelight::isValid)
-                .translationalSetpoint(chassis::atSetpoint)
                 .build()
                 .defineMainRoutine();
 
@@ -101,12 +96,6 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .hasArtifact(outtake::hasArtifact)
                 .ArtifactComplete(outtake::noDebounceArtifacts)
                 .subsytemIntake(intake)
-                .isUnactive(sarcophagi::isUnactive)
-                .intakeMoment(triggerSubsystem::intakeTimePower)
-                .oneSent(outtake::oneSent)
-                .sarcophagiMoment(sarcophagi::isSending)
-                .distance(limelight::getfrontal)
-                .velocityVerifier(outtake::atSetpoint)
                 .build()
                 .defineMainRoutine();
 

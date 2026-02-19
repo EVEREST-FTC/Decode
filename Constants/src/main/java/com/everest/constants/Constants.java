@@ -50,7 +50,7 @@ public class Constants {
 
         public static final double KD = 0.002;
         public static final double KP_TELEOP = 0.018; ///0.0267
-        public static final double KI_TELEOP = 0.038;///0.0.035
+        public static final double KI_TELEOP = 0.04;///0.0.035
 
         public static final double KD_TELEOP = 0.0018;///0.0015
         ///
@@ -75,7 +75,7 @@ public class Constants {
         public static final double PID_INCREMENT_RED = -6.4;
     }
     public static class OuttakeConstants{
-        public static final double MAX_MEMORE_CONT = 20;
+        public static final double MAX_MEMORE_CONT = 24;
         public static final double ACTIVE_MIN_CONT_LEFT_SENSOR = 34;
         public static final double ACTIVE_MIN_CONT_RIGHT_SENSOR = 30;
         public static final double ACTIVE_MIN_CONT_OUT_SENSOR = 55;
@@ -108,8 +108,8 @@ public class Constants {
     }
     /// Constantes da plataforma de lancamento
     public static class PlatformConstants{
-        public static final double FAR_POWER_LAUNCHER_CONVERSION = 690; /// 690
-        public static final double POWER_LAUNCHER_CONVERSION = 690; /// 735
+        public static final double FAR_POWER_LAUNCHER_CONVERSION = 710; /// 690
+        public static final double POWER_LAUNCHER_CONVERSION = 710; /// 735
         public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 820;///820
 
         public static final double MAX_RPM = 6000;
@@ -124,7 +124,7 @@ public class Constants {
     }
     /// Constantes do gate
     public static class GateConstants{
-        public static final double GATE_OPEN_POWER = 0.8;
+        public static final double GATE_OPEN_POWER = 0.75; ///0.8
         public static final double GATE_CLOSE_POWER = 0;
         public static final double GATE_SARCOFOGO_POWER = -0.3;
     }

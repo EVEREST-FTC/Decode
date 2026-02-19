@@ -48,7 +48,7 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
 
         new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(new RepeatCommand(new InstantCommand(subsystem::resetmemore)));
         /// modo manual de seguraça em caso de a camera não identifique
-        new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 4800));
+        new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 5300));
         new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 3642));
 
         /// momento de acionamento do sarcofogo

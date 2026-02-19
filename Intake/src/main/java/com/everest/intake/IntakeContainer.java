@@ -32,14 +32,9 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
     private final SubsytemIntake subsytemIntake;
     private final Gamepad gamepad;
     private final BooleanSupplier hasArtifact;
-    private final BooleanSupplier intakeMoment;
-    private final BooleanSupplier oneSent;
-    private final BooleanSupplier velocityVerifier;
-
-    private final BooleanSupplier sarcophagiMoment;
-    private final BooleanSupplier isUnactive;
-    private final DoubleSupplier distance;
     private final DoubleSupplier ArtifactComplete;
+
+
     @Override
     public void mainRoutine() {
        // new Trigger(()->!(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER)).whileTrue(new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL));
@@ -57,11 +52,11 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
         );
 
         /// velocidade mais baixa pro sarcofago
-        new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).whileTrue(new CommandIntake(subsytemIntake, 0.01));///0.01
+        /*new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).and(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).whileTrue(new CommandIntake(subsytemIntake, 0.01));///0.01*/
 
 
         /// parada pra lançamento
-        new Trigger(()->(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER&&hasArtifact.getAsBoolean())||ArtifactComplete.getAsDouble()==3)
+        new Trigger(()->(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER&&hasArtifact.getAsBoolean())||(ArtifactComplete.getAsDouble()==3&&!gamepad.left_bumper) )
                 .whileTrue(new CommandIntake(subsytemIntake, 0));
 
         /// ta lancando e nao tem artefato no outtake

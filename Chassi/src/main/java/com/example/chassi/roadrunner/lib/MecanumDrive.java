@@ -72,12 +72,12 @@ public class MecanumDrive extends SubsystemBase{
         // drive model parameters
         public double inPerTick = 23.622/8034.5; ///0.00294007094
         public double lateralInPerTick = 3.4231548302225994;
-        public double trackWidthTicks = 4279.008604387152;
+        public double trackWidthTicks = 4154.650408861427;
 
         // feedforward parameters (in tick units)kV: 0.00041035336111782793, kS: 0.9772866670740017
-        public double kS = 1.14143172787298;
-        public double kV = 0.0004025466145026467;
-        public double kA = 0.000001;
+        public double kS = 1.0418867052556204;
+        public double kV = 0.00043349560520669357;
+        public double kA = 0.0001;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -93,7 +93,7 @@ public class MecanumDrive extends SubsystemBase{
         public double lateralGain = 10000;
         public double headingGain = 8; // shared with turn
 
-        public double axialVelGain = 2.5;
+        public double axialVelGain = 1.5;
         public double lateralVelGain = 10;
         public double headingVelGain = 0.1;
     }

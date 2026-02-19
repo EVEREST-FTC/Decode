@@ -37,7 +37,7 @@ public class ChassisContainer implements RobotContainer {
 
     public void mainRoutine(){
         /// ação de  resetar a orientação do robo
-        new Trigger(()->gamepad1.right_bumper).or(()->gamepad2.right_bumper).whileTrue(
+        new Trigger(()->gamepad1.start).or(()->gamepad1.start).whileTrue(
                 new InstantCommand(chassis::resetIMU)
         );
         /// ação de levantar o robo
@@ -54,7 +54,7 @@ public class ChassisContainer implements RobotContainer {
                 ).ateQUe(chassis::atSetpoint)
         );
 
-        new Trigger(()->gamepad1.left_bumper).whileTrue(
+        new Trigger(()->gamepad1.right_bumper).whileTrue(
                 new Drive(
                         chassis,
                         () -> (chassis.DeadZone(gamepad1.right_stick_x+gamepad2.right_stick_x)+
