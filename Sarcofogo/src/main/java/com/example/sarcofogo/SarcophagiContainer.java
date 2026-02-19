@@ -25,6 +25,7 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
     private final BooleanSupplier artifactMoment;
     @Override
     public void mainRoutine() {
+        /// maquina de estado para ativação no momento do sarcofogo de acordo com o padrão identificado no autonomo
         subsystemSarcofogo.setDefaultCommand(
                 new SelectCommand<>(
                         Map.ofEntries(
@@ -39,22 +40,30 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
                                     (gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER||gamepad2.left_trigger>GAMEPAD_AIM_TRIGGER));
                         }
                 ));
-
+        /// comando a resetar a memoria do sensor do sarcofogo
         new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER)
-                .or(()->gamepad2.left_trigger>GAMEPAD_AIM_TRIGGER).onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
+                .or(()->gamepad2.left_trigger>GAMEPAD_AIM_TRIGGER)
+                .onFalse(new InstantCommand(subsystemSarcofogo::resetmemore));
+
+        /// comando para a ativar o uso do sarcofogo no teleOperado
         new Trigger(()->gamepad1.x)
                 .or(()->gamepad2.x).toggleOnTrue(new RepeatCommand(new com.everest.CommandBased.definition.Command(){
                     @Override
                     public void initialize() {
                         subsystemSarcofogo.setMoment(Moment.ACTIVE);
                     }
-                    }).finalmente((()->subsystemSarcofogo.setMoment(Moment.UNACTIVE))));
+                    }).finalmente((()->subsystemSarcofogo.setMoment(Moment.UNACTIVE)))
+                );
+
+        /// commando padrão para deixar a bandeira abaixada
         flagSubsystem.setDefaultCommand(
                 new CommandBandeira(flagSubsystem, 0)
         );
+        /// comando para posicionar a bandeira a 45 graus quando tiver 2 artefatos no robo
         new Trigger(()->ArtifactComplete.get()==2).whileTrue(
                 new CommandBandeira(flagSubsystem,45)
         );
+        /// comando para posicionar a bandeira a 90 graus quando o robo estiver completo
         new Trigger(()->ArtifactComplete.get()==3).whileTrue(
                 new CommandBandeira(flagSubsystem,90)
         );
