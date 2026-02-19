@@ -33,8 +33,8 @@ public class PlatformContainer implements com.everest.constants.meta.RobotContai
         /// comando padrão
         subsystemCalibrator.setDefaultCommand(new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE));
         /// comando de lançamento manual
-        new Trigger(()->gamepad2.a).toggleOnTrue(new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE));
-        new Trigger(()->gamepad2.b).toggleOnTrue(new CalibratorCommand(subsystemCalibrator, 60));
+        new Trigger(()->gamepad2.a).whileTrue(new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE));
+        new Trigger(()->gamepad2.b).whileTrue(new CalibratorCommand(subsystemCalibrator, 60));
 
         /// comando padrão que utiliza a camera
         new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(new AutoLime3AC(distance,subsystemCalibrator,telemetry));

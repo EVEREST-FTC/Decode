@@ -75,12 +75,16 @@ public class Constants {
         public static final double PID_INCREMENT_RED = -6.4;
     }
     public static class OuttakeConstants{
-        public static final double MAX_MEMORE_CONT = 24;
+        public static final double MAX_MEMORE_CONT = 3;
         public static final double ACTIVE_MIN_CONT_LEFT_SENSOR = 34;
         public static final double ACTIVE_MIN_CONT_RIGHT_SENSOR = 30;
         public static final double ACTIVE_MIN_CONT_OUT_SENSOR = 55;
 
+        public static final double MAX_VELOCITY = 5350;
+
         public static final double ADMISSIBLE_ERROR = 40;
+
+        public static final double admissibleSeconds = 0.5;
        ;
 
     }

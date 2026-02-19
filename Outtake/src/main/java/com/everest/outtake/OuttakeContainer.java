@@ -40,14 +40,14 @@ public class OuttakeContainer implements com.everest.constants.meta.RobotContain
     public void mainRoutine() {
         /// commando padrão que reverte e prende o artefato dentro do outtake
         subsystem.setDefaultCommand(
-                new LaunchCommand(subsystem, -100)
+                new LaunchCommand(subsystem, -200)
                );
+        ///  comando para reset da memoria dos sensores
+       /* new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(new RepeatCommand(new InstantCommand(subsystem::resetmemore)));*/
 
-        new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(new RepeatCommand(new InstantCommand(subsystem::resetmemore)));
-
-        /// modo manual de seguraça em caso de a camera não identifique
-        new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 5300));
-        new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 3642));
+        /// modo manual de seguraça em caso de a camera não identifique com duas po
+        new Trigger(()->gamepad2.a).whileTrue(new LaunchCommand(subsystem, 5300));
+        new Trigger(()->gamepad2.b).whileTrue(new LaunchCommand(subsystem, 3642));
 
 
         /// Comando comum que utiliza a camera par lançamento com a logica de para o sarcofogo

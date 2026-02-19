@@ -52,6 +52,9 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
                     }
                 }.finalmente(()-> subsytemIntake.setActive(true))
         );
+        /// comando para reverter a velociade do intake
+        new Trigger(()->gamepad.left_stick_button).whileTrue(new CommandIntake(subsytemIntake,-INTAKE_POWER_NORMAL));
+
         /// parada pra lançamento
         new Trigger(()->(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER&&hasArtifact.getAsBoolean())||(ArtifactComplete.getAsDouble()==3&&!gamepad.left_bumper) )
                 .whileTrue(new CommandIntake(subsytemIntake, 0));
