@@ -17,7 +17,9 @@ import lombok.Builder;
 
 @Builder
 public class TriggerContainer implements RobotContainer {
+    /// subsitema do gatilho
     private final TriggerSubsystem triggerSubsystem;
+    /// entradas de informações vindo de outros sistemas
     private final Gamepad gamepad1;
     private final Gamepad gamepad2;
     private final BooleanSupplier velocityVerifier;
@@ -28,6 +30,7 @@ public class TriggerContainer implements RobotContainer {
     private final Runnable resetOuttake;
     @Override
     public void mainRoutine() {
+        ///  commando e logica para acinamento do gatilho em sequencia de acordo
         new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(
                         new RepeatCommand(
                                 triggerSubsystem.launch(resetMemory)
@@ -49,6 +52,8 @@ public class TriggerContainer implements RobotContainer {
                 }));
 
     }
+
+    ///  conjunto de condições e verificações necessaria para o lançamento
     private Command conditionalCommand(){
         BooleanSupplier triggerCondition = ()->
                 limelightAcceptance.getAsBoolean()

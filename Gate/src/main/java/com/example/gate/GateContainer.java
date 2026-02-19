@@ -21,7 +21,9 @@ import lombok.Builder;
 
 @Builder
 public class GateContainer implements RobotContainer {
+    /// subsitema da gate
     private final SubsystemGate subsystemGate;
+    /// entradas de informações vindo de outros sistemas
     private final BooleanSupplier hasArtifact;
     private final Gamepad gamepad;
     private final BooleanSupplier sarcophagiMoment;
@@ -34,14 +36,11 @@ public class GateContainer implements RobotContainer {
        new Trigger(()->sarcophagiMoment.getAsBoolean()&&!hasArtifact.getAsBoolean()).whileTrue(
                 new Command(subsystemGate, GATE_SARCOFOGO_POWER,GATE_OPEN_POWER)
         );
-        /*new Trigger(hasArtifact).whileFalse(new Command(subsystemGate,GATE_OPEN_POWER,GATE_CLOSE_POWER));*/
-
-
     }
 
     @Override
     public void states() {
-        /// bloqueio pro outtake
+        /// maquina de estados pro outtake
         subsystemGate.setDefaultCommand(
                 new SelectCommand<>(
                         Map.ofEntries(

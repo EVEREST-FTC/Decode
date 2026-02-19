@@ -29,7 +29,10 @@ import lombok.Builder;
 
 @Builder
 public class IntakeContainer implements com.everest.constants.meta.RobotContainer {
+    /// subsitema da intake
     private final SubsytemIntake subsytemIntake;
+
+    /// entradas de informações vindo de outros sistemas
     private final Gamepad gamepad;
     private final BooleanSupplier hasArtifact;
     private final DoubleSupplier ArtifactComplete;
@@ -37,11 +40,10 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
 
     @Override
     public void mainRoutine() {
-       // new Trigger(()->!(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER)).whileTrue(new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL));
         /// normal do lançamento
         subsytemIntake.setDefaultCommand(
                 new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL));
-
+        /// parada do intake no final do end-game
         new Trigger(()->gamepad.y).toggleOnTrue(
                 new Command() {
                     @Override
@@ -50,32 +52,9 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
                     }
                 }.finalmente(()-> subsytemIntake.setActive(true))
         );
-
-        /// velocidade mais baixa pro sarcofago
-        /*new Trigger(sarcophagiMoment).and(()->!isUnactive.getAsBoolean()).and(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER).whileTrue(new CommandIntake(subsytemIntake, 0.01));///0.01*/
-
-
         /// parada pra lançamento
         new Trigger(()->(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER&&hasArtifact.getAsBoolean())||(ArtifactComplete.getAsDouble()==3&&!gamepad.left_bumper) )
                 .whileTrue(new CommandIntake(subsytemIntake, 0));
 
-        /// ta lancando e nao tem artefato no outtake
-
-        /// acelerar manual
-
-        /*/// potencia lançamento
-        new Trigger(intakeMoment)
-                .and(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER)
-                .and(()->!hasArtifact.getAsBoolean())
-                .and(()->distance.getAsDouble()>shortIncrementDistance)
-                .whileTrue(
-                new CommandIntake(subsytemIntake, LAST_INTAKE_POWER));
-        /// perto
-        new Trigger(intakeMoment)
-                .and(()->gamepad.left_trigger>GAMEPAD_AIM_TRIGGER)
-                .and(()->!hasArtifact.getAsBoolean())
-                .and(()->distance.getAsDouble()<largeIncrementDistance)
-                .whileTrue(
-                        new CommandIntake(subsytemIntake,CLOSE_LAST_INTAKE_POWER));*/
     }
 }

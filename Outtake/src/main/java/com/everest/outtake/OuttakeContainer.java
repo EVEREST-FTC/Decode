@@ -25,35 +25,32 @@ import lombok.Builder;
 
 @Builder
 public class OuttakeContainer implements com.everest.constants.meta.RobotContainer {
+    /// subsitema da Outtake
+    private final SubsystemOuttake subsystem;
+    /// entradas de informações vindo de outros sistemas
     private final Gamepad gamepad1;
     private final Gamepad gamepad2;
-
     private final Supplier<Double> distance;
-
-    private final SubsystemOuttake subsystem;
-
     private final BooleanSupplier sarcophagiMoment;
     private final BooleanSupplier atsetponitcahssi;
-
     private final BooleanSupplier hasArtifact;
-    private final BooleanSupplier isUnactive;
+
 
     @Override
     public void mainRoutine() {
-
-        /// Comando comum que utiliza a camera par lançamento
+        /// commando padrão que reverte e prende o artefato dentro do outtake
         subsystem.setDefaultCommand(
                 new LaunchCommand(subsystem, -100)
                );
 
         new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).whileTrue(new RepeatCommand(new InstantCommand(subsystem::resetmemore)));
+
         /// modo manual de seguraça em caso de a camera não identifique
         new Trigger(()->gamepad2.a).toggleOnTrue(new LaunchCommand(subsystem, 5300));
         new Trigger(()->gamepad2.b).toggleOnTrue(new LaunchCommand(subsystem, 3642));
 
-        /// momento de acionamento do sarcofogo
-        /*new Trigger(()->!hasArtifact.getAsBoolean()).and(sarcophagiMoment).whileTrue(new LaunchCommand(subsystem, -100));
-*/
+
+        /// Comando comum que utiliza a camera par lançamento com a logica de para o sarcofogo
         new Trigger(()->gamepad1.left_trigger>GAMEPAD_AIM_TRIGGER).and(()->!(!hasArtifact.getAsBoolean()&&sarcophagiMoment.getAsBoolean())).whileTrue(
                 new AutoLime3A(distance,
                 subsystem,

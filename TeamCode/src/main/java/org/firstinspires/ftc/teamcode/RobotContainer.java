@@ -108,16 +108,15 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .subsystem(outtake)
                 .atsetponitcahssi(chassis::atSetpoint)
                 .sarcophagiMoment(sarcophagi::isSending)
-                .isUnactive(sarcophagi::isUnactive)
                 .build()
                 .defineMainRoutine();
 
 
         PlatformContainer.builder()
-                .gamepad(gamepad1)
+                .gamepad1(gamepad1)
+                .gamepad2(gamepad2)
                 .subsystemCalibrator(platform)
                 .distance(limelight::getfrontal)
-                .sarcophagiMoment(sarcophagi::isSending)
                 .hasArtifact(outtake::hasArtifact)
                 .telemetry(telemetry)
                 .build()
