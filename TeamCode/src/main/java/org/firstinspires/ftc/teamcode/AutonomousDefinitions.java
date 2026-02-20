@@ -198,7 +198,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                 new RepeatCommand(
                         new InstantCommand(()->triggerSubsystem.setLastTarget(3) /*()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts())*/)
                 ),
-                new WaitCommand(5, Constants.robotTimer)
+                new WaitCommand(4, Constants.robotTimer)
         );
     }
     public Command autoLaunch(int launchs){
@@ -216,11 +216,11 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         )
                 .antesDe(new InstantCommand(()->{
                     isAiming=true;
-                    triggerSubsystem.setLastTarget(subsystemOuttake.noDebounceArtifacts());
+                    triggerSubsystem.setLastTarget(subsystemOuttake.artifacts());
                 }
                 ))
                 .ateQUe(triggerSubsystem::contLaunchTimes)
-                .espere(5,Constants.robotTimer)
+                .espere(4,Constants.robotTimer)
                 .antesDe( new InstantCommand(triggerSubsystem::resetTimeLaunch))
                 .depois(new InstantCommand(()->isAiming=false))
                 .depois(new InstantCommand(()-> {
@@ -244,8 +244,8 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         subsystemGate.setDefaultCommand(
                 new SelectCommand<>(
                         Map.ofEntries(
-                                Map.entry(State.CLOSED, new com.example.gate.Command(subsystemGate, GATE_OPEN_POWER,GATE_CLOSE_POWER)),
-                                Map.entry(State.OPENED, new com.example.gate.Command(subsystemGate, GATE_CLOSE_POWER,GATE_OPEN_POWER)),
+                                Map.entry(State.CLOSED, new com.example.gate.Command(subsystemGate, GATE_CLOSE_POWER,GATE_OPEN_POWER)),
+                                Map.entry(State.OPENED, new com.example.gate.Command(subsystemGate,GATE_OPEN_POWER, GATE_CLOSE_POWER)),
                                 Map.entry(State.BOTTOM_SELECTION, new com.example.gate.Command(subsystemGate,GATE_CLOSE_POWER,GATE_CLOSE_POWER))
                         ),
                         ()->State.selector(!subsystemOuttake.hasArtifact(),isAiming,subsystemSarcofogo.isUnactive())
@@ -287,12 +287,12 @@ public abstract class AutonomousDefinitions extends LinearOpMode
     protected void intakeRoutine(){
 
         intake.setDefaultCommand(
-                new CommandIntake(intake, INTAKE_POWER_NORMAL));
+                new CommandIntake(intake, ()->INTAKE_POWER_NORMAL));
 
         new Trigger(()->(isAiming&&subsystemOuttake.hasArtifact())||subsystemOuttake.artifacts()==3)
-                .whileTrue(new CommandIntake(intake, 0));
+                .whileTrue(new CommandIntake(intake, ()->0));
 
-        new Trigger(subsystemSarcofogo::isSending).and(()->subsystemSarcofogo.isUnactive()).whileTrue(new CommandIntake(intake, -0.01));
+        new Trigger(subsystemSarcofogo::isSending).and(()->subsystemSarcofogo.isUnactive()).whileTrue(new CommandIntake(intake, ()->-0.01));
     }
     protected void sarcophagiRoutine(){
         subsystemSarcofogo.setDefaultCommand(

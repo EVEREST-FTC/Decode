@@ -49,10 +49,10 @@ public class Constants {
         public static final double KI =  0.032;///0.0.035
 
         public static final double KD = 0.002;
-        public static final double KP_TELEOP = 0.018; ///0.0267
-        public static final double KI_TELEOP = 0.04;///0.0.035
+        public static final double KP_TELEOP = 0.018; ///0.0267 ,  0.018
+        public static final double KI_TELEOP = 0.035;///0.0.035 , 0.0040
 
-        public static final double KD_TELEOP = 0.0018;///0.0015
+        public static final double KD_TELEOP = 0.0018;///0.0015 , 0.0018
         ///
         public static final double PID_MAX = 0.5;
         public static final double iRange = 10;
@@ -75,16 +75,16 @@ public class Constants {
         public static final double PID_INCREMENT_RED = -6.4;
     }
     public static class OuttakeConstants{
-        public static final double MAX_MEMORE_CONT = 3;
+        public static final double MAX_MEMORE_CONT = 7;
         public static final double ACTIVE_MIN_CONT_LEFT_SENSOR = 34;
         public static final double ACTIVE_MIN_CONT_RIGHT_SENSOR = 30;
         public static final double ACTIVE_MIN_CONT_OUT_SENSOR = 55;
 
-        public static final double MAX_VELOCITY = 5350;
+        public static final double MAX_VELOCITY = 5000;
 
         public static final double ADMISSIBLE_ERROR = 40;
 
-        public static final double admissibleSeconds = 0.5;
+        public static final double admissibleSeconds = 0.2;
        ;
 
     }

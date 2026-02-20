@@ -35,14 +35,14 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
     /// entradas de informações vindo de outros sistemas
     private final Gamepad gamepad;
     private final BooleanSupplier hasArtifact;
-    private final DoubleSupplier ArtifactComplete;
+    private final BooleanSupplier ArtifactComplete;
 
 
     @Override
     public void mainRoutine() {
         /// normal do lançamento
         subsytemIntake.setDefaultCommand(
-                new CommandIntake(subsytemIntake, INTAKE_POWER_NORMAL));
+                new CommandIntake(subsytemIntake,()-> INTAKE_POWER_NORMAL));
         /// parada do intake no final do end-game
         new Trigger(()->gamepad.y).toggleOnTrue(
                 new Command() {
@@ -53,11 +53,16 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
                 }.finalmente(()-> subsytemIntake.setActive(true))
         );
         /// comando para reverter a velociade do intake
-        new Trigger(()->gamepad.left_stick_button).whileTrue(new CommandIntake(subsytemIntake,-INTAKE_POWER_NORMAL));
+      //  new Trigger(()->gamepad.left_stick_button).whileTrue(new CommandIntake(subsytemIntake,()->-INTAKE_POWER_NORMAL));
 
         /// parada pra lançamento
-        new Trigger(()->(gamepad.left_trigger> GAMEPAD_AIM_TRIGGER&&hasArtifact.getAsBoolean())||(ArtifactComplete.getAsDouble()==3&&!gamepad.left_bumper) )
-                .whileTrue(new CommandIntake(subsytemIntake, 0));
+        new Trigger(ArtifactComplete)
+                .whileTrue(new CommandIntake(subsytemIntake, ()->0));
 
+        new Trigger(()->hasArtifact.getAsBoolean() && !ArtifactComplete.getAsBoolean())
+                .whileTrue(new CommandIntake(subsytemIntake, ()->0.015));
+        /*
+        new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER&&hasArtifact.getAsBoolean())
+                .whileTrue(new CommandIntake(subsytemIntake, ()->0));*/
     }
 }

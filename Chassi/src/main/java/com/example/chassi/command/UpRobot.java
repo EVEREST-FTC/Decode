@@ -14,7 +14,7 @@ public class UpRobot extends Command {
         @Override
         public void execute() {
         ///  na execução o comando usa o metodo do subsistema com o cauculo de reduções para o angulo de maior elevação
-            chassis.setPositionElevator(70);}
+            chassis.setPositionElevator(90);}
 
         @Override
         ///  na finalização o motor volta para posição inicial

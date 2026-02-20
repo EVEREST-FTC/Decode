@@ -26,6 +26,7 @@ public class MainTeleopRed extends LinearOpMode {
             CommandScheduler.getInstance().run();
             telemetry.addData("Comandos", CommandScheduler.getInstance().m_scheduledCommands.size());
             telemetry.update();
+
         }
         //limpa o singleton no requerimento de stop
         CommandScheduler.getInstance().reset();

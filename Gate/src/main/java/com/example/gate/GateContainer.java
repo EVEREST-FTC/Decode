@@ -4,10 +4,14 @@ import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TR
 import static com.everest.constants.Constants.GateConstants.GATE_OPEN_POWER;
 import static com.everest.constants.Constants.GateConstants.GATE_CLOSE_POWER;
 import static com.everest.constants.Constants.GateConstants.GATE_SARCOFOGO_POWER;
+import static com.everest.constants.Constants.robotTimer;
 
+import com.everest.CommandBased.compositions.ParallelRaceGroup;
 import com.everest.CommandBased.compositions.SelectCommand;
+import com.everest.CommandBased.compositions.SequentialCommandGroup;
 import com.everest.CommandBased.essentials.Trigger;
 import com.everest.CommandBased.util.ConditionalCommand;
+import com.everest.CommandBased.util.WaitCommand;
 import com.everest.constants.Constants;
 import com.everest.constants.meta.RobotContainer;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -44,12 +48,13 @@ public class GateContainer implements RobotContainer {
         subsystemGate.setDefaultCommand(
                 new SelectCommand<>(
                         Map.ofEntries(
-                                Map.entry(State.CLOSED, new Command(subsystemGate, GATE_OPEN_POWER,GATE_CLOSE_POWER)),
-                                Map.entry(State.OPENED, new Command(subsystemGate, GATE_CLOSE_POWER,GATE_OPEN_POWER)),
+                                Map.entry(State.CLOSED, new Command(subsystemGate, GATE_CLOSE_POWER, GATE_OPEN_POWER)),
+                                Map.entry(State.OPENED, new Command(subsystemGate, GATE_OPEN_POWER, GATE_CLOSE_POWER)),
                                 Map.entry(State.BOTTOM_SELECTION, new Command(subsystemGate,GATE_CLOSE_POWER,GATE_CLOSE_POWER))
-                        ),
+                        )
+                        ,
                         ()->State.selector(
-                                !hasArtifact.getAsBoolean(),
+                                hasArtifact.getAsBoolean(),
                                 gamepad.left_trigger>GAMEPAD_AIM_TRIGGER,
                                 isUnactive.getAsBoolean())
                 )

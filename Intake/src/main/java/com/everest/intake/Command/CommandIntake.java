@@ -9,9 +9,6 @@ import java.util.function.DoubleSupplier;
 public class CommandIntake extends Command {
     private final SubsytemIntake subsytemIntake;
     private final DoubleSupplier volatilePower;
-    public CommandIntake(SubsytemIntake subsytemIntake, double power){
-        this(subsytemIntake, ()->power);
-    }
     public CommandIntake(SubsytemIntake subsytemIntake, DoubleSupplier volatilePower) {
         this.subsytemIntake = subsytemIntake;
         this.volatilePower = volatilePower;
@@ -23,12 +20,11 @@ public class CommandIntake extends Command {
     }
     @Override
     public void end(boolean interrupted) {
-        subsytemIntake.startIntake(0);
         subsytemIntake.Braker();
     }
-
+/*
     @Override
     public boolean isFinished() {
         return !subsytemIntake.isActive();
-    }
+    }*/
 }

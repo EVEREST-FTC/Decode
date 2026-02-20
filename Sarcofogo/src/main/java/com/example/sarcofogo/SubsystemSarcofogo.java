@@ -21,7 +21,6 @@ import lombok.Setter;
 @Getter
 public class SubsystemSarcofogo extends SubsystemBase {
     private final Servo ServoSarcofogo;
-    private final RevColorSensorV3 SensorSarcofogo;
     private final Telemetry telemetry;
     double position;
     @Setter
@@ -30,7 +29,6 @@ public class SubsystemSarcofogo extends SubsystemBase {
     private int memore;
     public SubsystemSarcofogo(HardwareMap hardwareMap, Telemetry telemetry){
         ServoSarcofogo = hardwareMap.get(Servo.class,"ServoSarcofogo");
-        SensorSarcofogo = hardwareMap.get(RevColorSensorV3.class,"SensorSarcofogo");
         resetPosiiton();
         resetmemore();
 
@@ -38,10 +36,7 @@ public class SubsystemSarcofogo extends SubsystemBase {
         CommandScheduler.getInstance().registerSubsystem(this);
     }
 
-    public boolean getsensorSarcofogo(){
-        if (SensorSarcofogo.getDistance(DistanceUnit.MM) < 34) memore += 1;
-        return memore > 2;
-    }
+
     public  void resetmemore(){
         memore = 0;
     }

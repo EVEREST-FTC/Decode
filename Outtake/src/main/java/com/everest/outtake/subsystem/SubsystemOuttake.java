@@ -46,7 +46,7 @@ public class SubsystemOuttake extends SubsystemBase {
     @Setter
     private String name;
 
-    private final RevColorSensorV3 ColorSensorL, ColorSensorR, sensorGateLeft, sensorGateRight;
+    private final RevColorSensorV3 ColorSensorL, ColorSensorR, sensorGateLeft, sensorGateRight,sensorGateRight2;
     public SubsystemOuttake(HardwareMap hardwareMap, Telemetry telemetry){
         leftEngine = hardwareMap.get(DcMotorEx.class,"MOUTL");
         rightEngine = hardwareMap.get(DcMotorEx.class,"MOUTR");
@@ -55,6 +55,7 @@ public class SubsystemOuttake extends SubsystemBase {
         ColorSensorR = hardwareMap.get(RevColorSensorV3.class,"ColorSensorR");
         sensorGateLeft = hardwareMap.get(RevColorSensorV3.class,"SensorgateLeft");
         sensorGateRight = hardwareMap.get(RevColorSensorV3.class,"SensorgateRight");
+        sensorGateRight2 = hardwareMap.get(RevColorSensorV3.class,"sensorgateright2");
         this.telemetry = telemetry;
 
         leftEngine.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -103,7 +104,8 @@ public class SubsystemOuttake extends SubsystemBase {
     }*/
 
     public boolean getArtefatoRight(){
-        if (sensorGateRight.getDistance(DistanceUnit.MM)< Constants.OuttakeConstants.ACTIVE_MIN_CONT_RIGHT_SENSOR) {
+        if (sensorGateRight.getDistance(DistanceUnit.MM)< Constants.OuttakeConstants.ACTIVE_MIN_CONT_RIGHT_SENSOR ||
+        sensorGateRight2.getDistance(DistanceUnit.MM) < Constants.OuttakeConstants.ACTIVE_MIN_CONT_RIGHT_SENSOR) {
             memoryRight++;
             lastSeenRight = robotTimer.getTime();
         }
@@ -124,6 +126,9 @@ public class SubsystemOuttake extends SubsystemBase {
         int right = getArtefatoRight()?1:0;
         int center = hasArtifact()?1:0;
         return left+right+center;
+    }
+    public boolean artifactsCondition(){
+        return artifacts()==3;
     }
     /*public int noDebounceArtifacts(){
         int left = noDebounceLeft()?1:0;
@@ -189,13 +194,16 @@ public class SubsystemOuttake extends SubsystemBase {
         telemetry.addData("Dist outR", distanceSensorR());
         telemetry.addData("Dist outL", distanceSensorL());
 
+        telemetry.addData("Dist R2", sensorGateRight2.getDistance(DistanceUnit.MM));
         telemetry.addData("Dist R", sensorGateRight.getDistance(DistanceUnit.MM));
+
         telemetry.addData("Dist L ", sensorGateLeft.getDistance(DistanceUnit.MM));
 
-        telemetry.addData("memoryLeft", memoryLeft);
-        telemetry.addData("memoryRight", memoryRight);
 
         telemetry.addData("artifacts:", artifacts());
+        telemetry.addData("Cond-artifacts:", artifactsCondition());
+        telemetry.addData("hasartifact:", hasArtifact());
+
     }
 
     public Command waitDelay(double waitSeconds){

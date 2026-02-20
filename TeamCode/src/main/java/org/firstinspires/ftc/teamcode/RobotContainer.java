@@ -94,7 +94,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
         IntakeContainer.builder()
                 .gamepad(gamepad1)
                 .hasArtifact(outtake::hasArtifact)
-                .ArtifactComplete(outtake::artifacts)
+                .ArtifactComplete(outtake::artifactsCondition)
                 .subsytemIntake(intake)
                 .build()
                 .defineMainRoutine();

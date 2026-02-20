@@ -44,14 +44,17 @@ public class PID {
         double derro = error - lastErro;
         double derivativo = 0;
         distance = Distance;
-        if(Math.abs(error)<Constants.GyroConstants.iRange) {
+        if(Math.abs(error)<Constants.GyroConstants.iRange ||atSetpoint()) {
             sum += error * dt;
             derivativo = derro/dt;
         }
 
         lastTime = timer.time();
         lastErro = error;
-        return max_limiter(error*KP+sum*KI+derivativo*KD);
+        if (atSetpoint())
+            return 0;
+        else
+            return max_limiter(error*KP+sum*KI+derivativo*KD);
     }
     public double getError(){
         return lastErro;

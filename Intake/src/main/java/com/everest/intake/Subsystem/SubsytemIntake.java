@@ -40,6 +40,6 @@ public class SubsytemIntake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        /*telemetry.addData("velociadeintake",getIntakevelocit());*/
+        telemetry.addData("velociadeintake",getIntakevelocit());
     }
 }

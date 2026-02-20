@@ -29,9 +29,10 @@ public enum State {
                 &&
                 !isUnactive)
             return BOTTOM_SELECTION;
-        else if(hasArtifact)
+
+        if(hasArtifact)
             return CLOSED;
         else
-        return OPENED;
+            return OPENED;
     }
 }
