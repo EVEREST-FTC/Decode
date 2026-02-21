@@ -4,7 +4,7 @@ import static com.everest.constants.Constants.CameraConstants.largeIncrementDist
 import static com.everest.constants.Constants.CameraConstants.shortIncrementDistance;
 import static com.everest.constants.Constants.ControllerConstants.GAMEPAD_AIM_TRIGGER;
 import static com.everest.constants.Constants.IntakeConstants.CLOSE_LAST_INTAKE_POWER;
-import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER;
+import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_L;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_NORMAL;
 import static com.everest.constants.Constants.IntakeConstants.LAST_INTAKE_POWER;
 
@@ -58,9 +58,11 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
         /// parada pra lançamento
         new Trigger(ArtifactComplete)
                 .whileTrue(new CommandIntake(subsytemIntake, ()->0));
+        new Trigger(()->gamepad.left_trigger_pressed && !ArtifactComplete.getAsBoolean())
+                .whileTrue(new CommandIntake(subsytemIntake, ()->INTAKE_POWER_L));
 
-        new Trigger(()->hasArtifact.getAsBoolean() && !ArtifactComplete.getAsBoolean())
-                .whileTrue(new CommandIntake(subsytemIntake, ()->0.015));
+        /*new Trigger(()->hasArtifact.getAsBoolean() && !ArtifactComplete.getAsBoolean())
+                .whileTrue(new CommandIntake(subsytemIntake, ()->0.015));*/
         /*
         new Trigger(()->gamepad.left_trigger> GAMEPAD_AIM_TRIGGER&&hasArtifact.getAsBoolean())
                 .whileTrue(new CommandIntake(subsytemIntake, ()->0));*/

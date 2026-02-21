@@ -10,4 +10,9 @@ public enum Moment {
             return SEND;
         return KEEP;
     }
+    public static Moment selectauto(boolean artifactListener,boolean forceisSending){
+        if(artifactListener||forceisSending)
+            return SEND;
+        return KEEP;
+    }
 }

@@ -39,19 +39,19 @@ public class BlueClose extends AutonomousDefinitions {
                 chassis.strafeToLinearHeading(10,50,-90,15),/// coleta 1
                 chassis.strafeToLinearHeading(-17,50,-90,10),
                 new ParallelRaceGroup(
-                        chassis.strafeToLinearHeading(10,45,32,32),/// mira 2
-                        counting()
+                        chassis.strafeToLinearHeading(10,45,32,32)/// mira 2
+
                 ),
-                autoLaunch(3),
+                autoLaunch(true),
 
                 chassis.strafeToLinearHeading(10,75,-90,24),/// coleta 2
                 chassis.strafeToLinearHeading(-17,75,-90,10),
 
                 new ParallelRaceGroup(
-                        chassis.strafeToLinearHeading(10,45,32,32),/// mira 3
-                        counting()
+                        chassis.strafeToLinearHeading(10,45,32,32)/// mira 3
+
                 ),
-                autoLaunch(3),
+                autoLaunch(true),
 
                 chassis.strafeToLinearHeading(-11,60,0,32)/// final
 

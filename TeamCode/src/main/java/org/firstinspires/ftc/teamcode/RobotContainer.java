@@ -5,7 +5,9 @@ import static com.everest.constants.Constants.GyroConstants.KI_TELEOP;
 import static com.everest.constants.Constants.GyroConstants.KP_TELEOP;
 
 import com.everest.CommandBased.essentials.Trigger;
+import com.everest.CommandBased.util.ConditionalCommand;
 import com.everest.CommandBased.util.InstantCommand;
+import com.everest.constants.Constants;
 import com.everest.constants.meta.EnumTeam;
 import com.everest.intake.IntakeContainer;
 import com.everest.intake.Subsystem.SubsytemIntake;
@@ -139,7 +141,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .gamepad1(gamepad1)
                 .gamepad2(gamepad2)
                 .triggerSubsystem(triggerSubsystem)
-                .velocityVerifier(outtake::atSetpoint)
+                .velocityVerifier(()->outtake.atSetpoint(Constants.OuttakeConstants.ADMISSIBLE_ERROR))
                 .limelightAcceptance(limelight::isValid)
                 .translationalSetpoint(chassis::atSetpoint)
                 .resetMemory(sarcophagi::resetmemore)

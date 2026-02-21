@@ -40,6 +40,9 @@ public class GateContainer implements RobotContainer {
        new Trigger(()->sarcophagiMoment.getAsBoolean()&&!hasArtifact.getAsBoolean()).whileTrue(
                 new Command(subsystemGate, GATE_SARCOFOGO_POWER,GATE_OPEN_POWER)
         );
+        new Trigger(()->gamepad.a).or(()->hasArtifact.getAsBoolean()&&!gamepad.left_trigger_pressed).onTrue(
+                new Command(subsystemGate, -0.9,GATE_OPEN_POWER).espere(1, robotTimer)
+        );
     }
 
     @Override

@@ -8,8 +8,9 @@ import static com.everest.constants.Constants.GateConstants.GATE_SARCOFOGO_POWER
 import static com.everest.constants.Constants.GyroConstants.KD;
 import static com.everest.constants.Constants.GyroConstants.KI;
 import static com.everest.constants.Constants.GyroConstants.KP;
-import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER;
+
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_CLOSE;
+import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_L;
 import static com.everest.constants.Constants.IntakeConstants.INTAKE_POWER_NORMAL;
 import static com.everest.constants.Constants.PlatformConstants.CLOSE_POWER_LAUNCHER_CONVERSION;
 import static com.everest.constants.Constants.PlatformConstants.FAR_POWER_LAUNCHER_CONVERSION;
@@ -126,7 +127,9 @@ public abstract class AutonomousDefinitions extends LinearOpMode
     protected FlagSubsystem flagSubsystem;
     private boolean isAiming;
     private boolean isSending;
+    private boolean forceisSending;
     private double outtakeAddPower;
+    private double intakeAddPower;
 
     private void initSubsystems(){
         chassis = new MecanumDrive(hardwareMap,
@@ -167,41 +170,67 @@ public abstract class AutonomousDefinitions extends LinearOpMode
 
     public Command firstLaunch(int launchs){
 
-        return new ParallelCommandGroup(
-                aim(),
-                new RepeatCommand(
-                        triggerSubsystem.launch(subsystemSarcofogo::resetmemore)
-                                .ateQUe(()->!subsystemOuttake.hasArtifact()).
-                                antesDe(conditionalCommand())
-                )
-        ).antesDe(new InstantCommand(()->   {
-                    isAiming=true;
-                    triggerSubsystem.setLastTarget(launchs);
-                    triggerSubsystem.resetTimeLaunch();
-                    isSending = true;
-                    outtakeAddPower = 0;
+        return new ParallelRaceGroup(
+                new ParallelCommandGroup(
+                        aim(),
+                        new RepeatCommand(
+                                triggerSubsystem.launch(subsystemSarcofogo::resetmemore)
+                                        .ateQUe(()->!subsystemOuttake.hasArtifact()).
+                                        antesDe(conditionalCommand())
+                        )
+                ).antesDe(new InstantCommand(()->   {
 
-                })).espere(11,Constants.robotTimer)
-                .ateQUe(triggerSubsystem::contLaunchTimes)
-                .depois(new InstantCommand(()->{
-                    isAiming = false;
-                    isSending = false;
-                    outtakeAddPower = 0;
-                    triggerSubsystem.resetPosition();
-                    subsystemOuttake.resetmemore();
-                }));
+                            isAiming=true;
+                            triggerSubsystem.setLastTarget(3);
+                            triggerSubsystem.resetTimeLaunch();
+                            isSending = true;
+                            outtakeAddPower = 0;
+                        }
+                        ))
+                        .ateQUe(triggerSubsystem::contLaunchTimes)
+                        .depois(new InstantCommand(()->{
 
-    }
-    public Command counting(){
-        return new SequentialCommandGroup(
-                new WaitCommand(0.5, Constants.robotTimer),
-                new RepeatCommand(
-                        new InstantCommand(()->triggerSubsystem.setLastTarget(3) /*()->triggerSubsystem.setLastTarget(subsystemOuttake.artifacts())*/)
-                ),
-                new WaitCommand(4, Constants.robotTimer)
+                            isAiming = false;
+                            isSending = false;
+                            outtakeAddPower = 0;
+                            triggerSubsystem.resetPosition();
+                        })),
+                subsystemOuttake.waitDelay(1.2)
         );
+
     }
-    public Command autoLaunch(int launchs){
+
+    public Command lazyLaunch(){
+
+        return new ParallelRaceGroup(
+                new ParallelCommandGroup(
+                        aim(),
+                        new RepeatCommand(
+                                triggerSubsystem.launch(subsystemSarcofogo::resetmemore)
+                                        .ateQUe(()->!subsystemOuttake.hasArtifact()).
+                                        antesDe(conditionalCommand())
+                        )
+                ).antesDe(new InstantCommand(()->   {
+                            isAiming=true;
+                            triggerSubsystem.setLastTarget(3);
+                            triggerSubsystem.resetTimeLaunch();
+                            isSending = true;
+                            outtakeAddPower = 0;
+                        }
+                        ))
+                        .ateQUe(triggerSubsystem::contLaunchTimes)
+                        .depois(new InstantCommand(()->{
+                            isAiming = false;
+                            isSending = false;
+                            outtakeAddPower = 0;
+                            triggerSubsystem.resetPosition();
+                        })),
+                subsystemOuttake.waitDelay(1.2)
+        );
+
+    }
+
+    public Command autoLaunch(boolean shortlaunch){
 
         return new ParallelCommandGroup(
                 aim(),
@@ -215,17 +244,18 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                 )
         )
                 .antesDe(new InstantCommand(()->{
+                    if (shortlaunch) intakeAddPower = 1.8;
                     isAiming=true;
-                    triggerSubsystem.setLastTarget(subsystemOuttake.artifacts());
+                    triggerSubsystem.setLastTarget(subsystemOuttake.AutoArtifacts());
                 }
                 ))
-                .ateQUe(triggerSubsystem::contLaunchTimes)
-                .espere(4,Constants.robotTimer)
                 .antesDe( new InstantCommand(triggerSubsystem::resetTimeLaunch))
+                .ateQUe(()->subsystemOuttake.AutoArtifacts()<1)
                 .depois(new InstantCommand(()->isAiming=false))
                 .depois(new InstantCommand(()-> {
                     triggerSubsystem.resetPosition();
-                    subsystemOuttake.resetmemore();}
+                    intakeAddPower = 1;
+                   }
                 ));
 
     }
@@ -235,7 +265,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         subsystemCalibrator.setDefaultCommand(new CalibratorCommand(subsystemCalibrator, PLATFORM_MIN_ANGLE));
 
         /// comando padrão que utiliza a camera
-        new Trigger(()->isAiming).whileTrue(new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry));
+        new Trigger(()->subLime.isValid()).whileTrue(new AutoLime3AC(subLime::getfrontal,subsystemCalibrator,telemetry));
     }
 
 
@@ -244,15 +274,18 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         subsystemGate.setDefaultCommand(
                 new SelectCommand<>(
                         Map.ofEntries(
-                                Map.entry(State.CLOSED, new com.example.gate.Command(subsystemGate, GATE_CLOSE_POWER,GATE_OPEN_POWER)),
-                                Map.entry(State.OPENED, new com.example.gate.Command(subsystemGate,GATE_OPEN_POWER, GATE_CLOSE_POWER)),
+                                Map.entry(State.CLOSED, new com.example.gate.Command(subsystemGate, GATE_CLOSE_POWER,0.8)),
+                                Map.entry(State.OPENED, new com.example.gate.Command(subsystemGate,0.8, GATE_CLOSE_POWER)),
                                 Map.entry(State.BOTTOM_SELECTION, new com.example.gate.Command(subsystemGate,GATE_CLOSE_POWER,GATE_CLOSE_POWER))
                         ),
-                        ()->State.selector(!subsystemOuttake.hasArtifact(),isAiming,subsystemSarcofogo.isUnactive())
+                        ()->State.selector(subsystemOuttake.hasArtifact(),isAiming,subsystemSarcofogo.isUnactive())
                 )
         );
         new Trigger(subsystemSarcofogo::isSending).whileTrue(
                 new com.example.gate.Command(subsystemGate, GATE_SARCOFOGO_POWER,GATE_CLOSE_POWER)
+        );
+        new Trigger(()->subsystemOuttake.hasArtifact()).onTrue(
+                new com.example.gate.Command(subsystemGate, -0.9,0.8).espere(1,Constants.robotTimer)
         );
     }
     protected void outtakeRoutine(){
@@ -268,9 +301,9 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                 new AutoLime3A(
                         subLime::getfrontal,
                         subsystemOuttake,
-                        FAR_POWER_LAUNCHER_CONVERSION+30,
+                        FAR_POWER_LAUNCHER_CONVERSION+10,
                         CLOSE_POWER_LAUNCHER_CONVERSION,
-                        POWER_LAUNCHER_CONVERSION+30,
+                        POWER_LAUNCHER_CONVERSION+10,
                         ()->chassis.atSetpoint(),
                         ()->outtakeAddPower
                 )
@@ -289,10 +322,13 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         intake.setDefaultCommand(
                 new CommandIntake(intake, ()->INTAKE_POWER_NORMAL));
 
-        new Trigger(()->(isAiming&&subsystemOuttake.hasArtifact())||subsystemOuttake.artifacts()==3)
-                .whileTrue(new CommandIntake(intake, ()->0));
+       /* new Trigger(()->subsystemOuttake.artifactsCondition())
+                .whileTrue(new CommandIntake(intake, ()->0.05));
 
-        new Trigger(subsystemSarcofogo::isSending).and(()->subsystemSarcofogo.isUnactive()).whileTrue(new CommandIntake(intake, ()->-0.01));
+        new Trigger(()->isAiming&& !(subsystemOuttake.artifacts()==3))
+                .whileTrue(new CommandIntake(intake, ()->INTAKE_POWER_L * intakeAddPower));*/
+
+
     }
     protected void sarcophagiRoutine(){
         subsystemSarcofogo.setDefaultCommand(
@@ -302,7 +338,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                                         SarcofogoInitialPosition, Moment.KEEP)),
                                 Map.entry(Moment.SEND, new com.example.sarcofogo.Command(subsystemSarcofogo,SARCOPHAGI_SEND_POSITION , Moment.SEND).ateQUe(()->!triggerSubsystem.artifactMoment()))
                         ),
-                        ()->Moment.select(triggerSubsystem.artifactMoment()&&isSending)
+                        ()->Moment.selectauto(triggerSubsystem.artifactMoment()&&isSending,forceisSending)
                 ));
         new Trigger(()->!isSending).whileTrue(new com.example.sarcofogo.Command(subsystemSarcofogo,0, Moment.UNACTIVE));
 
@@ -311,13 +347,13 @@ public abstract class AutonomousDefinitions extends LinearOpMode
     protected Command conditionalCommand() {
         BooleanSupplier triggerCondition = () ->
                 subLime.isValid()
-                        && subsystemOuttake.atSetpoint()
+                        && subsystemOuttake.atSetpoint(40)
                         && subsystemOuttake.hasArtifact()
                 ;
         return new ConditionalCommand(triggerCondition);
     }
     protected Command aim(){
-        return chassis.mirar(team, subLime::getTx, subLime::getfrontal);
+        return chassis.mirar(team, subLime::getTx, subLime::getfrontal).ateQUe(()->chassis.atSetpoint());
     }
 
 

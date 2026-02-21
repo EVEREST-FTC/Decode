@@ -57,7 +57,7 @@ public class Constants {
         public static final double PID_MAX = 0.5;
         public static final double iRange = 10;
 
-        public static final double ADMISSIBLE_ERROR = 1;
+        public static final double ADMISSIBLE_ERROR = 1.4;
 
         public static final double SHORT_ADMISSIBLE_ERROR = 2.5;
     }
@@ -80,11 +80,13 @@ public class Constants {
         public static final double ACTIVE_MIN_CONT_RIGHT_SENSOR = 30;
         public static final double ACTIVE_MIN_CONT_OUT_SENSOR = 55;
 
-        public static final double MAX_VELOCITY = 5000;
+        public static final double MAX_VELOCITY = 5500;
 
-        public static final double ADMISSIBLE_ERROR = 40;
+        public static final double ADMISSIBLE_ERROR = 12;
 
         public static final double admissibleSeconds = 0.2;
+
+        public static final double AutoAdmissibleSeconds = 9;
        ;
 
     }
@@ -114,7 +116,7 @@ public class Constants {
     public static class PlatformConstants{
         public static final double FAR_POWER_LAUNCHER_CONVERSION = 710; /// 690
         public static final double POWER_LAUNCHER_CONVERSION = 710; /// 735
-        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 820;///820
+        public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 834;///820
 
         public static final double MAX_RPM = 6000;
         public static double CONVERSION_FACTOR = 2.4;
@@ -128,7 +130,7 @@ public class Constants {
     }
     /// Constantes do gate
     public static class GateConstants{
-        public static final double GATE_OPEN_POWER = 0.75; ///0.8
+        public static final double GATE_OPEN_POWER = 0.3; ///0.8
         public static final double GATE_CLOSE_POWER = 0;
         public static final double GATE_SARCOFOGO_POWER = -0.3;
     }
@@ -164,9 +166,9 @@ public class Constants {
     }
     /// Constantes do intake
     public static class IntakeConstants{
-        public static final double INTAKE_POWER_NORMAL = 0.03; ///0.04
+        public static final double INTAKE_POWER_NORMAL = 0.025; ///0.04
 
-        public static final double INTAKE_POWER = 0.016;/// 0.025
+        public static final double INTAKE_POWER_L= 0.025;/// 0.025
         public static final double INTAKE_POWER_CLOSE = 0.03;
         public static final double LAST_INTAKE_POWER = 0.05;/// 0.05
         public static final double CLOSE_LAST_INTAKE_POWER = 0.07;

@@ -17,7 +17,7 @@ public class RedFarFalcons extends AutonomousDefinitions {
                 new InstantCommand(chassis::resetIMU),
                 obelisk(),
                 new ParallelRaceGroup(
-                        counting(),
+
                         chassis.strafeToLinearHeading(0,-8,-20.3,5)///mira 1
                 ),
                 firstLaunch(3),
@@ -26,20 +26,20 @@ public class RedFarFalcons extends AutonomousDefinitions {
                 chassis.strafeToLinearHeading(30,-28,90,7),
 
                 new ParallelRaceGroup(
-                        counting(),
+
                         chassis.strafeToLinearHeading(0,-8,-20,40)///mira 2
                 ),
-                autoLaunch(3),
+                lazyLaunch(),
 
                /* chassis.strafeToLinearHeading(12,-51,90,50),/// coleta 2
                 chassis.strafeToLinearHeading(32,-51,90,13),*/
 
                 /*new ParallelRaceGroup(
-                        counting(),
+
                         chassis.strafeToLinearHeading(0,-8,-23,50)///mira 3
                 ),*/
                 /*autoLaunch(),*/
-                new WaitCommand(9, Constants.robotTimer),
+                new WaitCommand(6, Constants.robotTimer),
                 chassis.strafeToLinearHeading(10,-28.3,0,40)/// final*/,,
 
 

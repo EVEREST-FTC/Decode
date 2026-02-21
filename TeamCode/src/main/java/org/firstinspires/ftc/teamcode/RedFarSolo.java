@@ -20,8 +20,8 @@ public class RedFarSolo extends AutonomousDefinitions {
                 new InstantCommand(chassis::resetIMU),
                 obelisk(),
                 new ParallelRaceGroup(
-                        counting(),
-                        chassis.strafeToLinearHeading(0,-8,-20.3,15)///mira 1
+
+                        chassis.strafeToLinearHeading(0,-8,-20.3,30)///mira 1
                 ),
                 firstLaunch(3),
                 getPath()
@@ -35,69 +35,56 @@ public class RedFarSolo extends AutonomousDefinitions {
                 Map.ofEntries(
                         Map.entry(Pattern.BOTTOM, new SequentialCommandGroup(
                                 chassis.strafeToLinearHeading(17,-28.2,90,50),/// coleta 1
-                                chassis.strafeToLinearHeading(30,-28.2,90,7),
-                                new ParallelRaceGroup(
-                                        counting(),
+                                chassis.strafeToLinearHeading(30,-28.2,90,8),
+                                (
+
                                         chassis.strafeToLinearHeading(7,-81,-40,60)///mira 3
                                 ),
-                                autoLaunch(3),
+                                autoLaunch(false),
                                 chassis.strafeToLinearHeading(13,-52.5,90,60),/// coleta 2
-                                chassis.strafeToLinearHeading(30,-52.5,90,7),
-                                new ParallelRaceGroup(
-                                        counting(),
+                                chassis.strafeToLinearHeading(30,-52.5,90,8),
+                                (
+
                                         chassis.strafeToLinearHeading(7,-81,-40,60)///mira 3
                                 ),
-                                autoLaunch(2),
+                                autoLaunch(false),
                                 new ParallelCommandGroup(
-                                        chassis.strafeToLinearHeading(31,-61,0,50),/// final
-                                        autoLaunch(1)
+                                        chassis.strafeToLinearHeading(31,-61,0,50)/// final
                                 )
                         )),
                         Map.entry(Pattern.MID, new SequentialCommandGroup(
                                 chassis.strafeToLinearHeading(17,-52.5,90,60),/// coleta 2
-                                chassis.strafeToLinearHeading(30,-52.5,90,7),
+                                chassis.strafeToLinearHeading(30,-52.5,90,8),
 
+                                chassis.strafeToLinearHeading(10,-90,-47,60),///mira 2
+                                autoLaunch(false),
 
-                                new ParallelRaceGroup(
-                                        counting(),
-                                        chassis.splineToLinearHeading(0, -8,-18,-90,20,60)///mira 2
-                                ),
-                                autoLaunch(3),
-                                chassis.strafeToLinearHeading(17,-29,90,60),/// coleta 1
-                                chassis.strafeToLinearHeading(30,-29,90,7),
-                                new ParallelRaceGroup(
-                                        counting(),
-                                        chassis.strafeToLinearHeading(0,-8,-20,60)///mira 3
-                                ),
-                                autoLaunch(2),
-                                new ParallelCommandGroup(
-                                        chassis.strafeToLinearHeading(31,-61,0,60),/// final,
-                                autoLaunch(1))
-                        )),
+                                chassis.strafeToLinearHeading(17,-75.5,90,60),/// coleta 3
+                                chassis.strafeToLinearHeading(30,-75.5,90,11),
+
+                                chassis.strafeToLinearHeading(10,-90,-47,60),///mira 2
+                                autoLaunch(false),
+
+                                chassis.strafeToLinearHeading(31,-61,0,60)/// final,
+                                )),
                         Map.entry(
                                 Pattern.TOP, new SequentialCommandGroup(
-                                        chassis.strafeToLinearHeading(17,-75,90,60),/// coleta 3
-                                        chassis.strafeToLinearHeading(30,-75,90,7),
+                                        chassis.strafeToLinearHeading(17,-75.5,90,60),/// coleta 3
+                                        chassis.strafeToLinearHeading(30,-75.5,90,11),
 
-                                      //  chassis.strafeToLinearHeading(22,-75,90,50),
-                                        new ParallelRaceGroup(
-                                                counting(),
-                                                chassis.strafeToLinearHeading(10,-90,-45,60)
-                                                //chassis.strafeToLinearHeading(17,-92,-45,50)
-                                                //chassis.strafeToLinearHeading(0,-8,-20,50)///mira 2
-                                        ),
-                                        autoLaunch(3),
-                                        chassis.splineToLinearHeading(13, -52,90,-90,90,60),/// coleta 2
-                                        chassis.strafeToLinearHeading(30,-52,90,7),
-                                        new ParallelRaceGroup(
-                                                counting(),
-                                                chassis.strafeToLinearHeading(10,-90,-45,60)///mira 2
-                                        ),
-                                        autoLaunch(2),
-                                        new ParallelCommandGroup(
-                                        chassis.strafeToLinearHeading(31,-61,0,60),/// final
-                                        autoLaunch(1)
-                                        )
+
+                                        chassis.strafeToLinearHeading(10,-90,-47,60),
+                                        autoLaunch(false),
+
+
+                                        chassis.splineToLinearHeading(17, -53,90,-90,90,60),/// coleta 2
+                                        chassis.strafeToLinearHeading(30,-53,90,11),
+
+                                        chassis.strafeToLinearHeading(10,-90,-47,60),///mira 2
+                                        autoLaunch(false),
+
+                                        chassis.strafeToLinearHeading(31,-61,0,60)/// final
+
                                 )
                         )),
                 Constants.AutoConstants::getMatchPattern));

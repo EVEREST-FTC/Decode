@@ -19,32 +19,18 @@ public class BlueFarFalcons extends AutonomousDefinitions {
                 new SequentialCommandGroup(
                         new InstantCommand(chassis::resetIMU),
                         obelisk(),
-                        new ParallelRaceGroup(
-                                counting(),
-                                chassis.strafeToLinearHeading(0,-8,22.2,5)///mira 1
-                        ),
 
+                        chassis.strafeToLinearHeading(0,-8,22.2,5),///mira 1
                         firstLaunch(3),
 
                         chassis.strafeToLinearHeading(-17,-28,-90,60),/// coleta 1
                         chassis.strafeToLinearHeading(-30,-28,-90,7),
 
-                        new ParallelRaceGroup(
-                                counting(),
-                                chassis.strafeToLinearHeading(0,-8,23.5,50)///mira 2
-                        ),
-                        autoLaunch(3),
-/*
 
-                        chassis.strafeToLinearHeading(-5,-50,-90,50),/// coleta 2
-                        chassis.strafeToLinearHeading(-31,-50,-90,10),
-*/
+                        chassis.strafeToLinearHeading(0,-8,23.5,50),///mira 2
+                        autoLaunch(false),
 
-                        /*new ParallelRaceGroup(
-                                counting(),
-                                chassis.strafeToLinearHeading(0,-8,23.5,50)///mira 3
-                        ),  
-                        autoLaunch(),*/
+
                         new WaitCommand(9, Constants.robotTimer),
                         chassis.strafeToLinearHeading(-10,-28.3,0,30)/// final*/
                 ),
