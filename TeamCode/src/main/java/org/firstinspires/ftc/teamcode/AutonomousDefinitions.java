@@ -284,8 +284,8 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         new Trigger(subsystemSarcofogo::isSending).whileTrue(
                 new com.example.gate.Command(subsystemGate, GATE_SARCOFOGO_POWER,GATE_CLOSE_POWER)
         );
-        new Trigger(()->subsystemOuttake.hasArtifact()).onTrue(
-                new com.example.gate.Command(subsystemGate, -0.9,0.8).espere(1,Constants.robotTimer)
+        new Trigger(()->subsystemOuttake.hasArtifact()&& !isAiming).onTrue(
+                new com.example.gate.Command(subsystemGate, -0.9,0.8).espere(0.4,Constants.robotTimer)
         );
     }
     protected void outtakeRoutine(){
@@ -301,9 +301,9 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                 new AutoLime3A(
                         subLime::getfrontal,
                         subsystemOuttake,
-                        FAR_POWER_LAUNCHER_CONVERSION+10,
+                        FAR_POWER_LAUNCHER_CONVERSION+35,
                         CLOSE_POWER_LAUNCHER_CONVERSION,
-                        POWER_LAUNCHER_CONVERSION+10,
+                        POWER_LAUNCHER_CONVERSION+35,
                         ()->chassis.atSetpoint(),
                         ()->outtakeAddPower
                 )

@@ -58,6 +58,7 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
         /// parada pra lançamento
         new Trigger(ArtifactComplete)
                 .whileTrue(new CommandIntake(subsytemIntake, ()->0));
+
         new Trigger(()->gamepad.left_trigger_pressed && !ArtifactComplete.getAsBoolean())
                 .whileTrue(new CommandIntake(subsytemIntake, ()->INTAKE_POWER_L));
 

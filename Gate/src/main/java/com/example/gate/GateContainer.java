@@ -41,7 +41,7 @@ public class GateContainer implements RobotContainer {
                 new Command(subsystemGate, GATE_SARCOFOGO_POWER,GATE_OPEN_POWER)
         );
         new Trigger(()->gamepad.a).or(()->hasArtifact.getAsBoolean()&&!gamepad.left_trigger_pressed).onTrue(
-                new Command(subsystemGate, -0.9,GATE_OPEN_POWER).espere(1, robotTimer)
+                new Command(subsystemGate, -0.9,GATE_OPEN_POWER).espere(0.4, robotTimer)
         );
     }
 
