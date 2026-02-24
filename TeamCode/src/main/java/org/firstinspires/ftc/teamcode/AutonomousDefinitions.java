@@ -69,6 +69,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
     private Command path;
 
 
+
     protected abstract void route();
     protected abstract EnumTeam getTeam();
     protected abstract void structurePaths();
@@ -195,42 +196,12 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                             outtakeAddPower = 0;
                             triggerSubsystem.resetPosition();
                         })),
-                subsystemOuttake.waitDelay(1.2)
+                subsystemOuttake.waitDelay(1)
         );
 
     }
 
     public Command lazyLaunch(){
-
-        return new ParallelRaceGroup(
-                new ParallelCommandGroup(
-                        aim(),
-                        new RepeatCommand(
-                                triggerSubsystem.launch(subsystemSarcofogo::resetmemore)
-                                        .ateQUe(()->!subsystemOuttake.hasArtifact()).
-                                        antesDe(conditionalCommand())
-                        )
-                ).antesDe(new InstantCommand(()->   {
-                            isAiming=true;
-                            triggerSubsystem.setLastTarget(3);
-                            triggerSubsystem.resetTimeLaunch();
-                            isSending = true;
-                            outtakeAddPower = 0;
-                        }
-                        ))
-                        .ateQUe(triggerSubsystem::contLaunchTimes)
-                        .depois(new InstantCommand(()->{
-                            isAiming = false;
-                            isSending = false;
-                            outtakeAddPower = 0;
-                            triggerSubsystem.resetPosition();
-                        })),
-                subsystemOuttake.waitDelay(1.2)
-        );
-
-    }
-
-    public Command autoLaunch(boolean shortlaunch){
 
         return new ParallelCommandGroup(
                 aim(),
@@ -244,9 +215,8 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                 )
         )
                 .antesDe(new InstantCommand(()->{
-                    if (shortlaunch) intakeAddPower = 1.8;
                     isAiming=true;
-                    triggerSubsystem.setLastTarget(subsystemOuttake.AutoArtifacts());
+                    forceisSending = true;
                 }
                 ))
                 .antesDe( new InstantCommand(triggerSubsystem::resetTimeLaunch))
@@ -255,8 +225,42 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                 .depois(new InstantCommand(()-> {
                     triggerSubsystem.resetPosition();
                     intakeAddPower = 1;
-                   }
+                    forceisSending = false;
+                }
                 ));
+
+    }
+
+    public Command autoLaunch(boolean shortlaunch){
+
+        return new ParallelRaceGroup(
+                new ParallelCommandGroup(
+                aim(),
+                new RepeatCommand(
+                        triggerSubsystem.launch(subsystemSarcofogo::resetmemore)
+                                .ateQUe(()->!subsystemOuttake.hasArtifact()).
+                                antesDe(conditionalCommand())
+                ),
+                new SequentialCommandGroup(
+
+                )
+        )
+                .antesDe(new InstantCommand(()->{
+                    if (shortlaunch) intakeAddPower = 1.8;
+                    isAiming=true;
+                    isSending =false;
+                }
+                ))
+                .antesDe( new InstantCommand(triggerSubsystem::resetTimeLaunch))
+                .depois(new InstantCommand(()->isAiming=false))
+                .depois(new InstantCommand(()-> {
+                    triggerSubsystem.resetPosition();
+                    intakeAddPower = 1;
+                    isSending =false;
+                }
+
+                )),subsystemOuttake.waitDelay(1.0)
+        );
 
     }
 
@@ -284,9 +288,9 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         new Trigger(subsystemSarcofogo::isSending).whileTrue(
                 new com.example.gate.Command(subsystemGate, GATE_SARCOFOGO_POWER,GATE_CLOSE_POWER)
         );
-        new Trigger(()->subsystemOuttake.hasArtifact()&& !isAiming).onTrue(
-                new com.example.gate.Command(subsystemGate, -0.9,0.8).espere(0.4,Constants.robotTimer)
-        );
+        /*new Trigger(()->subsystemOuttake.hasArtifact()&& !isAiming).onTrue(
+                new com.example.gate.Command(subsystemGate, -0.9,0.3).espere(0.4,Constants.robotTimer)
+        );*/
     }
     protected void outtakeRoutine(){
 
@@ -297,13 +301,13 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         new Trigger(()->isAiming).whileTrue(
                 new RepeatCommand(new InstantCommand(subsystemOuttake::resetmemore)));
 
-        new Trigger(()->isAiming).and(()->!(!subsystemOuttake.hasArtifact()&&isSending)).whileTrue(
+        new Trigger(()->isAiming).and(()->!(!subsystemOuttake.hasArtifact()&&(isSending||forceisSending))).whileTrue(
                 new AutoLime3A(
                         subLime::getfrontal,
                         subsystemOuttake,
-                        FAR_POWER_LAUNCHER_CONVERSION+35,
+                        FAR_POWER_LAUNCHER_CONVERSION+team.getOuttakeIncrement(),
                         CLOSE_POWER_LAUNCHER_CONVERSION,
-                        POWER_LAUNCHER_CONVERSION+35,
+                        POWER_LAUNCHER_CONVERSION+team.getOuttakeIncrement(),
                         ()->chassis.atSetpoint(),
                         ()->outtakeAddPower
                 )
@@ -311,8 +315,14 @@ public abstract class AutonomousDefinitions extends LinearOpMode
     }
 
     protected void flagRoutine(){
-        new Trigger(()->subsystemOuttake.artifacts()==3).whileTrue(
+        new Trigger(()->subsystemOuttake.artifacts()==3 && !isAiming).or(()->chassis.atSetpoint()&& isAiming).whileTrue(
                 new CommandBandeira(flagSubsystem,90)
+        );
+        new Trigger(()->subsystemOuttake.artifacts()==2).and(()->!isAiming).whileTrue(
+                new CommandBandeira(flagSubsystem,45)
+        );
+        new Trigger(()->!chassis.atSetpoint()).and(()->isAiming).whileTrue(
+                new CommandBandeira(flagSubsystem,110)
         );
     }
 
@@ -322,10 +332,13 @@ public abstract class AutonomousDefinitions extends LinearOpMode
         intake.setDefaultCommand(
                 new CommandIntake(intake, ()->INTAKE_POWER_NORMAL));
 
-       /* new Trigger(()->subsystemOuttake.artifactsCondition())
-                .whileTrue(new CommandIntake(intake, ()->0.05));
+        /*new Trigger(subsystemOuttake::artifactsConditionfor2)
+                .whileTrue(new CommandIntake(intake, ()->0.015));*/
 
-        new Trigger(()->isAiming&& !(subsystemOuttake.artifacts()==3))
+       new Trigger(()->subsystemOuttake.artifactsCondition())
+                .whileTrue(new CommandIntake(intake, ()->0));
+
+        /*new Trigger(()->isAiming&& !(subsystemOuttake.artifacts()==3))
                 .whileTrue(new CommandIntake(intake, ()->INTAKE_POWER_L * intakeAddPower));*/
 
 
@@ -338,7 +351,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                                         SarcofogoInitialPosition, Moment.KEEP)),
                                 Map.entry(Moment.SEND, new com.example.sarcofogo.Command(subsystemSarcofogo,SARCOPHAGI_SEND_POSITION , Moment.SEND).ateQUe(()->!triggerSubsystem.artifactMoment()))
                         ),
-                        ()->Moment.selectauto(triggerSubsystem.artifactMoment()&&isSending,forceisSending)
+                        ()->Moment.select(triggerSubsystem.artifactMoment()&&isSending)
                 ));
         new Trigger(()->!isSending).whileTrue(new com.example.sarcofogo.Command(subsystemSarcofogo,0, Moment.UNACTIVE));
 
@@ -349,6 +362,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                 subLime.isValid()
                         && subsystemOuttake.atSetpoint(40)
                         && subsystemOuttake.hasArtifact()
+                        && chassis.atSetpoint()
                 ;
         return new ConditionalCommand(triggerCondition);
     }

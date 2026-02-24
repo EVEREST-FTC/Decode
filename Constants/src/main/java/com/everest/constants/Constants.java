@@ -86,7 +86,7 @@ public class Constants {
 
         public static final double admissibleSeconds = 0.2;
 
-        public static final double AutoAdmissibleSeconds = 9;
+        public static final double AutoAdmissibleSeconds = 12;
        ;
 
     }
@@ -114,8 +114,8 @@ public class Constants {
     }
     /// Constantes da plataforma de lancamento
     public static class PlatformConstants{
-        public static final double FAR_POWER_LAUNCHER_CONVERSION = 696; /// 690
-        public static final double POWER_LAUNCHER_CONVERSION = 696; /// 735
+        public static final double FAR_POWER_LAUNCHER_CONVERSION = 715; /// 690
+        public static final double POWER_LAUNCHER_CONVERSION = 715; /// 735
         public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 834;///820
 
         public static final double MAX_RPM = 6000;
@@ -130,7 +130,7 @@ public class Constants {
     }
     /// Constantes do gate
     public static class GateConstants{
-        public static final double GATE_OPEN_POWER = 0.7; ///0.8
+        public static final double GATE_OPEN_POWER = 1; ///0.8
         public static final double GATE_CLOSE_POWER = 0;
         public static final double GATE_SARCOFOGO_POWER = -0.3;
     }
@@ -139,7 +139,7 @@ public class Constants {
         public static double BANDEIRA_MAX_SERVO_ANGLE = 280;
 
         public static final double BANDEIRA_MIN_ANGLE = 0;
-        public static final double BANDEIRA_MAX_ANGLE = 90;
+        public static final double BANDEIRA_MAX_ANGLE = 135;
     }
     /// Constantes do sarcofago
     public static class SarcofagoConstants{
@@ -166,7 +166,7 @@ public class Constants {
     }
     /// Constantes do intake
     public static class IntakeConstants{
-        public static final double INTAKE_POWER_NORMAL = 0.025; ///0.04
+        public static final double INTAKE_POWER_NORMAL = 0.040; ///0.04
 
         public static final double INTAKE_POWER_L= 0.008;/// 0.025
         public static final double INTAKE_POWER_CLOSE = 0.03;

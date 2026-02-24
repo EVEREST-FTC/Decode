@@ -35,42 +35,35 @@ public class RedFarSolo extends AutonomousDefinitions {
                 Map.ofEntries(
                         Map.entry(Pattern.BOTTOM, new SequentialCommandGroup(
                                 chassis.strafeToLinearHeading(17,-28.2,90,50),/// coleta 1
-                                chassis.strafeToLinearHeading(30,-28.2,90,8),
-                                (
+                                chassis.strafeToLinearHeading(33,-28.2,90,10),
 
-                                        chassis.strafeToLinearHeading(7,-81,-40,60)///mira 3
-                                ),
-                                autoLaunch(false),
-                                chassis.strafeToLinearHeading(13,-52.5,90,60),/// coleta 2
-                                chassis.strafeToLinearHeading(30,-52.5,90,8),
-                                (
 
-                                        chassis.strafeToLinearHeading(7,-81,-40,60)///mira 3
-                                ),
+                                chassis.strafeToLinearHeading(0,-8,-20.3,30),///mira 1
                                 autoLaunch(false),
-                                new ParallelCommandGroup(
-                                        chassis.strafeToLinearHeading(31,-61,0,50)/// final
-                                )
+
+                                chassis.strafeToLinearHeading(17,-52.5,90,60),/// coleta 2
+                                chassis.strafeToLinearHeading(33,-52.5,90,10),
+
+
+                                chassis.strafeToLinearHeading(31,-61,0,50)/// final
                         )),
                         Map.entry(Pattern.MID, new SequentialCommandGroup(
                                 chassis.strafeToLinearHeading(17,-52.5,90,60),/// coleta 2
-                                chassis.strafeToLinearHeading(30,-52.5,90,8),
+                                chassis.strafeToLinearHeading(33,-52.5,90,10),
 
-                                chassis.strafeToLinearHeading(10,-90,-47,60),///mira 2
+                                chassis.strafeToLinearHeading(0,-8,-20.3,30),///mira 1
                                 autoLaunch(false),
 
                                 chassis.strafeToLinearHeading(17,-75.5,90,60),/// coleta 3
-                                chassis.strafeToLinearHeading(30,-75.5,90,11),
+                                chassis.strafeToLinearHeading(33,-75.5,90,10),
 
-                                chassis.strafeToLinearHeading(10,-90,-47,60),///mira 2
-                                autoLaunch(false),
 
                                 chassis.strafeToLinearHeading(31,-61,0,60)/// final,
                                 )),
                         Map.entry(
                                 Pattern.TOP, new SequentialCommandGroup(
                                         chassis.strafeToLinearHeading(17,-75.5,90,60),/// coleta 3
-                                        chassis.strafeToLinearHeading(30,-75.5,90,11),
+                                        chassis.strafeToLinearHeading(33,-75.5,90,10),
 
 
                                         chassis.strafeToLinearHeading(10,-90,-47,60),
@@ -78,10 +71,8 @@ public class RedFarSolo extends AutonomousDefinitions {
 
 
                                         chassis.splineToLinearHeading(17, -53,90,-90,90,60),/// coleta 2
-                                        chassis.strafeToLinearHeading(30,-53,90,11),
+                                        chassis.strafeToLinearHeading(33,-53,90,10),
 
-                                        chassis.strafeToLinearHeading(10,-90,-47,60),///mira 2
-                                        autoLaunch(false),
 
                                         chassis.strafeToLinearHeading(31,-61,0,60)/// final
 

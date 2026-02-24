@@ -23,7 +23,7 @@ public class BlueFarFalcons extends AutonomousDefinitions {
                         chassis.strafeToLinearHeading(0,-8,22.2,5),///mira 1
                         firstLaunch(3),
 
-                        chassis.strafeToLinearHeading(-17,-28,-90,60),/// coleta 1
+                        chassis.strafeToLinearHeading(-13,-28,-90,60),/// coleta 1
                         chassis.strafeToLinearHeading(-30,-28,-90,7),
 
 
@@ -31,7 +31,7 @@ public class BlueFarFalcons extends AutonomousDefinitions {
                         autoLaunch(false),
 
 
-                        new WaitCommand(9, Constants.robotTimer),
+                        new WaitCommand(5, Constants.robotTimer),
                         chassis.strafeToLinearHeading(-10,-28.3,0,30)/// final*/
                 ),
                 new RepeatCommand(new InstantCommand(subsystemOuttake::artifacts))

@@ -32,16 +32,17 @@ public class GateContainer implements RobotContainer {
     private final Gamepad gamepad;
     private final BooleanSupplier sarcophagiMoment;
     private final BooleanSupplier isUnactive;
+    private final BooleanSupplier artifactsConditionfor2;
 
 
     @Override
     public void mainRoutine() {
         ///bloqueio pro sarcofago
-       new Trigger(()->sarcophagiMoment.getAsBoolean()&&!hasArtifact.getAsBoolean()).whileTrue(
+       new Trigger(()->sarcophagiMoment.getAsBoolean()&&!hasArtifact.getAsBoolean()&&!isUnactive.getAsBoolean()).whileTrue(
                 new Command(subsystemGate, GATE_SARCOFOGO_POWER,GATE_OPEN_POWER)
         );
-        new Trigger(()->gamepad.a).or(()->hasArtifact.getAsBoolean()&&!gamepad.left_trigger_pressed).onTrue(
-                new Command(subsystemGate, -0.9,GATE_OPEN_POWER).espere(0.4, robotTimer)
+        new Trigger(()->gamepad.a)/*.or(()->artifactsConditionfor2.getAsBoolean()&&!gamepad.left_trigger_pressed)*/.onTrue(
+                new Command(subsystemGate, -0.9,GATE_OPEN_POWER).espere(1, robotTimer)
         );
     }
 

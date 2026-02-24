@@ -159,7 +159,7 @@ public class SubsystemOuttake extends SubsystemBase {
         return artifacts()==3;
     }
     public boolean artifactsConditionfor2(){
-        return artifacts()==1;
+        return artifacts()==2;
     }
     public boolean NoneArtifacts(){
         return artifacts()==1;

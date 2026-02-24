@@ -89,6 +89,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .hasArtifact(outtake::hasArtifact)
                 .gamepad(gamepad1)
                 .sarcophagiMoment(sarcophagi::isSending)
+                .artifactsConditionfor2(outtake::artifactsConditionfor2)
                 .isUnactive(sarcophagi::isUnactive)
                 .build()
                 .defineMainRoutine();
@@ -97,6 +98,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .gamepad(gamepad1)
                 .hasArtifact(outtake::hasArtifact)
                 .ArtifactComplete(outtake::artifactsCondition)
+                .artifactsConditionfor2(outtake::artifactsConditionfor2)
                 .subsytemIntake(intake)
                 .build()
                 .defineMainRoutine();
@@ -132,6 +134,7 @@ public class RobotContainer implements com.everest.constants.meta.RobotContainer
                 .hasArtifact(outtake::hasArtifact)
                 .ArtifactComplete(outtake::artifacts)
                 .artifactMoment(triggerSubsystem::artifactMoment)
+                .translationalSetpoint(chassis::atSetpoint)
                 .flagSubsystem(flagSubsystem)
                 .build()
                 .defineMainRoutine();

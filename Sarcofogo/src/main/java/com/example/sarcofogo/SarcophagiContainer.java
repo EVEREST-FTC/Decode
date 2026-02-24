@@ -22,6 +22,7 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
     private final FlagSubsystem flagSubsystem;
     private final BooleanSupplier hasArtifact;
     private final Supplier<Integer> ArtifactComplete;
+    public final BooleanSupplier translationalSetpoint;
     private final BooleanSupplier artifactMoment;
     @Override
     public void mainRoutine() {
@@ -60,12 +61,18 @@ public class SarcophagiContainer implements com.everest.constants.meta.RobotCont
                 new CommandBandeira(flagSubsystem, 0)
         );
         /// comando para posicionar a bandeira a 45 graus quando tiver 2 artefatos no robo
-        new Trigger(()->ArtifactComplete.get()==2).whileTrue(
+        new Trigger(()->ArtifactComplete.get()==2).and(()->!gamepad1.left_trigger_pressed).whileTrue(
                 new CommandBandeira(flagSubsystem,45)
         );
         /// comando para posicionar a bandeira a 90 graus quando o robo estiver completo
-        new Trigger(()->ArtifactComplete.get()==3).whileTrue(
+        new Trigger(()->ArtifactComplete.get()==3&&!gamepad1.left_trigger_pressed).or(()->translationalSetpoint.getAsBoolean()&&gamepad1.left_trigger_pressed).whileTrue(
                 new CommandBandeira(flagSubsystem,90)
+        );
+        new Trigger(translationalSetpoint).and(()->gamepad1.left_trigger_pressed).whileTrue(
+                new CommandBandeira(flagSubsystem,90)
+        );
+        new Trigger(()->!translationalSetpoint.getAsBoolean()).and(()->gamepad1.left_trigger_pressed).whileTrue(
+                new CommandBandeira(flagSubsystem,110)
         );
     }
 }

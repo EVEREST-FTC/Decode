@@ -36,6 +36,7 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
     private final Gamepad gamepad;
     private final BooleanSupplier hasArtifact;
     private final BooleanSupplier ArtifactComplete;
+    private final BooleanSupplier artifactsConditionfor2;
 
 
     @Override
@@ -59,8 +60,10 @@ public class IntakeContainer implements com.everest.constants.meta.RobotContaine
         new Trigger(ArtifactComplete)
                 .whileTrue(new CommandIntake(subsytemIntake, ()->0));
 
-        new Trigger(()->gamepad.left_trigger_pressed && !ArtifactComplete.getAsBoolean())
-                .whileTrue(new CommandIntake(subsytemIntake, ()->INTAKE_POWER_L));
+       /* new Trigger(artifactsConditionfor2)
+                .whileTrue(new CommandIntake(subsytemIntake, ()->0.025));*/
+        /*new Trigger(()->gamepad.left_trigger_pressed && !ArtifactComplete.getAsBoolean())
+                .whileTrue(new CommandIntake(subsytemIntake, ()->INTAKE_POWER_L));*/
 
         /*new Trigger(()->hasArtifact.getAsBoolean() && !ArtifactComplete.getAsBoolean())
                 .whileTrue(new CommandIntake(subsytemIntake, ()->0.015));*/

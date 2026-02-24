@@ -71,13 +71,13 @@ public class ChassisContainer implements RobotContainer {
                         () -> chassis.DeadZone(gamepad1.left_stick_y+gamepad2.left_stick_y) * ControllerConstants.CHASSIS_LIMIT_POWER));
 
         /// teste para posicionamento rapido e manual
-        new Trigger(()->gamepad1.a).whileTrue(
+        /*new Trigger(()->gamepad1.a).whileTrue(
                 chassis.strafeToLinearHeading(
                         0,
                         0,
                         0,
                         60)
-        );
+        );*/
     }
 
 }

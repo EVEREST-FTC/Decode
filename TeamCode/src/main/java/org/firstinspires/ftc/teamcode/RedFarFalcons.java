@@ -29,7 +29,7 @@ public class RedFarFalcons extends AutonomousDefinitions {
 
                         chassis.strafeToLinearHeading(0,-8,-20,40)///mira 2
                 ),
-                lazyLaunch(),
+                autoLaunch(false),
 
                /* chassis.strafeToLinearHeading(12,-51,90,50),/// coleta 2
                 chassis.strafeToLinearHeading(32,-51,90,13),*/
@@ -39,7 +39,7 @@ public class RedFarFalcons extends AutonomousDefinitions {
                         chassis.strafeToLinearHeading(0,-8,-23,50)///mira 3
                 ),*/
                 /*autoLaunch(),*/
-                new WaitCommand(6, Constants.robotTimer),
+                new WaitCommand(5, Constants.robotTimer),
                 chassis.strafeToLinearHeading(10,-28.3,0,40)/// final*/,,
 
 

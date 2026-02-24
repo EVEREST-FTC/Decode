@@ -14,7 +14,8 @@ public enum EnumTeam {
             LauncherControllerConstants.PID_SHORT_INCREMENT_BLUE,
             LauncherControllerConstants.PID_LONG_INCREMENT_BLUE,
             false,
-            true
+            true,
+            40
             ),
     SOLO_RED_FAR(1,
             90,
@@ -22,7 +23,8 @@ public enum EnumTeam {
             LauncherControllerConstants.PID_SHORT_INCREMENT_RED,
             LauncherControllerConstants.PID_LONG_INCREMENT_RED,
             false,
-            true),
+            true,
+            10),
 
     SOLO_BLUE_CLOSE(0,
             -90,
@@ -30,7 +32,8 @@ public enum EnumTeam {
             LauncherControllerConstants.PID_SHORT_INCREMENT_BLUE,
             LauncherControllerConstants.PID_LONG_INCREMENT_BLUE,
             true,
-            true
+            true,
+            40
     ),
     SOLO_RED_CLOSE(1,
             -90,
@@ -38,7 +41,8 @@ public enum EnumTeam {
             LauncherControllerConstants.PID_SHORT_INCREMENT_RED,
             LauncherControllerConstants.PID_LONG_INCREMENT_RED,
             true,
-            true
+            true,
+            10
     );
     final int pipeline;
     final double offset;
@@ -47,5 +51,6 @@ public enum EnumTeam {
     final double LargeIncrement;
     final boolean isClose;
     final boolean isSolo;
+    final double outtakeIncrement;
 
 }
