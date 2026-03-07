@@ -114,8 +114,8 @@ public class Constants {
     }
     /// Constantes da plataforma de lancamento
     public static class PlatformConstants{
-        public static final double FAR_POWER_LAUNCHER_CONVERSION = 715; /// 690
-        public static final double POWER_LAUNCHER_CONVERSION = 715; /// 735
+        public static final double FAR_POWER_LAUNCHER_CONVERSION = 720; /// 690
+        public static final double POWER_LAUNCHER_CONVERSION = 720; /// 735
         public static final double CLOSE_POWER_LAUNCHER_CONVERSION = 834;///820
 
         public static final double MAX_RPM = 6000;

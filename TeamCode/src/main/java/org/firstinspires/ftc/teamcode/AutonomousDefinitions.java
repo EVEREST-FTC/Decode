@@ -185,7 +185,7 @@ public abstract class AutonomousDefinitions extends LinearOpMode
                             triggerSubsystem.setLastTarget(3);
                             triggerSubsystem.resetTimeLaunch();
                             isSending = true;
-                            outtakeAddPower = 0;
+                            outtakeAddPower = 15;
                         }
                         ))
                         .ateQUe(triggerSubsystem::contLaunchTimes)

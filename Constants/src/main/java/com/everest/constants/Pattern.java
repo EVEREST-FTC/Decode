@@ -10,13 +10,13 @@ public enum Pattern {
     MID(22),
     TOP(23),
 
-    NONE(0);
+    NONE(-1);
     public final int associatedId;
     public static Pattern getById(int tagId){
         for(Pattern pattern : Pattern.values()){
             if(pattern.getAssociatedId() == tagId)
                 return  pattern;
         }
-        return NONE;
+        return MID;
     }
 }

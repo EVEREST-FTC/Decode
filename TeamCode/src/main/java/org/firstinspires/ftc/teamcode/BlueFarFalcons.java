@@ -31,8 +31,9 @@ public class BlueFarFalcons extends AutonomousDefinitions {
                         autoLaunch(false),
 
 
-                        new WaitCommand(5, Constants.robotTimer),
+                        /*new WaitCommand(3, Constants.robotTimer),
                         chassis.strafeToLinearHeading(-10,-28.3,0,30)/// final*/
+                        chassis.strafeToLinearHeading(-20,0,0,30)/// final*/
                 ),
                 new RepeatCommand(new InstantCommand(subsystemOuttake::artifacts))
         ).schedule();
